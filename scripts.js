@@ -22,6 +22,7 @@ $(document).ready(function () {
 })
 
 
+
 function login(email,password){
 //    const email = $('#loginEmail').val()
 //    const password = $('#loginPassword').val()
@@ -38,7 +39,8 @@ $.ajax({
         $('#loginEmail').val('')
         $('#loginPassword').val('')
         localStorage.setItem('token', token)
-        $('#login').hide()
+        hideAll()
+        $('#addPage').hide()
         $('#list').show()
         // hide landing
 //      $('#landingPage').hide()
@@ -49,7 +51,7 @@ $.ajax({
     })
     .fail(err => {
     console.log(err.responseJSON)
-      console.log(err.responseJSON.message, ' <<< error')
+//      console.log(err.responseJSON.message, ' <<< error')
 //      $('#loginError').show()
 //      $('#loginError').text(err.responseJSON.message)
     })
@@ -59,11 +61,21 @@ function checkStorage() {
   if (localStorage.token) {
     $('#landingPage').hide()
     $('#dashboardPage').show()
-    fetchToDO()
+    hideAll()
+    $('#list').show()
+    fetchToDo()
   } else {
     $('#landingPage').show()
     $('#dashboardPage').hide()
   }
+}
+
+function hideAll(){
+    $('#edit').hide()
+    $('#list').hide()
+    $('#add').hide()
+    $('#login').hide()
+    $('#register').hide()
 }
 
 function fetchToDo() {
@@ -76,13 +88,21 @@ function fetchToDo() {
     }
   })
     .done(function (response) {
-      const digimons = response.Digimons
-      $('#digimonList').empty()
-      digimons.forEach(el => {
-        $('#digimonList').append(`
-          <li>${el.name}</li>
-        `)
-      })
+      const toDo = response.todos
+//      console.log(response)
+      toDo.forEach(temp => {
+          var date = new Date(temp.due_date)
+           $('#toDoTable').append(`
+        <tr>
+            <td>${temp.title}</td>
+            <td>${temp.description}</td>
+            <td>${temp.status ? 'completed' : 'incompleted'}</td>
+            <td>${date.getDate()}-${date.getMonth()}-${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}</td>
+            <td><button onclick="update({temp.id})">edit</button>
+            <button onclick="delete({temp.id})">delete</button></td>
+        </tr><br>
+         `)
+      })     
     })
     .fail(function (err) {
       console.log(err.responseJSON)
@@ -119,30 +139,31 @@ $.ajax({
     })
 }
 
+
+
 function logout(){
+    hideAll()
     $('#toDoHeader').hide()
     $('#loginHeader').show()
 }
 
 function showLogin(){
+    hideAll()
     $('#login').show()
-    $('#register').hide()
 }
 
 function showRegister(){
-    $('#login').hide()
+    hideAll()
     $('#register').show()
 }
 
 function showList(){
-    $('#edit').hide()
+    hideAll()
     $('#list').show()
-    $('#add').hide()
 }
 
 function showAddPage(){
-    $('#edit').hide()
-    $('#list').hide()
+    hideAll()
     $('#add').show()
 }
 
@@ -164,11 +185,11 @@ function addToDo(){
     })
 }
 
-function remove(){
+function remove(id){
     
      $.ajax({
         method: 'REMOVE',
-        url: 'http://localhost:3000/todos',
+        url: 'http://localhost:3000/todos/:id',
         params : { id }
       })
     .done(response => {
@@ -190,13 +211,35 @@ function remove(){
 }
 
 function showEditPage(){
+    hideAll()
     $('#edit').show()
-    $('#list').hide()
-    $('#add').hide()
+    
 }
 
-function update(){
+function update(id){
     
+     $.ajax({
+        method: 'PUT',
+        url: 'http://localhost:3000/todos/:id',
+        params : { id }
+      })
+    
+    .done(response => {
+        const toDo = response.toDo
+        $('#toDoTable').append(`
+        <tr>
+            <td>${toDo.title}</td>
+            <td>${toDo.description}</td>
+            <td>${toDo.status ? 'completed' : 'incompleted'}</td>
+            <td>${toDo.due_date}</td>
+            <td><button type="submit">edit</button><button type="submit">delete</button></td>
+        </tr><br>
+         `)
+    })
+    
+    .fail(err => {
+        console.log(err)
+    })
 }
 
 function logout() {
@@ -209,9 +252,5 @@ function logout() {
 //    showFormLogin();
 //  });
     localStorage.clear()
-    $('#edit').hide()
-    $('#list').hide()
-    $('#add').hide()
-    $('#login').show()
-    
+    showLogin()
 }

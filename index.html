@@ -9,7 +9,7 @@
         <header>
             <nav class="breadcrumb login-register" aria-label="breadcrumbs" style="position: fixed; ">
               <ul>
-                <li><a href="#">Home</a></li>
+                <li><a onclick="">Home</a></li>
                 <li><a onclick="showLogin()">Login</a></li>
                 <li><a onclick="showRegister()">Register</a></li>
               <li><a onclick="logout()">Logout</a></li>
@@ -52,23 +52,27 @@
         
         <div id="list"  style="bottom:55%; position: absolute;">
             <h2>welcome back, here's your toDo List</h2>
-            <div id="toDoTable">
+            <div  style="position: absolute">
+                <table id="toDoTable" border="">
                 <tr>
                     <td>Title</td>
                     <td>Description</td>
                     <td>Status</td>
                     <td>Due Date</td>
+                    <td>Actions</td>
                 </tr>
+                    </table>
             </div>
+                
         </div>
         
-         <div id="add"  style="bottom:55%; position: absolute;">
+         <div id="add" style="bottom:55%; position: absolute;">
             <h2>add new ToDo's</h2>
                 <form>
-                    <input type="text" placeholder="title" id="addTitle">
-                    <input type="text" placeholder="title" id="addDescription">
-                    <input type="text" placeholder="title" id="adddue_date">
-                    <button type="submit">add</button>
+                    <input type="text" placeholder="title" id="addTitle"><br>
+                    <input type="text" placeholder="description" id="addDescription"><br>
+                    <input type="text" placeholder="due date" id="adddue_date"><br>
+                    <button class="is-centered" type="submit">add</button>
                 </form>
         </div>
         
