@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link href="/style/supply.css" type="text/css" rel="stylesheet"/>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
         <link href="https://fonts.googleapis.com/css?family=Lato|Spartan" rel="stylesheet">
         <title>Fancy Todo - Hello WORLD!!</title>
@@ -13,6 +12,7 @@
                 <li><a href="#">Home</a></li>
                 <li><a onclick="showLogin()">Login</a></li>
                 <li><a onclick="showRegister()">Register</a></li>
+              <li><a onclick="logout()">Logout</a></li>
               </ul>
             </nav>
             <nav class="breadcrumb menu" aria-label="breadcrumbs" style="position: fixed; visibility:hidden">
@@ -23,32 +23,58 @@
             </nav>
         </header>
         
+        <div id="landingPage">
         
-        
-        <div class="login" style="bottom:55%; position: absolute;">
+        <div id="login" style="bottom:55%; position: absolute;">
             <h2>Login</h2>
              <form id="login">
-                <input id="loginemail" type="text" placeholder="email" name="email">
-                 <input id="loginpassword" type="password" placeholder="password" name="password">
+                <input id="loginEmail" type="text" placeholder="email" name="email">
+                 <input id="loginPassword" type="password" placeholder="password" name="password">
                  <input type="submit" value="login">
             </form>
         </div>
         
-        <div class="register" style="bottom:55%; position: absolute;">
+        <div id="register" style="bottom:55%; position: absolute;">
             <h2>Register</h2>
              <form id="register">
-                <input type="text" placeholder="first_name" name="first_name">
-                 <input type="text" placeholder="last name" name="last_name">
-                 <input type="text" placeholder="email" name="email">
-                 <input type="password" placeholder="password" name="password">
+                <input type="text" placeholder="first_name" id="regFirst_Name">
+                 <input type="text" placeholder="last name" id="regLast_Name">
+                 <input type="text" placeholder="email" id="regEmail">
+                 <input type="password" placeholder="password" id="regPassword">
                  <input type="submit" value="Register">
             </form>
         </div>
-        
-        <div class=list>
             
+            </div>
+        
+        
+    <div id="dashboardPage">
+        
+        <div id="list"  style="bottom:55%; position: absolute;">
+            <h2>welcome back, here's your toDo List</h2>
+            <div id="toDoTable">
+                <tr>
+                    <td>Title</td>
+                    <td>Description</td>
+                    <td>Status</td>
+                    <td>Due Date</td>
+                </tr>
+            </div>
         </div>
         
+         <div id="add"  style="bottom:55%; position: absolute;">
+            <h2>add new ToDo's</h2>
+                <form>
+                    <input type="text" placeholder="title" id="addTitle">
+                    <input type="text" placeholder="title" id="addDescription">
+                    <input type="text" placeholder="title" id="adddue_date">
+                    <button type="submit">add</button>
+                </form>
+        </div>
+        
+    </div>
+        
+
         <footer>
 
         </footer>
