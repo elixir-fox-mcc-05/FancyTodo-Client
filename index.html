@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Fancy Todo</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <style>
+        #signInPage {
+          max-width: 400px;
+        }
+
+        #signUpPage {
+            max-width: 400px;
+        }
+    </style>
+
+</head>
+<body>
+
+    <div class="container">
+       
+    </div>
+
+
+    <div class="text-center">
+        <nav class="navbar navbar-light" aria-label="Main navigation">
+            <a class="navbar-brand text-dark" href="index.html">
+                <h1 class="text-center">Fancy Todo</small></h1><br>
+            </a>
+            <div id="navbarNav">
+                <ul class="navbar-nav align-items-lg-center pt-3 pt-lg-0 ml-auto">
+                    <li class="nav-item">
+                        <button id="buttonSignOut" onclick="signOut()">Sign Out</button>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div id="signUpPage" class="container">
+            <h2 class="h3 mb-3 font-weight-normal">You can sign up here</h2>
+            <form id="signUpForm">
+                <label for="email">Email: </label><br>
+                <small>Please type in a valid email address</small>
+                <input type="email" name="email" id="emailSignUp"class="form-control" required autofocus><br>
+                <label for="password">Password: </label><br>
+                <small>Password must be between 8 and 32 characters</small>
+                <input type="password" name="password" id="passwordSignUp"class="form-control" required><br>
+    
+                <input type="submit" class="btn btn-lng btn-primary btn-block" value="Sign Up"><br><br>
+
+                <small>Already have an account?</small><br>
+                <button class="btn btn-sm" id="buttonSignIn" onclick="showSignIn()">Sign In Here</button>
+            </form><br>
+        </div>
+    
+        <div id="signInPage" class="container">
+            <p id="message"></p>
+            <h2 class="h3 mb-3 font-weight-normal">Please sign in</h2>
+            <form id="signInForm">
+                <label for="email">Email: </label>
+                <input type="email" name="email" id="emailSignIn" class="form-control" required autofocus><br>
+                <label for="password">Password: </label>
+                <input type="password" name="password" id="passwordSignIn" class="form-control" required><br>
+    
+                <input type="submit" class="btn btn-lng btn-primary btn-block" value="Sign In"><br><br>
+
+                <small>Don't have an account yet?</small><br>
+                <button class="btn btn-sm" id="buttonSignUp" onclick="showSignUp()">Sign Up Here</button>
+            </form><br>
+        </div>
+
+        <div id="mainPage">
+            <nav>
+                <h3>My Todos</h3><br>
+            </nav>
+        </div>
+
+    </div>
+    
+    <br><br>
+    <footer class="text-center">
+        <small>by <a href="http://chairulakmal.github.io">chairulakmal</a>
+    </footer>
+
+    <!-- jQuery 3.x cdn -->
+    <script src="https://code.jquery.com/jquery-3.5.0.js" 
+    integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" 
+    crossorigin="anonymous"></script>
+
+    <!-- Main Script -->
+    <script src="main.js"></script>
+</body>
+</html>
