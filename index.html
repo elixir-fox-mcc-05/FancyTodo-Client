@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href="/style/supply.css" type="text/css" rel="stylesheet"/>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Lato|Spartan" rel="stylesheet">
+        <title>Fancy Todo - Hello WORLD!!</title>
+    </head>
+    <body>
+        <header>
+            <nav class="breadcrumb login-register" aria-label="breadcrumbs" style="position: fixed; ">
+              <ul>
+                <li><a href="#">Home</a></li>
+                <li><a onclick="showLogin()">Login</a></li>
+                <li><a onclick="showRegister()">Register</a></li>
+              </ul>
+            </nav>
+            <nav class="breadcrumb menu" aria-label="breadcrumbs" style="position: fixed; visibility:hidden">
+              <ul>
+                <li><a href="#">List</a></li>
+                <li><a href="#">Add</a></li>
+              </ul>
+            </nav>
+        </header>
+        
+        
+        
+        <div class="login" style="bottom:55%; position: absolute;">
+            <h2>Login</h2>
+             <form id="login">
+                <input id="loginemail" type="text" placeholder="email" name="email">
+                 <input id="loginpassword" type="password" placeholder="password" name="password">
+                 <input type="submit" value="login">
+            </form>
+        </div>
+        
+        <div class="register" style="bottom:55%; position: absolute;">
+            <h2>Register</h2>
+             <form id="register">
+                <input type="text" placeholder="first_name" name="first_name">
+                 <input type="text" placeholder="last name" name="last_name">
+                 <input type="text" placeholder="email" name="email">
+                 <input type="password" placeholder="password" name="password">
+                 <input type="submit" value="Register">
+            </form>
+        </div>
+        
+        <div class=list>
+            
+        </div>
+        
+        <footer>
+
+        </footer>
+    </body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="scripts.js"></script>
+</html>
