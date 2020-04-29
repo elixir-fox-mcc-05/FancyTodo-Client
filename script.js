@@ -134,6 +134,9 @@ function fetchTodo() {
                         <td>${el.due_date}</td>
                         <td>${status}</td>
                         <td>
+                            <a class="btn btn-info btn-sm" href="#" role="button" onclick="showEditTodo(${el.id})">Edit</a>
+                        </td>
+                        <td>
                             <a class="btn btn-danger btn-sm" href="#" role="button" onclick="deleteTodo(${el.id})">Delete</a>
                         </td>
                     </tr>`
@@ -196,6 +199,81 @@ function deleteTodo(id) {
         }
     })
         .done(data => {
+            authentication()
+        })
+        .fail(err => {
+            console.log(err)
+        })
+}
+
+function showEditTodo(id) {
+    $('#dashboard').hide()
+    $('#registerButton').hide()
+    $('#loginButton').hide()
+    $('#logoutButton').show()
+
+    $('#home').hide()
+    $('#register').hide()
+    $('#login').hide()
+    $('#dashboardPage').hide()
+    $('#addTodo').hide()
+    $('#editTodo').show()
+    $.ajax({
+        method: 'get',
+        url: baseUrl + `/todos/${id}`,
+        headers: {
+            token: localStorage.token
+        }
+    })
+        .done(data => {
+            console.log(data.Todo)
+            let todo = data.Todo
+            // $( "#editTodoContainer" ).empty()
+            $( "#editTodoContainer" ).append(` 
+                <div class="form-group">
+                    <label for="editedTitle">Title</label>
+                    <input type="text" class="form-control" id="editedTitle" value="${todo.title}">
+                </div>
+                <div class="form-group">
+                    <label for="editedDescription">Description</label>
+                    <textarea class="form-control" id="editedDescription" rows="3">${todo.description}</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="editedDueDate">Due Date</label>
+                    <input type="date" class="form-control" id="editedDueDate" value="${todo.due_date}">
+                </div>
+                <button type="submit" class="btn btn-primary" onclick="editTodo(${todo.id})">Modify</button>`
+            )
+            $('#editTodo').on('submit', function (event) {
+                event.preventDefault()
+                
+                const title = $('#editedTitle').val()
+                const description = $('#editedDescription').val()
+                const due_date = $('#editedDueDate').val()
+                editTodo(todo.id, title, description, due_date)
+            })
+        
+        })
+        .fail(err => {
+            console.log(err)
+        })
+}
+
+function editTodo(id, title, description, due_date) {
+    $.ajax({
+        method: 'put',
+        url: baseUrl + `/todos/${id}`,
+        data: {
+            title,
+            description,
+            due_date
+        },
+        headers: {
+            token: localStorage.token
+        }
+    })
+        .done(data => {
+            console.log(data)
             authentication()
         })
         .fail(err => {
