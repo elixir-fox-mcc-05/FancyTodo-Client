@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Fancy Todo</title>
+</head>
+<body>
+    <!-- NAVBAR FRONTPAGE -->
+    <nav class="mb-1 navbar navbar-expand-lg navbar-dark unique-color" style="background-color: black;" id="navbar-page">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-3" aria-controls="navbarSupportedContent-3" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent-3">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link waves-effect waves-light" href="#">Home
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link waves-effect waves-light" onclick="login()">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link waves-effect waves-light" onclick="register()">Register</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- END NAVBAR -->
+
+    <!-- NAVBAR USER -->
+    <nav class="mb-1 navbar navbar-expand-lg navbar-dark unique-color" style="background-color: black;" id="navbar-user">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-3" aria-controls="navbarSupportedContent-3" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent-3">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link waves-effect waves-light" href="#">Home
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link waves-effect waves-light" onclick="logout()">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- END NAVBAR USER -->
+    
+    <!-- LOGIN PAGE -->
+    <div id="login-page" style="display: flex;">
+        <div class="card" style="flex: 1;">
+            <div class="card-body mx-4">
+                <!--Header-->
+                <div class="text-center">
+                    <h3 class="dark-grey-text mb-5">
+                        <strong>Sign in</strong>
+                    </h3>
+                </div>
+                <!--Body-->
+                <form id="login-form" method="post">
+                    <div class="md-form">
+                        <input type="text" id="email" class="form-control">
+                        <label for="email" class="">Your email</label>
+                    </div>
+        
+                    <div class="md-form pb-3">
+                        <input type="password" id="password" class="form-control">
+                        <label for="password" class="">Your password</label>
+                        <p class="font-small blue-text d-flex justify-content-end">Forgot
+                            <a href="#" class="blue-text ml-1"> Password?</a>
+                        </p>
+                    </div>
+        
+                    <div class="text-center mb-3">
+                        <button type="submit" class="btn blue-gradient btn-block btn-rounded z-depth-1a waves-effect waves-light">Sign in</button>
+                    </div>
+                    <p class="font-small dark-grey-text text-right d-flex justify-content-center mb-3 pt-2"> or Sign in with:</p>
+        
+                    <div class="row my-3 d-flex justify-content-center">
+                        <!--Facebook-->
+                        <button type="button" class="btn btn-white btn-rounded mr-md-3 z-depth-1a waves-effect waves-light">
+                            <i class="fab fa-facebook-f blue-text text-center"></i>
+                        </button>
+                        <!--Twitter-->
+                        <button type="button" class="btn btn-white btn-rounded mr-md-3 z-depth-1a waves-effect waves-light">
+                            <i class="fab fa-twitter blue-text"></i>
+                        </button>
+                        <!--Google +-->
+                        <button type="button" class="btn btn-white btn-rounded z-depth-1a waves-effect waves-light">
+                            <i class="fab fa-google-plus-g blue-text"></i>
+                        </button>
+                    </div>    
+                </form>
+            </div>
+            <!--Footer-->
+            <div class="modal-footer mx-5 pt-3 mb-1">
+                <p class="font-small grey-text d-flex justify-content-end">Not a member?
+                    <a href="#" class="blue-text ml-1"> Sign Up</a>
+                </p>
+            </div> 
+        </div>
+    </div>
+    <!-- END LOGIN PAGE -->
+    <!-- Register Page -->
+    <div id="register-page" class="card" style="flex: 1;">
+        <div class="card-body">
+
+            <!--Header-->
+            <div class="form-header peach-gradient">
+                <h3>
+                    <i class="fas fa-user"></i> Register:</h3>
+            </div>
+
+            <!--Body-->
+            <form method="post" id="register-form">
+                <div class="md-form">
+                    <i class="fas fa-envelope prefix grey-text"></i>
+                    <input type="text" id="email-regis" class="form-control">
+                    <label for="email-regis" class="">Your email</label>
+                </div>
+    
+                <div class="md-form">
+                    <i class="fas fa-lock prefix grey-text"></i>
+                    <input type="password" id="password-regis" class="form-control">
+                    <label for="password-regis">Your password</label>
+                </div>
+    
+                <div class="text-center">
+                    <button class="btn btn-deep-orange waves-effect waves-light" type="submit">Sign up</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- End Register Page -->
+    <!-- MAIN PAGE -->
+    <div id="main-page">
+        <div class="main-container">
+        </div>
+    </div>
+    <!-- END MAIN PAGE -->
+
+    <script
+    src="https://code.jquery.com/jquery-3.5.0.js"
+    integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc="
+    crossorigin="anonymous">
+    </script>
+    <script src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>
