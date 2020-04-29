@@ -15,6 +15,10 @@
         #signUpPage {
             max-width: 400px;
         }
+
+        #createPage {
+            max-width: 600px;
+        }
     </style>
 
 </head>
@@ -73,12 +77,30 @@
         </div>
 
         <div id="mainPage">
-            <h3>All Todos</h3><br>
+            <h3>All Tasks</h3><br>
             <table class="table table-striped" id="mainTable">               
                 <!-- <div id="mainContainer">
 
                 </div> -->
             </table>
+            <button class="btn btn-secondary btn-sm" id="buttonCreate" onclick="showCreatePage()">Add a new Task</button>
+        </div>
+
+        <div id="createPage">
+            <h3 class="h3 mb-3 font-weight-normal">Add a new Task</h3>
+            <form onsubmit="createTodo(event)">
+                <label for="title">Title: </label>
+                <input type="text" name="title" id="title" class="form-control" required autofocus><br>
+                <label for="description">Description: </label>
+                <textarea  cols="30" rows="10" name="description" id="description" class="form-control">
+                    </textarea><br>
+                <label for="due_date">Due Date: </label>
+                <input type="date" name="due_date" id="due_date" class="form-control"><br>
+
+                <input type="submit" class="btn btn-primary" value="Save">
+                <input type="button" class="btn btn-secondary" value="Cancel"
+                onclick="window.location='';return false;">
+            </form>
         </div>
 
     </div>

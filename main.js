@@ -31,6 +31,7 @@ function auth() {
         $('#signUpPage').hide()
         $('#signInPage').hide()
         $('#mainPage').show()
+        $('#createPage').hide()
         $('#buttonSignOut').show()
         fetchData()
     } else {
@@ -75,10 +76,48 @@ function fetchData() {
     })
 }
 
+function showCreatePage() {
+    $('#signUpPage').hide()
+    $('#signInPage').hide()
+    $('#mainPage').hide()
+    $('#createPage').show()
+    $('#buttonSignOut').hide()
+}
+
+function createTodo(event) {
+    event.preventDefault()
+    let data = {
+        title: $('#title').val(),
+        description: $('#description').val(),
+        due_date: $('#due_date').val()
+    }
+
+    $.ajax({
+        method: 'post',
+        url: baseUrl + '/todos',
+        data, // will be sent as req.body
+        headers: {
+            token: localStorage.token
+        }
+    })
+    .done(() => {
+        auth()
+    })
+    .fail(err => {
+        console.log(err);
+    })
+    .always(() => {
+        $('#title').val('')
+        $('#description').val('')
+        $('#due_date').val('')
+    })
+}
+
 function showSignUp() {
     $('#signUpPage').show()
     $('#signInPage').hide()
     $('#mainPage').hide()
+    $('#createPage').hide()
     $('#buttonSignOut').hide()
 }
 
@@ -86,6 +125,7 @@ function showSignIn() {
     $('#signUpPage').hide()
     $('#signInPage').show()
     $('#mainPage').hide()
+    $('#createPage').hide()
     $('#buttonSignOut').hide()
 }
 
