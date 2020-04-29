@@ -49,9 +49,24 @@ function fetchData() {
         }
     })
     .done(data => {
-        // olah data
         console.log(data);
-        
+        $('#mainTable').empty()
+        $('#mainTable').append(
+            `<tr>
+                <th>Task</th>
+                <th>Description</th>
+                <th>Date</th>
+            </tr>`
+        )        
+        data.Todos.forEach(element => {
+            $('#mainTable').append(
+                `<tr>
+                        <td>${element.title}</td>
+                        <td>${element.description}</td>
+                        <td>${element.due_date}</td>
+                </tr>`
+            )
+        })
     })
     .fail(err => {
         console.log(err);
