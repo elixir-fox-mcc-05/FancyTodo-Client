@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>FanctTodo-Client</title>
+</head>
+<body>
+    <!-- NAV -->
+    <div id="navigation" >
+        <ul class="nav justify-content-end">
+            <li class="nav-item">
+              <a class="nav-link" id="home" href="">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link"  id="register" href="">Register</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="login"  href="">Login</a>
+            </li>
+          </ul>
+    </div>
+    <!-- HOME -->
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+          <h1 class="display-4">Fancy Todo </h1>
+          <p class="lead">This app created by Irwan Syafani</p>
+        </div>
+      </div>
+    <!-- REGISTER -->
+    <div id="form_register"> 
+        <h3>Register</h3>
+        <form id="submit_register">
+            <div class="form-group w-25">
+              <input type="email" class="form-control" id="email_register" placeholder="email">
+            </div>
+            <div class="form-group w-25">
+              <input type="password" class="form-control" id="password_register" placeholder="password">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+
+    </div>
+    <!-- LOGIN -->
+    <div id="form_login"> 
+        <h3>Log In</h3>
+        <form id="submit_login">
+          <div class="form-group w-25">
+              <input type="email" class="form-control" id="email_login" placeholder="email">
+              <input type="password" class="form-control" id="password_login" placeholder="password">
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+
+    </div>
+
+    <p id="success" class="font-weight-light" style="color: rgb(102, 255, 85);"></p>
+
+    <p id="message" class="font-weight-light" style="color: red;"></p>
+
+    <!-- Dashboard -->
+    <div id="dashboard">
+      <!-- On rows -->
+        <tr class="table-active">...</tr>
+
+        <tr class="table-primary">...</tr>
+        <tr class="table-secondary">...</tr>
+        <tr class="table-success">...</tr>
+        <tr class="table-danger">...</tr>
+        <tr class="table-warning">...</tr>
+        <tr class="table-info">...</tr>
+        <tr class="table-light">...</tr>
+        <tr class="table-dark">...</tr>
+
+        <!-- On cells (`td` or `th`) -->
+        <tr>
+          <td class="table-active">...</td>
+          
+          <td class="table-primary">...</td>
+          <td class="table-secondary">...</td>
+          <td class="table-success">...</td>
+          <td class="table-danger">...</td>
+          <td class="table-warning">...</td>
+          <td class="table-info">...</td>
+          <td class="table-light">...</td>
+          <td class="table-dark">...</td>
+        </tr>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
+    <script src="main.js"></script>
+</body>
+</html>
