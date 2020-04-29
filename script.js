@@ -6,17 +6,31 @@ $(document).ready(function() {
 
 function checkStorage() {
   if(localStorage.token) {
-    $('#registerLogin').hide();
+    $('#registerPage').hide();
+    $('#loginPage').hide();
     $('.notlogged-in').hide();
     $('.logged-in').show();
     $('#dashboardPage').show();
     fetchTodo();
   } else {
-    $('#registerLogin').show();
+    $('#loginPage').show();
+    $('#registerPage').hide();
     $('#dashboardPage').hide();
     $('.notlogged-in').show();
     $('.logged-in').hide();
   }
+}
+
+function showLogin(e) {
+  e.preventDefault();
+  $('#loginPage').show();
+  $('#registerPage').hide();
+}
+
+function showRegister(e) {
+  e.preventDefault();
+  $('#loginPage').hide();
+  $('#registerPage').show();
 }
 
 function register(e) {
@@ -95,13 +109,13 @@ function login(e) {
     }
   })
     .done(response => {
-      console.log(response);
+      // console.log(response);
       const token = response.token;
       $('#email').val('');
       $('#password').val('');
       localStorage.setItem('token', token);
       // hide landing
-      $('#registerLogin').hide();
+      $('#loginPage').hide();
       $('#errorLogin').hide();
       //manage nav
       $('.notlogged-in').hide();
@@ -111,7 +125,7 @@ function login(e) {
       fetchTodo();
     })
     .fail(err => {
-      console.log(err.responseJSON);
+      // console.log(err.responseJSON);
       $('#errorLogin').show();
       $('#errorLogin').text(err.responseJSON.error.msg);
     })
@@ -294,7 +308,7 @@ function confirmDelete(value) {
 
 function deleteTodo(event) {
   const token = localStorage.getItem('token');
-  const id = $('#todoId').val();
+  const id = $('#idDelete').val();
 
   $.ajax({
     method: 'DELETE',
@@ -321,11 +335,41 @@ function formatDate(date) {
   return date.toISOString().split('T')[0];
 }
 
+function onSignIn(googleUser) {
+  const id_token = googleUser.getAuthResponse().id_token;
+  $.ajax({
+    method: 'POST',
+    url: `${baseUrl}/google-login`,
+    headers: {
+      google_token: id_token
+    }
+  })
+    .done(response => {
+      localStorage.setItem('token', response.token);
+      $('#loginPage').hide();
+      $('#errorLogin').hide();
+      //manage nav
+      $('.notlogged-in').hide();
+      $('.logged-in').show();
+      // show dashboard
+      $('#dashboardPage').show();
+      fetchTodo();
+    })
+    .fail(err => {
+      console.log(err);
+    });
+
+}
+
 function logout(e){
   e.preventDefault();
-  localStorage.clear();
-  $('#registerLogin').show();
-  $('#dashboardPage').hide();
-  $('.notlogged-in').show();
-  $('.logged-in').hide();
+  let auth2 = gapi.auth2.getAuthInstance();
+  auth2.signOut().then(function () {
+    localStorage.clear();
+    $('#loginPage').show();
+    $('#registerPage').hide();
+    $('#dashboardPage').hide();
+    $('.notlogged-in').show();
+    $('.logged-in').hide();
+  });
 }

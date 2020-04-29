@@ -10,6 +10,9 @@
   <!-- GOOGLE FONT -->
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300&display=swap" rel="stylesheet">
 
+  <!-- GOOGLE SIGNIN CLIENT ID -->
+  <meta name="google-signin-client_id" content="610736297334-e9l4vam64404us0lm97fojhvnr0dvsb5.apps.googleusercontent.com">
+
   <!-- FONT AWESOME -->
   <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
@@ -31,10 +34,10 @@
           <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item notlogged-in">
-          <a class="nav-link" href="#formLogin">Login</a>
+          <a class="nav-link" href="#formLogin" onclick="showLogin(event)">Login</a>
         </li>
         <li class="nav-item notlogged-in">
-          <a class="nav-link" href="#formRegister">Register</a>
+          <a class="nav-link" href="#formRegister" onclick="showRegister(event)">Register</a>
         </li>
         <li class="nav-item logged-in">
           <a class="nav-link" href="#dashboardPage">Dashboard</a>
@@ -47,9 +50,9 @@
   </nav>
 
   <!-- FORM -->
-  <div class="container mx-auto mt-4" id="registerLogin">
+  <div class="container" id="registerPage">
     <div class="row">
-      <div class="col-md-6" id="formRegister">
+      <div class="col-md-6 mx-auto mt-4" id="formRegister">
         <h2 class="text-center">Register</h2>
         <p class="error" id="errorRegister"></p>
         <form onsubmit="register(event)">
@@ -73,7 +76,13 @@
           <button type="submit" class="btn btn-success">Register</button>
         </form>
       </div>
-      <div class="col-md-6" id="formLogin">
+    </div>
+  </div>
+
+  <!-- LOGIN PAGE -->
+  <div class="container" id="loginPage">
+    <div class="row">
+      <div class="col-md-6 mx-auto mt-4" id="formLogin">
         <h2 class="text-center">Login</h2>
         <p class="error" id="errorLogin"></p>
         <form onsubmit="login(event)">
@@ -92,6 +101,8 @@
           </div>
           <button type="submit" class="btn btn-success">Login</button>
         </form>
+          <p class="mt-3">OR LOGIN USING</p>
+          <div class="g-signin2" data-onsuccess="onSignIn"></div>
       </div>
     </div>
   </div>
@@ -224,7 +235,7 @@
         <div class="modal-body">
           <p class="error" id="errorDelete"></p>
           <form onsubmit="deleteTodo(event)">
-            <input type="hidden" id="todoId" value="">
+            <input type="hidden" id="idDelete" value="">
             <p id="deleteMessage">Delete data Todo </p>
         <div class="modal-footer">
           <button type="submit" class="btn btn-danger">Delete</button>
@@ -234,6 +245,9 @@
       </div>
     </div>
   </div>
+
+  <!-- GOOGLE SIGN IN API -->
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
 
   <!-- SCRIPT -->
   <script
