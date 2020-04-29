@@ -21,7 +21,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#" onclick="authentication()">Home</a>
                     </li>
-                    <li class="nav-item" id="dashboard">
+                    <li class="nav-item" id="dashboardButton">
                         <a class="nav-link" href="#" onclick="authentication()">Dashboard</a>
                     </li>
                     <li class="nav-item" id="registerButton">
@@ -31,7 +31,7 @@
                         <a class="nav-link" href="#" onclick="showLogin()">Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="">Public Holidays</a>
+                        <a class="nav-link" href="#" onclick="getPublicHolidays()">Public Holidays</a>
                     </li>
                     <li class="nav-item" id="logoutButton">
                         <a class="nav-link" href="#" onclick="logout()">Logout</a>
@@ -43,7 +43,7 @@
     </section>
 
     <!-- HomePage -->
-    <section id="home">
+    <section id="home" class="mb-5 pb-5">
         <!-- Title Jumbotron -->
         <section id="titleJumbotron">
             <div class="jumbotron">
@@ -99,7 +99,7 @@
 
 
     <!-- Dashboard -->
-    <section id="dashboardPage" class="container center mt-5 pt-5">
+    <section id="dashboardPage" class="container center mt-5 pt-5 mb-5 pb-5">
         <!-- List Todo -->
         <section id="listTodo">
             <h2>List Todo</h2>
@@ -153,13 +153,31 @@
 
     
     <!-- PublicHolidays -->
-    <section id="publicHolidays" class="container center mt-5 pt-5">
+    <section id="publicHolidays" class="container center mt-5 pt-5 pb-5">
+        <h1>Public Holidays</h1>
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Name</th>
+                    <th>Local Name</th>
+                </tr>
+            </thead>
+            <tbody id="publicHolidaysContainer">
 
+            </tbody>
+        </table>
     </section>
 
     <!-- Footer -->
-    <section id="footer" class="container center">
-
+    <section id="footer">
+        <footer class="fixed-bottom bg-dark text-white font-small">
+            <div class="row pt-3">
+                <div class="col text-center">
+                    <p>© 2020 Copyright: TodoApp</p>
+                </div>
+            </div>
+        </footer>
     </section>
 
     <!-- SCRIPTS -->

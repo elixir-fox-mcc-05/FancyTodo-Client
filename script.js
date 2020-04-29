@@ -13,6 +13,7 @@ function authentication() {
 
         $('#home').hide()
         $('#dashboardPage').show()
+        $('#publicHolidays').hide()
         $('#listTodo').show()
         $('#addTodo').hide()
         $('#editTodo').hide()
@@ -25,6 +26,7 @@ function authentication() {
         $('#logoutButton').hide()
 
         $('#home').show()
+        $('#publicHolidays').hide()
         $('#titleJumbotron').show()
         $('#register').hide()
         $('#login').hide()
@@ -36,6 +38,7 @@ function authentication() {
 function showRegister() {
     $('#home').show()
     $('#titleJumbotron').hide()
+    $('#publicHolidays').hide()
     $('#login').hide()
     $('#register').show()
     $('#register').on('submit', function (event) {
@@ -73,6 +76,7 @@ function registerUser(name, email, password) {
 function showLogin() {
     $('#home').show()
     $('#titleJumbotron').hide()
+    $('#publicHolidays').hide()
     $('#register').hide()
     $('#login').show()
     $('#login').on('submit', function (event) {
@@ -147,8 +151,8 @@ function fetchTodo() {
 }
 
 function showAddTodo() {
-    // $('#home').hide()
     $('#listTodo').hide()
+    $('#publicHolidays').hide()
     $('#editTodo').hide()
     $('#addTodo').show()
     $('#addTodo').on('submit', function (event) {
@@ -212,7 +216,7 @@ function showEditTodo(id) {
         .done(data => {
             console.log(data.Todo)
             let todo = data.Todo
-            // $( "#editTodoContainer" ).empty()
+            $( "#editTodoContainer" ).empty()
             $( "#editTodoContainer" ).append(` 
                 <div class="form-group">
                     <label for="editedTitle">Title</label>
@@ -259,6 +263,32 @@ function editTodo(id, title, description, due_date) {
         .done(data => {
             console.log(data)
             authentication()
+        })
+        .fail(err => {
+            console.log(err)
+        })
+}
+
+function getPublicHolidays() {
+    $('#home').hide()
+    $('#dashboardPage').hide()
+    $('#publicHolidays').show()
+    $.ajax({
+        method: 'get',
+        url: baseUrl + '/public-holidays'
+    })
+        .done(data => {
+            console.log(data.public_holidays)
+            $("#publicHolidaysContainer").empty()
+            data.public_holidays.forEach(el => {
+                $( "#publicHolidaysContainer" ).append(` 
+                    <tr>
+                        <td>${el.date}</td>
+                        <td>${el.name}</td>
+                        <td>${el.localName}</td>
+                    </tr>`
+                )
+            })
         })
         .fail(err => {
             console.log(err)
