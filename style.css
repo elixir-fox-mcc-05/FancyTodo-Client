@@ -1,0 +1,224 @@
+@import url('https://fonts.googleapis.com/css2?family=Lateef&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pangolin&display=swap');
+body {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    top: 0;
+    padding: 0;
+    padding-right: 0 !important;
+    background-image: url('./assets/background.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: 'Lateef', cursive;
+}
+
+.obs {
+    height: 50px;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+.swal2-popup {
+    font-size: 1.6rem !important;
+}
+
+.header {
+    position: fixed;
+    display: flex;
+    width: 100%;
+    height: 50px;
+    background: rgb(44, 44, 44);
+}
+
+#ip-address {
+    color: rgb(160, 160, 160);
+    position: fixed;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-left: -10px;
+    margin-top: 8px;
+}
+
+#nav {
+    height: 50px;
+    position: fixed;
+    display: flex;
+    z-index: 2;
+}
+
+.btn {
+    padding: 0;
+    margin-left: 3px;
+    margin-top: 4px;
+    width: 30px;
+    height: 30px;
+}
+
+#btnicon {
+    padding-top: 3px;
+}
+
+#title {
+    margin-top: -15px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    color: rgb(116, 114, 112);
+}
+
+.page {
+    display: flex;
+}
+
+.content {
+    width: 80%;
+    min-height: 750px;
+    /* height: fit-content; */
+    background: rgba(180, 180, 180, 0.5);
+    text-align: center;
+}
+
+.content-body {
+    margin-top: 60px;
+    margin-left: 20px;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+#todo-card {
+    margin-top: 15px;
+    font-family: 'Pangolin', cursive;
+    background: url('./assets/kertas.jpg');
+    background-size: 90%;
+    margin-left: 30px;
+    width: 300px;
+    height: inherit;
+    text-align: left;
+    box-shadow: 10px 10px 20px 0px rgba(0, 0, 0, 0.75);
+}
+
+#todo-card h1,
+#todo-card h2,
+#todo-card h3,
+#todo-card h4 {
+    margin-left: 35px;
+}
+
+#actionbtn {
+    display: flex;
+    justify-content: flex-start;
+}
+
+
+/* 
+#actionbtn a {
+    margin: 5px;
+} */
+
+.rightBar {
+    margin-top: 0px;
+    width: 20%;
+    height: 350px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.7);
+}
+
+.titlebar {
+    height: 70px;
+    background-color: #dddddd56;
+    display: flex;
+    justify-content: center;
+}
+
+#schedule-title {
+    height: 120px;
+    display: flex;
+    justify-content: center;
+}
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td,
+th {
+    border: 1px solid #dddddd;
+    text-align: center;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd56;
+}
+
+.loginpage,
+.registerpage {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#login-content,
+#register-content {
+    border-radius: 1rem;
+    margin-top: 100px;
+    height: 400px;
+    width: 400px;
+    text-align: center;
+    font-size: 18px;
+    background: rgba(245, 245, 245, 0.801);
+    box-shadow: 7px 7px 20px -5px rgba(0, 0, 0, 0.75);
+}
+
+#login-content label,
+#register-content label {
+    font-size: 20px;
+}
+
+#email-login,
+#password-login,
+#email-register,
+#password-register {
+    text-align: center;
+    width: 250px;
+    border-radius: 1rem;
+}
+
+.social {
+    display: flex;
+    justify-content: center;
+}
+
+#submitbtn,
+#submitbtn2 {
+    width: 250px;
+    border-radius: 1rem;
+    background-color: rgb(205, 205, 240);
+}
+
+.fa {
+    padding-top: 6px;
+    font-size: 18px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 50%;
+    background: rgb(192, 93, 36);
+}
+
+.fa-google {
+    color: white;
+}
+
+.swal-overlay {
+    overflow: hidden;
+}
