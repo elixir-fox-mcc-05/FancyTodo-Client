@@ -138,9 +138,9 @@ function fetchTodo() {
             <td>${todo.title}</td>
             <td>${todo.description}</td>
             <td>${todo.status}</td>
-            <td>${todo.due_date}</td>
-            <td><a class="btn btn-primary" href="${baseUrl}/todos/${todo.id}"><i class="fa fa-edit"></i> Edit</a></td>
-            <td><a class="btn btn-danger" href="${baseUrl}/todos/${todo.id}"><i class="fa fa-trash"></i> Delete</a></td>
+            <td>${formatDate(todo.due_date)}</td>
+            <td><a class="btn btn-primary" onclick="editForm(${todo.id})"><i class="fa fa-edit"></i> Edit</a></td>
+            <td><a class="btn btn-danger" onclick="confirmDelete(${todo.id})"><i class="fa fa-trash"></i> Delete</a></td>
           </tr>
           `);
           counter++;
@@ -211,6 +211,114 @@ function addTodo(e) {
         $('#errorAdd').text(err.responseJSON.error);
       }
     });
+}
+
+function editForm(value) {
+  const token = localStorage.getItem('token');
+  $.ajax({
+    method: 'GET',
+    url: `${baseUrl}/todos/${value}`,
+    headers: {
+      token
+    }
+  })
+    .done(response => {
+      const Todo = response.Todo;
+      $('#editTodoModal').modal('show');
+      $('#todoId').val(Todo.id);
+      $('#titleEdit').val(Todo.title);
+      $('#descriptionEdit').val(Todo.description);
+      $('#statusEdit').val(Todo.status);
+      $('#due_dateEdit').val(formatDate(Todo.due_date));
+    })
+    .fail(err => {
+      console.log(err);
+    });
+}
+
+function update(e){
+  e.preventDefault();
+  const token = localStorage.getItem('token');
+  const id = $('#todoId').val();
+  const title = $('#titleEdit').val();
+  const description = $('#descriptionEdit').val();
+  const status = $('#statusEdit').val();
+  const due_date = $('#due_dateEdit').val();
+
+  $.ajax({
+    method: 'PUT',
+    url: `${baseUrl}/todos/${id}`,
+    headers: {
+      token
+    },
+    data: {
+      title,
+      description,
+      status,
+      due_date
+    }
+  })
+    .done(response => {
+      $('#editTodoModal').modal('hide');
+      $('#titleEdit').val('');
+      $('#descriptionEdit').val('');
+      $('#statusEdit').val('');
+      $('#due_dateEdit').val('');
+      $('#errorEdit').hide();
+      location.reload();
+    })
+    .fail(err => {
+      $('#errorAdd').text(err.responseJSON.msg);
+    });
+}
+
+function confirmDelete(value) {
+  const token = localStorage.getItem('token');
+  $.ajax({
+    method: 'GET',
+    url: `${baseUrl}/todos/${value}`,
+    headers: {
+      token
+    }
+  })
+    .done(response => {
+      const Todo = response.Todo;
+      $('#deleteTodoModal').modal('show');
+      $('#todoId').val(Todo.id);
+      $('#deleteMessage').append(`"${Todo.title}" ?`);
+    })
+    .fail(err => {
+      console.log(err);
+    });
+}
+
+function deleteTodo(event) {
+  const token = localStorage.getItem('token');
+  const id = $('#todoId').val();
+
+  $.ajax({
+    method: 'DELETE',
+    url: `${baseUrl}/todos/${id}`,
+    headers: {
+      token
+    }
+  })
+    .done(response => {
+      const Todo = response.Todo;
+      $('#deleteTodoModal').modal('show');
+      $('#todoId').val(Todo.id);
+      $('#deleteMessage').append(`"${Todo.title}" ?`);
+    })
+    .fail(err => {
+      console.log(err);
+    });
+}
+
+function formatDate(date) {
+  date = new Date(date);
+  const offset = date.getTimezoneOffset();
+  date = new Date(date.getTime() - (offset*60000));
+  return date.toISOString().split('T')[0];
 }
 
 function logout(e){

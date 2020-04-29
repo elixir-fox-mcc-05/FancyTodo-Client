@@ -115,7 +115,7 @@
             <th scope="col">Description</th>
             <th scope="col">Status</th>
             <th scope="col">Due Date</th>
-            <th colspan="2">Action</th>
+            <th colspan="2" style="text-align: center;">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -124,7 +124,7 @@
     </div>
   </div>
 
-  <!-- MODAL -->
+  <!-- MODAL CREATE -->
   <div class="modal fade" id="addTodoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -160,7 +160,75 @@
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-success">Add</button>
-          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EDIT Modal -->
+  <div class="modal fade" id="editTodoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addTodoModalLabel">Add Todo</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p class="error" id="errorEdit"></p>
+          <form onsubmit="update(event)">
+            <input type="hidden" id="todoId" value="">
+            <div class="form-group">
+              <label for="title">Title</label>
+              <input type="text" name="title" id="titleEdit" placeholder="Todo Title" class="form-control" value="">
+            </div>
+            <div class="form-group">
+              <label for="title">Description</label>
+              <input type="text" name="description" id="descriptionEdit" placeholder="Description" class="form-control" value="">
+            </div>
+            <div class="form-group">
+              <label for="title">Status</label>
+              <select name="status" id="statusEdit" class="form-control">
+                <option value="" selected disabled>--Select Todo Status--</option>
+                <option value="pending">Pending</option>
+                <option value="done">Done</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="title">Due Date</label>
+              <input type="date" name="due_date" id="due_dateEdit" class="form-control" value="">
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">Edit</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Modal -->
+  <div class="modal fade" id="deleteTodoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteTodoModalLabel">Delete Todo</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p class="error" id="errorDelete"></p>
+          <form onsubmit="deleteTodo(event)">
+            <input type="hidden" id="todoId" value="">
+            <p id="deleteMessage">Delete data Todo </p>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-danger">Delete</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
           </form>
         </div>
       </div>
