@@ -6,30 +6,28 @@ $(document).ready(() => {
 
 function authentication() {
     if(localStorage.token) {
-        $('#navbar').show()
         $('#dashboard').show()
         $('#registerButton').hide()
         $('#loginButton').hide()
         $('#logoutButton').show()
 
         $('#home').hide()
-        $('#footer').show()
         $('#register').hide()
         $('#login').hide()
         $('#dashboardPage').show()
+        $('#addTodo').hide()
         fetchTodo()
     } else {
-        $('#navbar').show()
         $('#dashboard').hide()
         $('#registerButton').show()
         $('#loginButton').show()
         $('#logoutButton').hide()
 
         $('#home').show()
-        $('#footer').show()
         $('#register').hide()
         $('#login').hide()
         $('#dashboardPage').hide()
+        $('#addTodo').hide()
     }
 }
 
@@ -60,10 +58,15 @@ function registerUser(name, email, password) {
         }
     })
         .done(data => {
-            authentication()
+            showLogin()
         })
         .fail(err => {
             console.log(err.responseJSON)
+        })
+        .always(_ => {
+            $('#newName').val('')
+            $('#newEmail').val('')
+            $('#newPassword').val('')
         })
 }
 
@@ -100,6 +103,10 @@ function loginUser(email, password) {
         .fail(err => {
             console.log(err.responseJSON)
         })
+        .always(_ => {
+            $('#inputEmail').val('')
+            $('#inputPassword').val('')
+        })
 
 }
 
@@ -126,11 +133,72 @@ function fetchTodo() {
                         <td>${el.description}</td>
                         <td>${el.due_date}</td>
                         <td>${status}</td>
+                        <td>
+                            <a class="btn btn-danger btn-sm" href="#" role="button" onclick="deleteTodo(${el.id})">Delete</a>
+                        </td>
                     </tr>`
                 )
             })
         })
         .fail(err => {
-            console.log(err,'errrrorr')
+            console.log(err)
+        })
+}
+
+function showAddTodo() {
+    $('#dashboard').hide()
+    $('#registerButton').hide()
+    $('#loginButton').hide()
+    $('#logoutButton').show()
+
+    $('#home').hide()
+    $('#register').hide()
+    $('#login').hide()
+    $('#dashboardPage').hide()
+    $('#addTodo').show()
+    $('#addTodo').on('submit', function (event) {
+        event.preventDefault()
+        const title = $('#newTitle').val()
+        const description = $('#newDescription').val()
+        const due_date = $('#newDueDate').val()
+        addTodo(title, description, due_date)
+    })
+}
+
+function addTodo(title, description, due_date) {
+    $.ajax({
+        method: 'post',
+        url: baseUrl + '/todos',
+        data: {
+            title,
+            description,
+            due_date
+        },
+        headers: {
+            token: localStorage.token
+        }
+    })
+        .done(data => {
+            console.log(data)
+            authentication()
+        })
+        .fail(err => {
+            console.log(err.responseJSON)
+        })
+}
+
+function deleteTodo(id) {
+    $.ajax({
+        method: 'delete',
+        url: baseUrl + `/todos/${id}`,
+        headers: {
+            token: localStorage.token
+        }
+    })
+        .done(data => {
+            authentication()
+        })
+        .fail(err => {
+            console.log(err)
         })
 }

@@ -9,7 +9,8 @@
 <body>
     <!-- Navbar -->
     <section id="navbar">
-        <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+        <div class="container center">
+        <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
             <a class="navbar-brand" href="#">Todo</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -18,7 +19,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Home</a>
+                        <a class="nav-link" href="#" onclick="authentication()">Home</a>
                     </li>
                     <li class="nav-item" id="dashboard">
                         <a class="nav-link" href="#" onclick="authentication()">Dashboard</a>
@@ -29,20 +30,21 @@
                     <li class="nav-item" id="loginButton">
                         <a class="nav-link" href="#" onclick="showLogin()">Login</a>
                     </li>
-                    <li class="nav-item" id="logoutButton">
-                        <a class="nav-link" href="#" onclick="logout()">Logout</a>
-                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#" onclick="">Public Holidays</a>
+                    </li>
+                    <li class="nav-item" id="logoutButton">
+                        <a class="nav-link" href="#" onclick="logout()">Logout</a>
                     </li>
                 </ul>
             </div>
         </nav>
+        </div>
     </section>
 
     <!-- HomePage -->
     <section id="home">
-        <div class="jumbotron container center">
+        <div class="jumbotron">
             <h1 class="display-4">Welcome to Todo App!</h1>
             <p class="lead">The best website for storing your to-do-list</p>
             <hr class="my-4">
@@ -54,7 +56,7 @@
     </section>
 
     <!-- RegisterPage -->
-    <section id="register" class="container center">
+    <section id="register" class="container center mt-5 pt-5">
         <h2>Register</h2>
         <form>
             <div class="form-group">
@@ -74,7 +76,7 @@
     </section>
 
     <!-- LoginPage -->
-    <section id="login" class="container center">
+    <section id="login" class="container center mt-5 pt-5">
         <form>
             <h2>Login</h2>
             <div class="form-group">
@@ -91,8 +93,9 @@
     </section>
 
     <!-- Dashboard -->
-    <section id="dashboardPage" class="container center">
+    <section id="dashboardPage" class="container center mt-5 pt-5">
         <h2>List Todo</h2>
+        <a class="btn btn-success btn-lg" href="#" role="button" onclick="showAddTodo()">Add Todo</a>
         <table class="table">
             <thead class="thead-dark">
                 <tr>
@@ -100,6 +103,7 @@
                     <th scope="col">Description</th>
                     <th scope="col">Due Date</th>
                     <th scope="col">Status</th>
+                    <th scope="col">Delete</th>
                 </tr>
             </thead>
             <tbody id="todoContainer">
@@ -107,8 +111,28 @@
         </table>
     </section>
 
+    <!-- Add Todo -->
+    <section id="addTodo" class="container center mt-5 pt-5">
+        <h2>Add New Todo</h2>
+        <form>
+            <div class="form-group">
+                <label for="newTitle">Title</label>
+                <input type="text" class="form-control" id="newTitle">
+            </div>
+            <div class="form-group">
+                <label for="newDescription">Description</label>
+                <textarea class="form-control" id="newDescription" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="newDueDate">Due Date</label>
+                <input type="date" class="form-control" id="newDueDate">
+            </div>
+            <button type="submit" class="btn btn-primary" onclick="addTodo()">Add</button>
+        </form>
+    </section>
+    
     <!-- PublicHolidays -->
-    <section id="publicHolidays" class="container center">
+    <section id="publicHolidays" class="container center mt-5 pt-5">
 
     </section>
 
@@ -117,6 +141,7 @@
 
     </section>
 
+    <!-- SCRIPTS -->
     <script src="http://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <script src="script.js"></script>
