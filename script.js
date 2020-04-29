@@ -6,6 +6,9 @@ $(document).ready(() => {
 
 function authentication() {
     if(localStorage.token) {
+        $( "#errorSection" ).empty()
+        $( "#notifSection" ).empty()
+    
         $('#dashboardButton').show()
         $('#registerButton').hide()
         $('#loginButton').hide()
@@ -20,6 +23,9 @@ function authentication() {
         fetchTodo()
 
     } else {
+        $( "#errorSection" ).empty()
+        $( "#notifSection" ).empty()
+    
         $('#dashboardButton').hide()
         $('#registerButton').show()
         $('#loginButton').show()
@@ -61,10 +67,12 @@ function registerUser(name, email, password) {
         }
     })
         .done(data => {
+            showNotif(data)
             showLogin()
         })
         .fail(err => {
-            console.log(err.responseJSON)
+            console.log(err)
+            showError(err.responseJSON)
         })
         .always(_ => {
             $('#newName').val('')
@@ -99,11 +107,13 @@ function loginUser(email, password) {
     })
         .done(data => {
             localStorage.setItem('token', data.token)
+            showNotif(data)
             authentication()
             fetchTodo()
         })
         .fail(err => {
-            console.log(err.responseJSON)
+            console.log(err)
+            showError(err.responseJSON)
         })
         .always(_ => {
             $('#inputEmail').val('')
@@ -147,6 +157,7 @@ function fetchTodo() {
         })
         .fail(err => {
             console.log(err)
+            showError(err.responseJSON)
         })
 }
 
@@ -179,10 +190,12 @@ function addTodo(title, description, due_date) {
     })
         .done(data => {
             console.log(data)
+            showNotif(data)
             authentication()
         })
         .fail(err => {
-            console.log(err.responseJSON)
+            console.log(err)
+            showError(err.responseJSON)
         })
 }
 
@@ -195,10 +208,12 @@ function deleteTodo(id) {
         }
     })
         .done(data => {
+            showNotif(data)
             authentication()
         })
         .fail(err => {
             console.log(err)
+            showError(err.responseJSON)
         })
 }
 
@@ -244,6 +259,7 @@ function showEditTodo(id) {
         })
         .fail(err => {
             console.log(err)
+            showError(err.responseJSON)
         })
 }
 
@@ -262,10 +278,12 @@ function editTodo(id, title, description, due_date) {
     })
         .done(data => {
             console.log(data)
+            showNotif(data)
             authentication()
         })
         .fail(err => {
             console.log(err)
+            showError(err.responseJSON)
         })
 }
 
@@ -292,5 +310,30 @@ function getPublicHolidays() {
         })
         .fail(err => {
             console.log(err)
+            showError(err.responseJSON)
         })
+}
+
+function showNotif(response) {
+    $( "#notifSection" ).empty()
+    if(response.notif) {
+        $( "#notifSection" ).append(`
+            <h5>${response.notif}</h5>
+        `)
+    }
+}
+
+function showError(response) {
+    $( "#errorSection" ).empty()
+    if(Array.isArray(response.err)) {
+        for(let i = 0; i < response.err.length; i++) {
+            $( "#errorSection" ).append(`
+                <h5>${response.err[i]}</h5>
+            `)
+        }
+    } else {
+        $( "#errorSection" ).append(`
+            <h5>${response.err}</h5>
+        `)
+    }
 }
