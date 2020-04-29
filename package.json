@@ -1,0 +1,24 @@
+{
+  "name": "fancytodo-client",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev":"npx live-server --host=localhost"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iguntop/FancyTodo-client.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/iguntop/FancyTodo-client/issues"
+  },
+  "homepage": "https://github.com/iguntop/FancyTodo-client#readme",
+  "dependencies": {
+    "sweetalert2": "^9.10.9",
+    "toastify": "^2.0.0"
+  }
+}
