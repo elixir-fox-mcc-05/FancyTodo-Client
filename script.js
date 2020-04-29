@@ -6,38 +6,38 @@ $(document).ready(() => {
 
 function authentication() {
     if(localStorage.token) {
-        $('#dashboard').show()
+        $('#dashboardButton').show()
         $('#registerButton').hide()
         $('#loginButton').hide()
         $('#logoutButton').show()
 
         $('#home').hide()
-        $('#register').hide()
-        $('#login').hide()
         $('#dashboardPage').show()
+        $('#listTodo').show()
         $('#addTodo').hide()
+        $('#editTodo').hide()
         fetchTodo()
+
     } else {
-        $('#dashboard').hide()
+        $('#dashboardButton').hide()
         $('#registerButton').show()
         $('#loginButton').show()
         $('#logoutButton').hide()
 
         $('#home').show()
+        $('#titleJumbotron').show()
         $('#register').hide()
         $('#login').hide()
+
         $('#dashboardPage').hide()
-        $('#addTodo').hide()
     }
 }
 
 function showRegister() {
-    $('#navbar').show()
-    $('#home').hide()
-    $('#footer').show()
-    $('#register').show()
+    $('#home').show()
+    $('#titleJumbotron').hide()
     $('#login').hide()
-    $('#dashboard').hide()
+    $('#register').show()
     $('#register').on('submit', function (event) {
         event.preventDefault()
         const name = $('#newName').val()
@@ -71,12 +71,10 @@ function registerUser(name, email, password) {
 }
 
 function showLogin() {
-    $('#navbar').show()
-    $('#home').hide()
-    $('#footer').show()
+    $('#home').show()
+    $('#titleJumbotron').hide()
     $('#register').hide()
     $('#login').show()
-    $('#dashboard').hide()
     $('#login').on('submit', function (event) {
         event.preventDefault()
         const email = $('#inputEmail').val()
@@ -149,15 +147,9 @@ function fetchTodo() {
 }
 
 function showAddTodo() {
-    $('#dashboard').hide()
-    $('#registerButton').hide()
-    $('#loginButton').hide()
-    $('#logoutButton').show()
-
-    $('#home').hide()
-    $('#register').hide()
-    $('#login').hide()
-    $('#dashboardPage').hide()
+    // $('#home').hide()
+    $('#listTodo').hide()
+    $('#editTodo').hide()
     $('#addTodo').show()
     $('#addTodo').on('submit', function (event) {
         event.preventDefault()
@@ -207,15 +199,7 @@ function deleteTodo(id) {
 }
 
 function showEditTodo(id) {
-    $('#dashboard').hide()
-    $('#registerButton').hide()
-    $('#loginButton').hide()
-    $('#logoutButton').show()
-
-    $('#home').hide()
-    $('#register').hide()
-    $('#login').hide()
-    $('#dashboardPage').hide()
+    $('#listTodo').hide()
     $('#addTodo').hide()
     $('#editTodo').show()
     $.ajax({

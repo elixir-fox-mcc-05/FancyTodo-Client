@@ -44,101 +44,113 @@
 
     <!-- HomePage -->
     <section id="home">
-        <div class="jumbotron">
-            <h1 class="display-4">Welcome to Todo App!</h1>
-            <p class="lead">The best website for storing your to-do-list</p>
-            <hr class="my-4">
-            <p>For new member, please register.</p>
-            <a class="btn btn-primary btn-lg" href="#" role="button" onclick="showRegister()">Register</a>
-            <p>For our loyal member, please login first.</p>
-            <a class="btn btn-primary btn-lg" href="#" role="button" onclick="showLogin()">Login</a>
-        </div>
+        <!-- Title Jumbotron -->
+        <section id="titleJumbotron">
+            <div class="jumbotron">
+                <h1 class="display-4">Welcome to Todo App!</h1>
+                <p class="lead">The best website for storing your to-do-list</p>
+                <hr class="my-4">
+                <p>For new member, please register.</p>
+                <a class="btn btn-primary btn-lg" href="#" role="button" onclick="showRegister()">Register</a>
+                <p>For our loyal member, please login first.</p>
+                <a class="btn btn-primary btn-lg" href="#" role="button" onclick="showLogin()">Login</a>
+            </div>
+        </section>
+
+        <!-- RegisterPage -->
+        <section id="register" class="container center mt-5 pt-5">
+            <h2>Register</h2>
+            <form>
+                <div class="form-group">
+                    <label for="newName">Full Name</label>
+                    <input type="text" class="form-control" id="newName" placeholder="your full name">
+                </div>
+                <div class="form-group">
+                    <label for="newEmail">Email</label>
+                    <input type="email" class="form-control" id="newEmail" placeholder="name@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="newPassword">Password</label>
+                    <input type="password" class="form-control" id="newPassword" placeholder="password">
+                </div>
+                <button type="submit" class="btn btn-primary" onclick="registerUser()">Register</button>
+            </form>
+        </section>
+
+        <!-- LoginPage -->
+        <section id="login" class="container center mt-5 pt-5">
+            <form>
+                <h2>Login</h2>
+                <div class="form-group">
+                    <label for="inputEmail">Email address</label>
+                    <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp">
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword">Password</label>
+                    <input type="password" class="form-control" id="inputPassword">
+                </div>
+                <button type="submit" class="btn btn-primary" onclick="loginUser()">Login</button>
+            </form>
+        </section>
+
     </section>
 
-    <!-- RegisterPage -->
-    <section id="register" class="container center mt-5 pt-5">
-        <h2>Register</h2>
-        <form>
-            <div class="form-group">
-                <label for="newName">Full Name</label>
-                <input type="text" class="form-control" id="newName" placeholder="your full name">
-            </div>
-            <div class="form-group">
-                <label for="newEmail">Email</label>
-                <input type="email" class="form-control" id="newEmail" placeholder="name@example.com">
-            </div>
-            <div class="form-group">
-                <label for="newPassword">Password</label>
-                <input type="password" class="form-control" id="newPassword" placeholder="password">
-            </div>
-            <button type="submit" class="btn btn-primary" onclick="registerUser()">Register</button>
-        </form>
-    </section>
 
-    <!-- LoginPage -->
-    <section id="login" class="container center mt-5 pt-5">
-        <form>
-            <h2>Login</h2>
-            <div class="form-group">
-                <label for="inputEmail">Email address</label>
-                <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp">
-                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-            </div>
-            <div class="form-group">
-                <label for="inputPassword">Password</label>
-                <input type="password" class="form-control" id="inputPassword">
-            </div>
-            <button type="submit" class="btn btn-primary" onclick="loginUser()">Login</button>
-        </form>
-    </section>
 
     <!-- Dashboard -->
     <section id="dashboardPage" class="container center mt-5 pt-5">
-        <h2>List Todo</h2>
-        <a class="btn btn-success btn-lg" href="#" role="button" onclick="showAddTodo()">Add Todo</a>
-        <table class="table">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Title</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Due Date</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Modify</th>
-                    <th scope="col">Delete</th>
-                </tr>
-            </thead>
-            <tbody id="todoContainer">
-            </tbody>
-        </table>
+        <!-- List Todo -->
+        <section id="listTodo">
+            <h2>List Todo</h2>
+            <a class="btn btn-success btn-lg" href="#" role="button" onclick="showAddTodo()">Add Todo</a>
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Title</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Due Date</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Modify</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                </thead>
+                <tbody id="todoContainer">
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Add Todo -->
+        <section id="addTodo" class="container center mt-5 pt-5">
+            <h2>Add New Todo</h2>
+            <form>
+                <div class="form-group">
+                    <label for="newTitle">Title</label>
+                    <input type="text" class="form-control" id="newTitle">
+                </div>
+                <div class="form-group">
+                    <label for="newDescription">Description</label>
+                    <textarea class="form-control" id="newDescription" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="newDueDate">Due Date</label>
+                    <input type="date" class="form-control" id="newDueDate">
+                </div>
+                <button type="submit" class="btn btn-primary" onclick="addTodo()">Add</button>
+            </form>
+        </section>
+
+        <!-- EditTodo -->
+        <section id="editTodo" class="container center mt-5 pt-5">
+            <h2>Edit Todo</h2>
+            <form id="editTodoContainer">
+                
+            </form>
+        </section>
+
     </section>
 
-    <!-- Add Todo -->
-    <section id="addTodo" class="container center mt-5 pt-5">
-        <h2>Add New Todo</h2>
-        <form>
-            <div class="form-group">
-                <label for="newTitle">Title</label>
-                <input type="text" class="form-control" id="newTitle">
-            </div>
-            <div class="form-group">
-                <label for="newDescription">Description</label>
-                <textarea class="form-control" id="newDescription" rows="3"></textarea>
-            </div>
-            <div class="form-group">
-                <label for="newDueDate">Due Date</label>
-                <input type="date" class="form-control" id="newDueDate">
-            </div>
-            <button type="submit" class="btn btn-primary" onclick="addTodo()">Add</button>
-        </form>
-    </section>
 
-    <!-- EditTodo -->
-    <section id="editTodo" class="container center mt-5 pt-5">
-        <h2>Edit Todo</h2>
-        <form id="editTodoContainer">
-            
-        </form>
-    </section>
     
     <!-- PublicHolidays -->
     <section id="publicHolidays" class="container center mt-5 pt-5">
