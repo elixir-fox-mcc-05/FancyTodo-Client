@@ -1,0 +1,20 @@
+body{
+    background-image: url('./bg.jpg'); 
+    background-repeat: repeat;
+}
+.todotitle {
+    background-color: beige;
+    text-align: center;
+    margin-top: 10px;
+    border-radius: 3px;
+}
+.card {
+    margin-top: 10px;
+}
+table {
+	font-size: 1em;
+}
+
+.ui-draggable, .ui-droppable {
+	background-position: top;
+}
