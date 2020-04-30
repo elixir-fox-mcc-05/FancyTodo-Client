@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FancyToDo</title>
+</head>
+<body>
+    <!-- LOGIN PAGE -->
+    <div id="loginPage">
+        <h1 class="titleLogin">Fancy Todo Apps</h1>
+        <p id="loginError" style="color: red;"></p>
+        <form id="formLoginPage">
+            <h3>E-mail :</h3>
+            <div class="loginGroup">
+                <input id="loginEmail" type="text" placeholder="e.g youremail@mail.com">
+            </div>
+            <h3>Password :</h3>
+            <div class="loginGroup">
+                <input id="loginPassword" type="password" placeholder="e.g password">
+            </div><br>
+            <button type="submit" class="buttonLogin">Login</button>
+        </form> 
+    </div>
+    <!-- END LOGIN PAGE -->
+
+    <!-- MAIN PAGE -->
+    <div id="mainPage">
+        <nav style="padding: 5px; margin-bottom: 3px;">
+            <button 
+                id="buttonLogout" 
+                style="float: right; background-color: skyblue;"
+                onclick="logout()"
+            >
+                Logout
+            </button>
+        </nav>
+        <h1>Todo List</h1>
+        <table id="todoList" border>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Due Date</th>
+            </tr>
+        </table>
+    </div>
+    <!-- END MAIN PAGE -->
+
+    <!-- SCRIPT -->
+    <script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
+    <script src="main.js"></script>
+</body>
+</html>
