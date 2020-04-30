@@ -202,6 +202,7 @@ function addToDo(){
       })
     .done(response => {
         fetchToDo()
+        showList()
     })
     .fail(err => {
         console.log(err.responseJSON)
@@ -218,6 +219,7 @@ function remove(id){
       })
     .done(response => {
         fetchToDo()
+         showList()
     })
     .fail(err => {
         console.log(err.responseJSON)
@@ -275,6 +277,7 @@ function update(id){
     .done(response => {
       console.log("eh masuk")
        fetchToDo()
+        showList()
     })
     
     .fail(err => {
