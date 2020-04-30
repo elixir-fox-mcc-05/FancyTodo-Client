@@ -172,17 +172,19 @@ function showTodo() {
         .done(result => {
             $('.content-body').empty()
             for (i in result) {
+                let monthName = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
                 console.log(result[i].due_date);
                 let date = new Date(result[i].due_date)
-                let day = date.getUTCDate()
-                let month = date.getUTCMonth() + 1
-                let year = date.getUTCFullYear()
+                let day = date.getDate()
+                let monthVal = date.getMonth() + 1
+                let month = monthName[monthVal]
+                let year = date.getFullYear()
                 $('.content-body').append(`
                 <div id="todo-card">
                 <h2>${result[i].title}</h1>
                 <h4>${result[i].description}</h3>
                 <h4>status: ${result[i].status}</h3>
-                <h4>Due : ${day} / ${month} / ${year}</h3>
+                <h4>Due : ${day} ${month} ${year}</h3>
                 <div id="actionbtn">
                 <a href="#" onclick="editTodo(${result[i].id})"><h3>Edit</h3></a> <a href="#" onclick="deleteTodo(${result[i].id})"><h3>Delete</h3></a>
                 </div>
@@ -215,6 +217,7 @@ function showSchedule() {
             let data = result.data.data
             $('#ip-address').append(`<h4>IP : ${result.data.ip}</h4>`)
             $('.rightBar').append(`
+            <div id="schedulebox">
             <div class="titlebar">
                 <h3 id="schedule-title">Today Ramadhan Schedule</h3>
             </div>
@@ -246,6 +249,7 @@ function showSchedule() {
                 <td>${data.items[0].isha}</td>
                 </tr>
                 </table>
+            </div>
             </div>
             `)
         })
@@ -371,9 +375,8 @@ function editTodo(id) {
                     let title = $('#swal-input1-edit').val()
                     let description = $('#swal-input2-edit').val()
                     let status = $('#swal-input3-edit').val()
-                    let fulldate = new Date($('#swal-input4-edit').val())
-                    console.log(fulldate);
-                    let due_date = fulldate
+                    let due_date = $('#swal-input4-edit').val()
+                    console.log(due_date);
                     let data = {
                         title,
                         description,
@@ -391,12 +394,12 @@ function editTodo(id) {
                         })
                         .done((result) => {
                             if (result) {
+                                showTodo()
                                 Swal.fire({
                                     icon: 'success',
                                     title: 'Success Update Todo'
                                 })
                             }
-                            auth()
                         })
                 }
             })
