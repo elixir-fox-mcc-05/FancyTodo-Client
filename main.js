@@ -1,6 +1,6 @@
 let baseUrl = 'http://localhost:3000'
 $( document ).ready(function() {
-    auth()
+    auth(`It seems that you have signed out`)
     $('#signInForm').submit(event => {
         event.preventDefault()
         $.ajax({
@@ -23,10 +23,33 @@ $( document ).ready(function() {
             $('#password').val('')
         })
     })
+
+    $('#signUpForm').submit(event => {
+        event.preventDefault()
+        $.ajax({
+            method: 'post',
+            url: baseUrl + '/signup',
+            data: {
+                email: $('#emailSignUp').val(),
+                password: $('#passwordSignUp').val()
+            }
+        })
+        .done(_=> {
+            auth(`Sign up succesful. Please sign in again.`)
+        })
+        .fail(err => {
+            console.log(err);
+            $("#message").append()
+        })
+        .always(() => {
+            $('#email').val('')
+            $('#password').val('')
+        })
+    })
 });
 
 
-function auth() {
+function auth(message) {
     if (localStorage.token) {
         $('#signUpPage').hide()
         $('#signInPage').hide()
@@ -37,7 +60,7 @@ function auth() {
         fetchData()
     } else {
         $("#message").empty()
-        $("#message").append(`It seems that you have signed out`)
+        $("#message").append(message)
         showSignIn()
     }
 }
@@ -107,8 +130,11 @@ function createTodo(event) {
     .done(() => {
         auth()
     })
-    .fail(err => {
-        console.log(err);
+    .fail(error => {
+        console.log(error, 'at creating');
+        // $('#createAlert').append(
+        //     `<small class="alert alert-warning">${error.responseText}</small>`
+        // )
     })
     .always(() => {
         $('#titleCreate').val('')
