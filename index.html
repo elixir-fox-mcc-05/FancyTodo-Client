@@ -30,7 +30,7 @@
         </nav>
     </header>
 
-    <div id="landingPage">
+    <div class="hero-body" id="landingPage">
 
         <div id="login" style="bottom:50%;" class="container has-text-centered">
             <div class="column is-4 is-offset-4">
@@ -56,31 +56,34 @@
             </div>
         </div>
 
-        <div id="register" style="bottom:55%; position: absolute;">
-            <h2>Register</h2>
-            <form id="register">
-                <div class="field">
-                    <div class="control">
-                        <input type="text" placeholder="first_name" id="regFirst_Name">
+        <div id="register"  class="container has-text-centered">
+            <div class="column is-4 is-offset-4">
+                <h2 class="title has-text-black">Register</h2>
+                <hr class="login-hr">
+                <form id="register">
+                    <div class="field">
+                        <div class="control">
+                            <input class="input is-medium" type="text" placeholder="first_name" id="regFirst_Name">
+                        </div>
                     </div>
-                </div>
-                <div class="field">
-                    <div class="control">
-                        <input type="text" placeholder="last name" id="regLast_Name">
+                    <div class="field">
+                        <div class="control">
+                            <input  class="input is-medium" type="text" placeholder="last name" id="regLast_Name">
+                        </div>
                     </div>
-                </div>
-                <div class="field">
-                    <div class="control">
-                        <input type="text" placeholder="email" id="regEmail">
+                    <div class="field">
+                        <div class="control">
+                            <input  class="input is-medium" type="text" placeholder="email" id="regEmail">
+                        </div>
                     </div>
-                </div>
-                <div class="field">
-                    <div class="control">
-                        <input type="password" placeholder="password" id="regPassword">
+                    <div class="field">
+                        <div class="control">
+                            <input  class="input is-medium" type="password" placeholder="password" id="regPassword">
+                        </div>
                     </div>
-                </div>
-                <input class="button is-block is-info is-medium is-fullwidth" type="submit" value="Register">
-            </form>
+                    <input class="button is-block is-info is-medium is-fullwidth" type="submit" value="Register">
+                </form>
+            </div>
         </div>
 
     </div>
