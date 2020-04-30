@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-client_id" content="570811135762-igoathifq2uikkb0ut4e79agnlgbi7i6.apps.googleusercontent.com">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" 
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" 
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" 
+    crossorigin="anonymous">
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/073dbb8811.js" crossorigin="anonymous"></script>
+    <title>Document</title>
+    <style>
+        #homePage {
+            background-color: rgb(137, 109, 240);
+            height: 100%;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        i.fa-times-circle {
+            float: right;
+            color: rgb(241, 41, 41);
+            font-weight: 900;
+            opacity: 0.5;
+        }
+
+        i.fa-times-circle:hover, .list-group-item:hover {
+            opacity: 1;
+            cursor: pointer;
+        }
+
+        .complete {
+            text-decoration: line-through;
+            color: grey;
+        }
+
+        .btn-custom {
+            background-color: rgb(102, 231, 171);
+            border-radius: 10px;
+        }
+
+        .modal-body-landing {
+        min-height: 30rem;
+        position: static;
+        display: table;
+        width: 100%;
+        height: 100vh;
+        padding-top: 8rem;
+        padding-bottom: 8.5rem;
+        background-image: url('./notebook.jpg');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        }
+
+        .modal-body-landing h1 {
+        font-size: 4rem;
+        margin: 0;
+        padding: 0;
+        }
+
+        .modal-body-landing h1, .modal-body-landing h3 {
+            color: #B38F7D;
+            text-shadow:2px 2px 2px rgba(126, 116, 113, 0);
+        }
+
+        .bg-custom {
+            background-color: rgb(94, 94, 92, 0);
+        }
+
+        .custom_padding {
+            padding-right: 0;
+            padding-left: 0;
+            height: 100vh;
+            position: fixed;
+        }
+
+        #modal-body, #modal-body-home {
+            position: fixed;
+            width: 100%;
+            height: 100vh;
+            top: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+        }
+
+        .edit-task, .display-task {
+            float: right;
+            padding: 3px;
+            margin-right: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="custom-padding">
+        <nav class="navbar navbar-dark-lg navbar-light bg-custom fixed-top">
+            <a href="#" class="navbar-brand"><img src="./fancytodo2.png" alt="logo fancytodo" height="30"></a>
+            <button type="button" class="btn btn-custom mb-1 mt-1" id="btn-login" >Login</button>
+            <button type="button" class="btn btn-danger mb-1 mt-1" id="logout">Logout</button>
+        </nav>
+
+        <!-- Landing Page -->
+        <div id="landingPage" class="modal-body-landing">
+            <div class="container text-center">
+                <h1 class="mb-3 mt-5">Make Your Day the Way You Want It to be</h1>
+                <h3 class="mb-5">Organize it with us</h3>
+                <a class="btn btn-primary btn-lg " href="#" id="getStarted">Start Today</a>
+            </div>
+        </div>
+        
+        <div id="modal-body" class="container-fluid">
+            <!-- Register -->
+            <div id="register" class="container border rounded shadow-sm p-3 mb-3 bg-white mt-5" style="width: 35% !important;">
+                <form class="form-group" id="registerForm">
+                    <h1>Register</h1>
+                    <div class="form-group">
+                        <label for="name" class="font-weight-bold h5">Name</label>
+                        <input type="text" name="name" id="nameRegister" placeholder="name" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="font-weight-bold h5">Email</label>
+                        <input type="text" name="email" id="emailRegister" placeholder="email" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="font-weight-bold h5">Password</label>
+                        <input type="password" name="password" id="passwordRegister" placeholder="password" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" id="submitRegistrtation" class="btn btn-primary btn-block btn-lg">Register</button>
+                        <button type="button" class="btn btn-danger btn-block btn-sm cancel">Cancel</button>
+                        <small id="alreadyRegister" class="form-text text-muted text-center">Already register? <a href="" id="alreadyRegister">login here</a></small>
+                    </div>
+                    <div class="form-group">
+                        <p style="text-align: center;" class="font-weight-bold mt-3">Or, login with your google account</p>
+                        <div class="g-signin2" data-onsuccess="onSignIn" data-width="350%"></div>
+                    </div>
+                    <div class="alert alert-danger">
+                        <p style="text-align: center;" id="register-error"></p> 
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Login -->
+            <div id="login" class="container border rounded shadow-sm p-3 mb-5 bg-white" style="width: 35% !important;">
+                <form class="form-group login" id="loginForm">
+                    <h1>Login</h1>
+                    <div class="form-group">
+                        <label for="email" class="font-weight-bold h5">Email</label>
+                        <input type="text" name="email" id="emailLogin" placeholder="email" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="font-weight-bold h5">Password</label>
+                        <input type="password" name="password" id="passwordLogin" placeholder="password" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="login" id="login" class="btn btn-primary btn-block btn-lg">
+                        <input type="button" value="cancel "class="btn btn-danger btn-block btn-sm cancel">
+                    </div>
+                    <div class="alert alert-danger">
+                        <p style="text-align: center;" id="login-error"></p> 
+                    </div>
+                </form>
+            </div>
+        </div>
+    
+        <!-- Home Page -->
+        <div id="homePage" class="custom-padding">
+            <div class="listtask container">
+                <h2 style="text-align: center;">Hey, <span id="user_name"></span> this is list of your task</h2>
+                <button id="addFormToggle" class="btn btn-success btn-xl mb-3">Add New Task</button>
+                <ul id="tasklist" class="list-group">
+
+                </ul>
+            </div>
+
+
+            <div id="addTask" class="container border rounded shadow-sm p-3 mb-5 bg-white mt-5 w-75">
+                <form class="form-group" id="addTaskForm">
+                    <h1>Add Task</h1>
+                    <div class="form-group">
+                        <label for="title" class="font-weight-bold h5">Title</label>
+                        <input type="text" name="title" id="newTaskTitle" placeholder="e.g: eat" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="description" class="font-weight-bold h5">Description</label>
+                        <textarea name="description" id="newTaskDescription" rows="4" class="form-control" placeholder="e.g: eat pizza at dominos"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="due_date" class="font-weight-bold h5">Due Date</label>
+                        <input type="date" name="due_date" id="newTaskDue_Date" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Add Task" id="addNewTask" class="btn btn-primary btn-block btn-lg">
+                    </div>
+                    <div class="alert alert-danger">
+                        <p style="text-align: center;" id="add-error"></p> 
+                    </div>
+                </form>
+            </div>
+
+            <div id="modal-body-home" class="container-fluid">
+                <div id="editTask" class="container border rounded shadow-sm p-3 mb-5 bg-white mt-5 w-75">
+                    <form class="form-group" id="editTaskForm">
+                        <h1>Edit Task</h1>
+                        <div class="form-group">
+                            <label for="title" class="font-weight-bold h5">Title</label>
+                            <input type="text" name="title" id="editTitle" placeholder="e.g: eat" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="description" class="font-weight-bold h5">Description</label>
+                            <textarea name="description" id="editDescription" rows="4" class="form-control" placeholder="e.g: eat pizza at dominos"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="due_date" class="font-weight-bold h5">Due Date</label>
+                            <input type="date" name="due_date" id="editDue_Date" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Edit Task" id="editCurrentTask" class="btn btn-primary btn-block btn-lg">
+                            <input type="button" value="cancel "class="btn btn-danger btn-block btn-sm cancel-edit">
+                        </div>
+                        <div class="alert alert-danger">
+                            <p style="text-align: center;" id="edit-error"></p> 
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+    <script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
+    <script src="./jquery.js"></script>
+</body>
+</html>
+
