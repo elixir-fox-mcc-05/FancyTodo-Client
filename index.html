@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-signin-client_id" content="779296103208-phqt3uq2e5hr62n3kia64tgvb69nhseb.apps.googleusercontent.com">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <title>FanctTodo-Client</title>
 </head>
@@ -14,20 +15,21 @@
               <a class="nav-link" id="home" href="">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link"  id="register" href="">Register</a>
-            </li>
-            <li class="nav-item">
               <a class="nav-link" id="login"  href="">Login</a>
             </li>
+            <a href="#" onclick="signOut();">Sign out</a>
           </ul>
-    </div>
-    <!-- HOME -->
-    <div class="jumbotron jumbotron-fluid">
-        <div class="container">
-          <h1 class="display-4">Fancy Todo </h1>
-          <p class="lead">This app created by Irwan Syafani</p>
         </div>
-      </div>
+        <!-- HOME -->
+        <div class="jumbotron">
+          <h1 class="display-4">Hello!</h1>
+          <p class="lead">This is a simple app, with simple features</p>
+          <hr class="my-4">
+          <p>Created by : Irwan Syafani</p>
+          <a class="btn btn-primary btn-lg" href="https://github.com/IrwanKhaliq" role="button">Open Github</a><br><br>
+          <button type="button" id="register" class="btn btn-primary">Register App</button><br><br>
+          <div class="g-signin2" data-onsuccess="onSignIn"></div><br>
+    </div>
     <!-- REGISTER -->
     <div id="form_register"> 
         <h3>Register</h3>
@@ -54,40 +56,33 @@
           </form>
 
     </div>
-
+    <!-- success message -->
     <p id="success" class="font-weight-light" style="color: rgb(102, 255, 85);"></p>
-
+    <!-- error message  -->
     <p id="message" class="font-weight-light" style="color: red;"></p>
 
     <!-- Dashboard -->
     <div id="dashboard">
-      <!-- On rows -->
-        <tr class="table-active">...</tr>
-
-        <tr class="table-primary">...</tr>
-        <tr class="table-secondary">...</tr>
-        <tr class="table-success">...</tr>
-        <tr class="table-danger">...</tr>
-        <tr class="table-warning">...</tr>
-        <tr class="table-info">...</tr>
-        <tr class="table-light">...</tr>
-        <tr class="table-dark">...</tr>
-
-        <!-- On cells (`td` or `th`) -->
-        <tr>
-          <td class="table-active">...</td>
-          
-          <td class="table-primary">...</td>
-          <td class="table-secondary">...</td>
-          <td class="table-success">...</td>
-          <td class="table-danger">...</td>
-          <td class="table-warning">...</td>
-          <td class="table-info">...</td>
-          <td class="table-light">...</td>
-          <td class="table-dark">...</td>
-        </tr>
+      <p class="font-weight-lighter"></p></p><br><br>
+      <button type="button" class="btn btn-success" id="create_todo">Create Todo</button><br><br><br>
+      <table border>
+        <thead>
+          <th class="table-active">Number</th>
+          <th class="table-active">Todo</th>
+          <th class="table-active">Status</th>
+          <th class="table-active">Due Date</th>
+          <th class="table-active">Action</th>
+        </thead>
+        <tbody id="table_content"></tbody>
+      </table>
     </div>
 
+    <!-- render edit page -->
+    <form id="edit_page"></form>
+    <!-- render add page -->
+    <form id="add_page"></form>
+
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
     <script src="main.js"></script>
 </body>
