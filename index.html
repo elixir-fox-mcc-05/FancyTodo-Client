@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>signin or signup</title>
+</head>
+<body>
+    <div id="landingPage">
+        <div id="login">
+            <h1>Login</h1>
+            <form id="formLogin">
+                <input type="text" placeholder="email" id="emailLogin"> <br>
+                <input type="password" placeholder="password" id="passwordLogin"> <br>
+                <button type="submit">Login</button>
+            </form> <br>
+            <p id="signupText"> don't have account ? <button id='signupBtn'> Signup Here</button></p>
+        </div>
+        <div id="signup">
+            <h1>Signup</h1>
+            <div id="errorMsg"></div>
+            <form id="formSignup">
+                <label for="email">Email</label> <br>
+                <input type="text" placeholder="type your email here" id="emailSignup"> <br>
+                <label for="password">Password</label> <br>
+                <input type="text" placeholder="type your password here" id="passwordSignup"> <br>
+                <label for="confirm_password">Confirm Password</label> <br>
+                <input type="text" placeholder="confirm password" id="confirm_password"> <br>
+                <button type="submit"> Signup </button>
+            </form> <br>
+            
+            <p id="signinText"> already have an account ? <button id='signinBtn'> Login Here</button></p>
+            
+        </div>
+        <div id="signupDone">
+            <h2> Successfuly Signup </h2>
+            <p> <a class="home" href="/"> clikc here to login </a></p>
+        </div>
+        <div id="respon"></div>
+    </div>
+
+    <!-- dashboard -->
+    <div id="dashboard">
+        <nav>
+            <a id="logout" href="/">Logout</a>
+        </nav>
+        <h1> Dash board </h1>
+
+        <!-- add new task -->
+        <div id="newTask">
+            <h3 for="add">Add New Task</h3>
+            <div id="taskRes" style="color: red;"></div> <br>
+            <form>
+                <label for="title">title</label> <br>
+                <input type="text" id="title"> <br>
+                <label for="description">description</label> <br>
+                <input type="text" id="description"> <br>
+                <label for="due_date" >due date</label> <br>
+                <input type="date" id="due_date"> <br> <br>
+                <button type="submit">add task</button> <br> <br>
+            </form>
+        </div> <br>
+
+        <!-- lodo list -->
+        <div id="todoList">
+            <table border>
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>title</th>
+                        <th>description</th>
+                        <th>due date</th>
+                        <th colspan="2">action</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    
+                </tbody>
+            </table>
+        </div>
+
+        <!-- edit task -->
+
+        <div id="editTask">
+            <h3>Edit Task</h3>
+            <div id="editRes"></div>
+        </div>
+
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
+    <script src="script.js" ></script>
+</body>
+</html>
