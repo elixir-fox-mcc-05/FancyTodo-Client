@@ -39,9 +39,7 @@ $.ajax({
         $('#loginEmail').val('')
         $('#loginPassword').val('')
         localStorage.setItem('token', token)
-        hideAll()
-        $('#addPage').hide()
-        $('#list').show()
+        checkStorage()
         // hide landing
 //      $('#landingPage').hide()
 //      $('#signInError').hide()
@@ -61,12 +59,18 @@ function checkStorage() {
   if (localStorage.token) {
     $('#landingPage').hide()
     $('#dashboardPage').show()
+    $('#loggedin').show()
+    $('#loggedout').hide()
     hideAll()
     $('#list').show()
     fetchToDo()
   } else {
     $('#landingPage').show()
     $('#dashboardPage').hide()
+    hideAll()
+    $('#login').show()
+    $('#loggedin').hide()
+    $('#loggedout').show()
   }
 }
 
@@ -98,8 +102,8 @@ function fetchToDo() {
             <td>${temp.description}</td>
             <td>${temp.status ? 'completed' : 'incompleted'}</td>
             <td>${date.getDate()}-${date.getMonth()}-${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}</td>
-            <td><button onclick="update({temp.id})">edit</button>
-            <button onclick="delete({temp.id})">delete</button></td>
+            <td><button onclick="showEditPage(${temp.id},'${temp.title}','${temp.description}','${temp.due_date}',${temp.status},${temp.UserId})">edit</button>
+            <button onclick="remove(${temp.id})">delete</button></td>
         </tr><br>
          `)
       })     
@@ -186,60 +190,81 @@ function addToDo(){
 }
 
 function remove(id){
-    
+     const token = localStorage.getItem('token')
      $.ajax({
-        method: 'REMOVE',
-        url: 'http://localhost:3000/todos/:id',
-        params : { id }
+        method: 'delete',
+        url: `http://localhost:3000/todos/${id}`,
+        params : { id },
+         headers : { token }
       })
     .done(response => {
-        const toDo = response.toDo
-        $('#toDoTable').append(`
-        <tr>
-            <td>${toDo.title}</td>
-            <td>${toDo.description}</td>
-            <td>${toDo.status ? 'completed' : 'incompleted'}</td>
-            <td>${toDo.due_date}</td>
-            <td><button type="submit">edit</button><button type="submit">delete</button></td>
-        </tr><br>
-         `)
+        fetchToDo()
     })
     .fail(err => {
-        console.log(err)
+        console.log(err.responseJSON)
     })
     
 }
 
-function showEditPage(){
+function showEditPage(id,title,description,due_date,status,UserId){
+    due_date = new Date(due_date)
+    console.log(due_date)
     hideAll()
     $('#edit').show()
+    $('#edit').append(`
+                    <input type="text" placeholder="title" id="editTitle" value="${title}"><br>
+                    <input type="text" placeholder="description" id="editDescription" value="${description}"><br>
+                    <input type="text" placeholder="due date" id="editdue_date" value="${due_date}"><br>
+                    <input type="radio" id="editStatus" name="not completed" value="false" ${!status ? "selected" : ""}>not completed
+                    <input type="radio" id="editStatus" name="not completed" value="true" ${status ? "selected" : ""}>completed
+                    <button class="is-centered" onclick="update('${id}','${title}','${description}','${due_date}','${status}','${UserId}')">Edit</button>
+    `)
     
+//    $('#').value(`${data.title}`)
+//    $('#').value(`${data.description}`)
+//    $('#').value(`${data.due_date}`)
 }
 
 function update(id){
+     const token = localStorage.getItem('token')
+     
+    title = $('#editTitle').val()
+    description = $('#editDescription').val()
+    due_date = $('#editdue_date').val()
+    status = $('#editStatus').val()
+    console.log(id,title,description,due_date,status)
+    $.ajax({
+       method: 'put',
+       url: `http://localhost:3000/todos/${id}`,
+        headers : {
+            token
+        },
+        data : {
+            title,
+            description,
+            due_date,
+            status
+        },
+              
+          success: function(msg){
+            console.log("eh masuk")
+            fetchToDo()
+        }
+     })
     
-     $.ajax({
-        method: 'PUT',
-        url: 'http://localhost:3000/todos/:id',
-        params : { id }
-      })
-    
+     /*
     .done(response => {
-        const toDo = response.toDo
-        $('#toDoTable').append(`
-        <tr>
-            <td>${toDo.title}</td>
-            <td>${toDo.description}</td>
-            <td>${toDo.status ? 'completed' : 'incompleted'}</td>
-            <td>${toDo.due_date}</td>
-            <td><button type="submit">edit</button><button type="submit">delete</button></td>
-        </tr><br>
-         `)
+      console.log("eh masuk")
+       fetchToDo()
     })
     
     .fail(err => {
+      console.log("eh gak")
         console.log(err)
     })
+    */
+    
+    console.log("bodo")
 }
 
 function logout() {
@@ -252,5 +277,14 @@ function logout() {
 //    showFormLogin();
 //  });
     localStorage.clear()
-    showLogin()
+    $('#toDoTable').empty()
+    $('#toDoTable').append(`
+                <tr>
+                    <td>Title</td>
+                    <td>Description</td>
+                    <td>Status</td>
+                    <td>Due Date</td>
+                    <td>Actions</td>
+                </tr>`)
+    checkStorage()
 }
