@@ -1,0 +1,288 @@
+/* RESET MARGIN AND PADDING */
+
+*{
+    margin: 0px;
+    padding: 0px;
+} 
+
+/* PAGE 1 | SIGN-IN-PAGE */
+
+
+.sign-in-full-page, .register-full-page{
+    background-image: url("https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80");
+    height:100vh;
+    width:100vw;
+    display: flex;
+    justify-content: center;
+}
+
+.sign-in-box, .register-box{
+    border:1px;
+    border-style: solid;
+    border-color: #ecf0f1;
+    border-radius: 20px;
+    box-shadow: 5px 10px 8px #888888;
+    background-color:#ecf0f1;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    width: 25vw;
+    height: auto;
+    margin: 20px;
+    padding: 10px;
+    text-decoration:none;
+}
+
+.sign-in-box-content, .register-box-content{
+  width: 60%;
+  padding:10px;
+}
+
+/* PAGE 2 | REGISTER PAGE */
+
+
+/* PAGE 3 | DASHBOARD PAGE */
+
+.dashboard-full-page{
+    background-image: url("https://images.unsplash.com/photo-1580207543561-426c56778ee8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80");
+    /* background-color: #5a94ff; */
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    display: flex;
+    justify-content: center;
+}
+
+.dashboard-box{
+    border:1px;
+    border-style: solid;
+    border-color: #ecf0f1;
+    border-radius: 20px;
+    box-shadow: 5px 10px 8px #888888;
+    background-color:#ecf0f1;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    width: 75vw;
+    /* height: 100%; */
+    margin: 20px;
+    padding: 10px;
+    text-decoration:none;
+}
+
+.dashboard-box-action-buttons{
+    display: flex;
+    flex-direction: row;
+}
+
+.dashboard-box-all-task-list{
+    height: 100%;
+}
+
+.all-task-list{
+    /* overflow-y: scroll; */
+    width:100%;
+    height:100%;
+}
+
+.dashboard-box-all-task-list{
+    height:100%;
+    padding: 10px;
+}
+
+.task-card{
+    border:1px;
+    border-style: solid;
+    border-color: #ecf0f1;
+    border-radius: 10px;
+    box-shadow: 5px 10px 8px #888888;
+    background-color:white;
+    display:flex;
+    flex-direction: column;
+    padding:10px;
+    margin:20px;
+    width:90%;
+}
+
+.task-card-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding:10px;
+}
+
+.task-card-header-details{
+  display: flex;
+  flex-direction: row;
+}
+
+.task-card-details{
+    height: 150px;
+    padding: 10px;
+
+}
+
+.task-card-actions{
+    display: flex;
+    flex-direction: row;
+    width:75%;
+}
+
+.button-card-actions{
+    margin:10px;
+}
+
+/* PAGE 4 | Add A New Task Page */
+
+.addNewTask-full-page{
+    background-image: url("https://images.unsplash.com/photo-1580207543561-426c56778ee8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80");background-color: #5a94ff;
+    /* background-color: royalblue; */
+    /* background-repeat: no-repeat; */
+    /* background-attachment: fixed; */
+    display: flex;
+    justify-content: center;
+    /* height:2500px; */
+    height:100vh;
+}
+
+.addNewTask-box{
+    border:1px;
+    border-style: solid;
+    border-color: #ecf0f1;
+    border-radius: 20px;
+    box-shadow: 5px 10px 8px #888888;
+    background-color:#ecf0f1;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    width: 35vw;
+    height: 80vh;
+    margin: 20px;
+    padding: 10px;
+    text-decoration:none;
+}
+
+.addNewTask-box-content{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width:80%;
+}
+
+.add-task-button-box{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+/* PAGE 5 | Productivity apps page */
+
+.article-card{
+    border:1px;
+    border-style: solid;
+    border-color: #ecf0f1;
+    border-radius: 10px;
+    box-shadow: 5px 10px 8px #888888;
+    background-color:white;
+    display:flex;
+    flex-direction: column;
+    padding:10px;
+    margin:20px;
+    width:90%;
+}
+
+.article-card-image{
+    width: 100%;
+}
+
+
+/* Other recurring html */
+
+.logout{
+    background-color:red; /* Green */
+    border: none;
+    color: white;
+    margin: 10px 5px;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 5px;
+    font-family: 'Montserrat', sans-serif;
+    width:100%; 
+}
+
+.cancel-button{
+    background-color:red; /* Green */
+    border: none;
+    color: white;
+    margin: 10px 5px;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 5px;
+    font-family: 'Montserrat', sans-serif;
+    width:100%;
+}
+
+.positive-button{
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    margin: 10px 5px;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 5px;
+    font-family: 'Montserrat', sans-serif;
+    width:100%;
+}
+
+input[type=text],input[type=password] {
+    width: 105%;
+    padding: 12px 5px 12px 10px;
+    margin: 10px 0;
+    border: solid 1px #ecf0f1;
+    border-radius: 10px;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+
+
+input[type=submit]{
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    margin: 10px 5px;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 5px;
+    font-family: 'Montserrat', sans-serif;
+    width:100%;
+}
+
+.border-line{
+    background-color: #5a94ff;
+    border-style: solid;
+    border: 1px;
+    width: 100%;
+    height:2px;
+}
+
+h1,h2{
+    font-family: 'Oswald', sans-serif;
+}
+
+p{
+    font-family: 'Montserrat', sans-serif;
+}
+
+img{
+    width: 100%;
+    height: auto;
+}
