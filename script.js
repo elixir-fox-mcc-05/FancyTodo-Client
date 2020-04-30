@@ -28,10 +28,12 @@ $( document ).ready(function() {
 
 function auth(){
     if(localStorage.getItem('token')){
+        $('#edit-page').hide()
         $('#login-page').hide()
         $('#home-page').show()
         fetchTodos()
     } else {
+        $('#edit-page').hide()
         $('#login-page').show()
         $('#home-page').hide()
     }
@@ -55,6 +57,7 @@ function fetchTodos(){
             data.todos.forEach(todo => {                
                 $('#table-main-todos').append(`
                     <tr>
+                        <td class="todoId">${todo.id}</td>
                         <td>${todo.title}</td>
                         <td>${todo.description}</td>
                         <td>${todo.status}</td>
@@ -64,7 +67,7 @@ function fetchTodos(){
             });
         })
         .fail(err => {
-            console.log(err.responseJSON.error, 'ini errornya')
+            console.log(err.responseJSON.error)
         })
 }
 
@@ -95,3 +98,138 @@ function addNewTodo(event){
             $('#date').val('')
         })
 }
+
+function formEdit(event){
+    event.preventDefault()
+    let id
+    $('#login-page').hide()
+    $('#home-page').hide()
+    $('#edit-page').show()
+    $("#home-table").on("click", "tr", function (row, $el, field) {
+        id = $(this).find(".todoId").html();
+        $.ajax({
+            method: 'get',
+            url: `${baseurl}/todos/${id}`,
+            headers: {
+                token: localStorage.token
+            }
+        })
+        .done(data => {   
+            $('#table-todo-by-Id').empty()
+            $('#table-recom-by-Id').empty()
+            $('#form-edit-todo').empty()
+            $('#table-todo-by-Id').append(`
+                <tr>
+                    <td class="todo-edit-id">${data.Todo.id}</td>
+                    <td>${data.Todo.title}</td>
+                    <td>${data.Todo.description}</td>
+                    <td>${data.Todo.status}</td>
+                    <td>${data.Todo.due_date}</td>
+                    <td><button type="submit" class="btn btn-primary" onclick="deleteTodo(event)">delete</button></td>
+                </tr>
+            `)
+            
+            $('#form-edit-todo').append(`
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control" id="title-edit" value="${data.Todo.title}">
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <input type="text" class="form-control" id="description-edit" value="${data.Todo.description}">
+                </div>
+                <div class="form-group">
+                    <label for="status">Status</label>
+                    <div class="custom-control custom-radio">
+                        <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input" value="true">
+                        <label class="custom-control-label" for="customRadio1">true</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                        <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input" value="false">
+                        <label class="custom-control-label" for="customRadio2">false</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="date">Due Date</label>
+                    <input type="date" class="form-control" id="date-edit">
+                </div>
+                <button type="submit" class="btn btn-primary">Update</button>
+            `)  
+            let activity = ['makan', 'dinner', 'nongkrong', 'hangout']
+            for (let i = 0; i < activity.length; i++) {
+                if(data.Todo.title.toLowerCase() == activity[i]){
+                    for (let j = 0; j < data.recommendations.length; j++) {
+                        $('#table-recom-by-Id').append(`
+                            <tr>
+                                <td>${data.recommendations[j].title}</td>
+                                <td>${data.recommendations[j].description}</td>
+                                <td><a href="${data.recommendations[j].url}">${data.recommendations[i].url}</a></td>
+                            </tr>
+                        `)
+                    }
+                } 
+            }
+        })
+        .fail(err => console.log(err))
+    });
+}
+
+function editTodo(event){
+    event.preventDefault()
+    let updatePayload = {
+        title: $('#title-edit').val(),
+        description: $('#description-edit').val(),
+        status: $("input[name='customRadio']:checked").val(),
+        due_date: $('#date-edit').val()
+    }
+    $('#table-todo-by-Id tr').each(function() {
+        let id = $(this).find(".todo-edit-id").html();
+        $.ajax({
+            method: 'put',
+            url: `${baseurl}/todos/${id}`,
+            headers: {
+                token: localStorage.token
+            },
+            data: updatePayload
+        })
+            .done(data => {
+                fetchTodos()
+                $('#edit-page').hide()
+                $('#login-page').hide()
+                $('#home-page').show()
+                
+            })
+            .fail(err => {
+                console.log(err.responsesJSON.error)
+            })
+
+            .always(() => {
+                $('#title-edit').val('')
+                $('#description-edit').val('')
+            })
+    });
+}
+
+function deleteTodo(event){
+    event.preventDefault()
+    $('#table-todo-by-Id tr').each(function(){
+        let id = $(this).find(".todo-edit-id").html()
+        $.ajax({
+            method: 'delete',
+            url: `${baseurl}/todos/${id}`,
+            headers: {
+                token: localStorage.token
+            }
+        })
+            .done(() => {
+                fetchTodos()
+                $('#edit-page').hide()
+                $('#login-page').hide()
+                $('#home-page').show()
+            })  
+            .fail(err => {
+                console.log(err.responseJSON.error)
+            })    
+    })
+}       
+
