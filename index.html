@@ -3,6 +3,8 @@
     <head>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
         <link href="https://fonts.googleapis.com/css?family=Lato|Spartan" rel="stylesheet">
+        <meta name="google-signin-client_id" content="352204718470-r8jhv922iacikpn3rk1b5msm5eipfo9p.apps.googleusercontent.com">
+         <script src="https://apis.google.com/js/platform.js" async defer></script>
         <title>Fancy Todo - Hello WORLD!!</title>
     </head>
     <body>
@@ -32,6 +34,7 @@
                  <input id="loginPassword" type="password" placeholder="password" name="password">
                  <input type="submit" value="login">
             </form>
+           <div class="g-signin2" data-onsuccess="onSignIn"></div>
         </div>
         
         <div id="register" style="bottom:55%; position: absolute;">

@@ -1,0 +1,26 @@
+{
+  "name": "FancyTodo-Client",
+  "version": "1.0.0",
+  "description": "",
+  "main": "scripts.js",
+  "scripts": {
+    "css-build": "node-sass --omit-source-map-url sass/mystyles.scss css/mystyles.css",
+    "css-watch": "npm run css-build -- --watch",
+    "start": "npm run css-watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/laevenx/FancyTodo-Client.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/laevenx/FancyTodo-Client/issues"
+  },
+  "homepage": "https://github.com/laevenx/FancyTodo-Client#readme",
+  "devDependencies": {
+    "bulma": "^0.8.2",
+    "node-sass": "^4.14.0"
+  }
+}
