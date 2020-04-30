@@ -3,18 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-client_id" content="110029085748-4mo9cpf4pii1jlkg93tc9k0ifohj8a0f.apps.googleusercontent.com">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title>signin or signup</title>
 </head>
 <body>
     <div id="landingPage">
         <div id="login">
             <h1>Login</h1>
+            <div id="respon" style="color: red;"></div> <br>
             <form id="formLogin">
                 <input type="text" placeholder="email" id="emailLogin"> <br>
                 <input type="password" placeholder="password" id="passwordLogin"> <br>
                 <button type="submit">Login</button>
             </form> <br>
-            <p id="signupText"> don't have account ? <button id='signupBtn'> Signup Here</button></p>
+            <p id="signupText"> don't have account ? <button id='signupBtn'> Signup Here</button></p><br>
+            <p>OR login with : </p> <br>
+            <div class="g-signin2" data-onsuccess="onSignIn"></div>
         </div>
         <div id="signup">
             <h1>Signup</h1>
@@ -36,7 +41,6 @@
             <h2> Successfuly Signup </h2>
             <p> <a class="home" href="/"> clikc here to login </a></p>
         </div>
-        <div id="respon"></div>
     </div>
 
     <!-- dashboard -->
@@ -87,6 +91,10 @@
         </div>
 
     </div>
+
+    <!-- google api -->
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <!-- ---- -->
     <script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
     <script src="script.js" ></script>
 </body>

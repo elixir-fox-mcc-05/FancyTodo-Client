@@ -51,7 +51,10 @@ $(document).ready(()=>{
     })
 
     $('#logout').click(()=>{
-        localStorage.clear()
+        var auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(function () {
+            localStorage.clear()
+        });
 
     })
 
@@ -168,6 +171,9 @@ function addTask (title,description,due_date) {
         }
     })
     .done(data=>{
+        $('#title').val('')
+        $('#description').val('')
+        $('#due_date').val('')
         $('#taskRes').append(`${data.msg}`)
         getTodo()
     })
@@ -253,3 +259,25 @@ function deleteTask(event,id) {
         console.log(err)
     })
 }
+
+function onSignIn(googleUser) {
+    let id_token = googleUser.getAuthResponse().id_token;
+    $.ajax({
+        method : 'POST',
+        url : baseUrl+'/users/googleSignin',
+        data : {
+            google_token : id_token
+        }
+    })
+    .done(data=>{
+        localStorage.setItem('token',data.token)
+        $('#dashboard').show()
+        getTodo()
+        $('#login').hide()
+        $('#emailLogin').val('')
+        $('#passwordLogin').val('')
+    })
+    .fail(err=>{
+        $('#respon').append(`${err.responseJSON.error}`)
+    })
+  }
