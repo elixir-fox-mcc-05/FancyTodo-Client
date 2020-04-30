@@ -6,8 +6,8 @@ $(document).ready(() => {
 
 function authentication() {
     if(localStorage.token) {
-        $( "#errorSection" ).empty()
-        $( "#notifSection" ).empty()
+        $( "#errorSection" ).hide()
+        $( "#notifSection" ).hide()
     
         $('#dashboardButton').show()
         $('#registerButton').hide()
@@ -23,8 +23,8 @@ function authentication() {
         fetchTodo()
 
     } else {
-        $( "#errorSection" ).empty()
-        $( "#notifSection" ).empty()
+        $( "#errorSection" ).hide()
+        $( "#notifSection" ).hide()
     
         $('#dashboardButton').hide()
         $('#registerButton').show()
@@ -141,20 +141,20 @@ function fetchTodo() {
         .done(data => {
             $( "#todoContainer" ).empty()
             data.Todos.forEach(el => {
-                let status = el.status ? 'Selesai' : 'Belum Selesai'
+                let status = el.status ? '<p class="text-success">Done<p>' : '<p class="text-danger">Not Done<p>'
                 $( "#todoContainer" ).append(` 
                     <tr>
                         <td>${el.title}</td>
                         <td>${el.description}</td>
-                        <td>${el.due_date}</td>
-                        <td>${status}</td>
-                        <td>
+                        <td class="text-center">${el.due_date}</td>
+                        <td class="text-center">${status}</td>
+                        <td class="text-center">
                             <a class="btn btn-warning btn-sm" href="#" role="button" onclick="changeStatus(${el.id})">Check/Uncheck</a>
                         </td>
-                        <td>
+                        <td class="text-center">
                             <a class="btn btn-info btn-sm" href="#" role="button" onclick="showEditTodo(${el.id})">Edit</a>
                         </td>
-                        <td>
+                        <td class="text-center">
                             <a class="btn btn-danger btn-sm" href="#" role="button" onclick="deleteTodo(${el.id})">Delete</a>
                         </td>
                     </tr>`
@@ -203,6 +203,11 @@ function addTodo(title, description, due_date) {
             console.log(err)
             showError(err.responseJSON)
         })
+        .always(_ => {
+            $('#newTitle').val('')
+            $('#newDescription').val('')
+            $('#newDueDate').val('')
+        })
 }
 
 function deleteTodo(id) {
@@ -247,7 +252,7 @@ function showEditTodo(id) {
                     <label for="editedDescription">Description</label>
                     <textarea class="form-control" id="editedDescription" rows="3">${todo.description}</textarea>
                 </div>
-                <div class="form-group">
+                <div class="form-group text-center">
                     <label for="editedDueDate">Due Date</label>
                     <input type="date" class="form-control" id="editedDueDate" value="${todo.due_date}">
                 </div>
@@ -290,6 +295,11 @@ function editTodo(id, title, description, due_date) {
         .fail(err => {
             console.log(err)
             showError(err.responseJSON)
+        })
+        .always(_ => {
+            $('#editedTitle').val('')
+            $('#editedDescription').val('')
+            $('#editedDueDate').val('')
         })
 }
 
