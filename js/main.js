@@ -1,3 +1,4 @@
+// let urlmaster ='https://g-todo-d30cb.web.app'
 let urlmaster ='http://localhost:3000'
 toastr.options = {
   "closeButton": true,
@@ -162,14 +163,14 @@ function viewtodo(){
             createdAt,
             updatedAt} = result.todos[i]
             
-            let color = random_color();
+            
             let color2 = random_color();
 
          $('.row').append (`
-         <div class="col-md-4 card-container" style="background-color:${color}">
+         <div class="col-md-4 card-container">
          <div class="card-flip">
            <!-- Card 1 Front -->
-           <div class="card front"  style="background-color:${color2}">
+           <div class="card front"  style="background-color:#EDEDED">
              <span class="fa fa-4x fa-smile-o text-center"></span>
              <div class="card-block">
                <h4 class="card-title text-center">${title}</h4>
@@ -180,7 +181,7 @@ function viewtodo(){
            <!-- End Card 1 Front -->
    
            <!-- Card 1 Back -->
-           <div class="card back" style="background-color:${color2}">
+           <div class="card back" style="background-color:#EDEDED">
                 <div class="card-header">
                   <ul class="nav nav-tabs card-header-tabs">
                     
@@ -242,10 +243,10 @@ function viewtodo_done(){
         let color2 = random_color();
             
          $('.row').append (`
-         <div class="col-md-4 card-container" style="background-color:${color}">
+         <div class="col-md-4 card-container" >
          <div class="card-flip">
            <!-- Card 1 Front -->
-           <div class="card front" style="background-color:${color2}">
+           <div class="card front" style="background-color:#EEE45D">
              <span class="fa fa-4x fa-smile-o text-center"></span>
              <div class="card-block">
                <h4 class="card-title text-center">${title}</h4>
@@ -256,7 +257,7 @@ function viewtodo_done(){
            <!-- End Card 1 Front -->
    
            <!-- Card 1 Back -->
-           <div class="card back" style="background-color:${color2}">
+           <div class="card back" style="background-color:#EEE45D">
                 <div class="card-header">
                   <ul class="nav nav-tabs card-header-tabs">                   
                     
@@ -551,6 +552,8 @@ function login_view(event){
 
 function onSignIn(googleUser) {
     let id_token = googleUser.getAuthResponse().id_token
+    console.log(id_token);
+    
     $.ajax({
         method :'POST',
         url: urlmaster +'/user/gmail',
@@ -571,23 +574,23 @@ function onSignIn(googleUser) {
     })
   }
 
-  function forgotpassword(event){
-      event.preventDefault()
-      console.log($('#forgot_email').val());
+//   function forgotpassword(event){
+//       event.preventDefault()
+//       console.log($('#forgot_email').val());
       
-    $.ajax({
-        method:"GET",
-        url:urlmaster + '/user/forgot/' + $('#forgot_email').val()       
-    })
-    .done(result=>{
-        localStorage.setItem('action','.limiter')
-        authentication(localStorage.action) 
-    })
-    .fail(err=>{
+//     $.ajax({
+//         method:"GET",
+//         url:urlmaster + '/user/forgot/' + $('#forgot_email').val()       
+//     })
+//     .done(result=>{
+//         localStorage.setItem('action','.limiter')
+//         authentication(localStorage.action) 
+//     })
+//     .fail(err=>{
 
-    })
+//     })
 
-}
+// }
 function show_forgot_form(event){
     event.preventDefault()
     localStorage.setItem('action','#forgotform')
