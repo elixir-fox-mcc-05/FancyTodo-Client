@@ -1,7 +1,10 @@
 const baseUrl = 'http://localhost:3000'
 
 $( document ).ready(function(){
-    landingPage()
+    authorize()
+    if(localStorage.getItem('token')){
+        fetchTodo()
+    }
     $("#login-form").submit(function(event) {
         event.preventDefault()
         $.ajax({
@@ -38,26 +41,6 @@ $( document ).ready(function(){
             })
     })
 })
-function landingPage(){
-    if(localStorage.getItem('token')){
-        $('#login-page').hide()
-        $('#main-page').show()
-        $('#register-page').hide()
-        $('#navbar-page').hide()
-        $('#navbar-user').show()
-        $('.create-todo').hide()
-        $('.edit-todo').hide()
-        fetchTodo()
-    } else {
-        $('#login-page').hide()
-        $('#navbar-user').hide()
-        $('#navbar-page').show()
-        $('#main-page').hide()
-        $('#register-page').show()
-        $('.edit-todo').hide()
-        $('.create-todo').hide()
-    }
-}
 
 function authorize(){
     if(localStorage.getItem('token')){
@@ -79,16 +62,19 @@ function authorize(){
     }
 }
 function logout(){
-    const auth2 = gapi.auth2.getAuthInstance()
-    auth2.signOut().then(function () {
-        localStorage.clear()
-        $('#login-page').hide()
-        $('#navbar-user').hide()
-        $('#navbar-page').show()
-        $('#main-page').hide()
-        $('#register-page').show()
-        $('.edit-todo').hide()
-        $('.create-todo').hide()
+    FB.getLoginStatus(function(response) {
+        if (response.status === 'connected') {
+            FB.logout(function(response) {
+                localStorage.clear()
+                authorize()
+              });
+        } else {
+            const auth2 = gapi.auth2.getAuthInstance()
+            auth2.signOut().then(function () {
+                localStorage.clear()
+                authorize()
+            })
+        }
     })
 }
 function login(){
@@ -184,6 +170,7 @@ function fetchTodo(){
         }
     })
         .done(data => {
+            $("#table-todo").empty()
             data.Todos.forEach(element => {
                 $("#table-todo").append(`
                     <tr>
@@ -210,7 +197,7 @@ function fetchTodo(){
         })
 }
 
-function deleteTodo(value){
+function deleteTodo(value){  
     const token = localStorage.token
     $.ajax({
         method : "delete",
@@ -221,6 +208,7 @@ function deleteTodo(value){
     })
         .done(response => {
             console.log("Succes Delete Data")
+            fetchTodo()
         })
         .fail(err => [
             console.log(err.responseJSON.Message)
@@ -228,7 +216,6 @@ function deleteTodo(value){
 }
 
 function createTodo(event) {
-    event.preventDefault()
     const token = localStorage.getItem('token')
     const title = $('#title').val()
     const description = $('#description').val()
@@ -253,6 +240,7 @@ function createTodo(event) {
           <td>${element.description}</td>
           <td>${element.due_date}</td>
         `)
+        fetchTodo()
       })
       .fail(function (err) {
         console.log(err.responseJSON.Message)
@@ -276,3 +264,29 @@ function onSignIn(googleUser) {
             console.log(err.responseJSON.Message)
         })
 }
+
+function checkLoginState() {
+    FB.getLoginStatus(function(response) {
+        if (response.status === 'connected') {
+            let userID = response.authResponse.userID
+            FB.api(`/${userID}`, {fields: 'email'}, function(response) {
+                let email = response.email
+                $.ajax({
+                    method: 'post',
+                    url : baseUrl + '/user/facebook-login',
+                    headers : {
+                        email
+                    },
+                })
+                    .done(data => {
+                        localStorage.setItem('token', data.Token)
+                        authorize()
+
+                    })
+                    .fail(err => {
+                        console.log(err.responseJSON.Message)
+                    })
+              });
+        }
+    })
+  }

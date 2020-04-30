@@ -89,7 +89,11 @@
                     <div class="row my-3 d-flex justify-content-center">
                         <!--Facebook-->
                         <button type="button" class="btn btn-white btn-rounded mr-md-3 z-depth-1a waves-effect waves-light">
-                            <i class="fab fa-facebook-f blue-text text-center"></i>
+                            <i class="fab fa-facebook-f blue-text text-center">
+                                <fb:login-button 
+                                  scope="public_profile,email"
+                                  onlogin="checkLoginState();">
+                                </fb:login-button></i>
                         </button>
                         <!--Twitter-->
                         <button type="button" class="btn btn-white btn-rounded mr-md-3 z-depth-1a waves-effect waves-light">
@@ -189,7 +193,32 @@
     </div>
     <!-- END Edit Page -->
 
+    <!-- Google Api -->
     <script src="https://apis.google.com/js/platform.js" async defer></script>
+    
+    <!-- Facebook Api -->
+    <script>
+        window.fbAsyncInit = function() {
+        FB.init({
+            appId      : '1505939632917370',
+            cookie     : true,
+            xfbml      : true,
+            version    : 'v6.0'
+        });
+            
+        FB.AppEvents.logPageView();   
+            
+        };
+    
+        (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "https://connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+    
     <script
     src="https://code.jquery.com/jquery-3.5.0.js"
     integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc="
