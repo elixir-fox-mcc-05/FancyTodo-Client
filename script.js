@@ -43,6 +43,8 @@ function authentication() {
 
 function showRegister() {
     $('#home').show()
+    $( "#errorSection" ).hide()
+    $( "#notifSection" ).hide()
     $('#titleJumbotron').hide()
     $('#publicHolidays').hide()
     $('#login').hide()
@@ -87,6 +89,8 @@ function showLogin() {
     $('#publicHolidays').hide()
     $('#register').hide()
     $('#login').show()
+    $( "#errorSection" ).hide()
+    $( "#notifSection" ).hide()
     $('#login').on('submit', function (event) {
         event.preventDefault()
         const email = $('#inputEmail').val()
@@ -169,6 +173,8 @@ function fetchTodo() {
 
 function showAddTodo() {
     $('#listTodo').hide()
+    $( "#errorSection" ).hide()
+    $( "#notifSection" ).hide()
     $('#publicHolidays').hide()
     $('#editTodo').hide()
     $('#addTodo').show()
@@ -230,6 +236,8 @@ function deleteTodo(id) {
 
 function showEditTodo(id) {
     $('#listTodo').hide()
+    $( "#errorSection" ).hide()
+    $( "#notifSection" ).hide()
     $('#addTodo').hide()
     $('#editTodo').show()
     $.ajax({
