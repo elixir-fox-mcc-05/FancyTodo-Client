@@ -5,7 +5,7 @@ $( document ).ready(function() {
         event.preventDefault()
         $.ajax({
             method: 'post',
-            url: baseUrl + '/users/signin',
+            url: baseUrl + '/signin',
             data: {
                 email: $('#emailSignIn').val(),
                 password: $('#passwordSignIn').val()
@@ -51,7 +51,6 @@ function fetchData() {
         }
     })
     .done(data => {
-        console.log(data);
         $('#mainTable').empty()
         $('#mainTable').append(
             `<tr>
@@ -66,9 +65,9 @@ function fetchData() {
                 `<tr>
                         <td>${element.title}</td>
                         <td>${element.description}</td>
-                        <td>${element.due_date}</td>
-                        <td> <button class="btn btn-sm" id="buttonEdit" onclick="editTodo(${element.id})">Edit</button> | 
-                        <button class="btn btn-sm" id="buttonDelete" onclick="deleteTodo(${element.id})">Delete</button> </td>
+                        <td>${element.due_date.slice(0, 10)}</td>
+                        <td> <button class="btn btn-sm" id="buttonEdit" onclick="showEditPage(${element.id}, '${element.title}', '${element.description}', '${element.due_date}')">Edit</button> | 
+                        <button class="btn btn-sm" id="buttonDelete" onclick="confirmDelete(${element.id})" >Delete</button> </td>
                 </tr>`
             )
         })
@@ -92,9 +91,9 @@ function showCreatePage() {
 function createTodo(event) {
     event.preventDefault()
     let data = {
-        title: $('#title').val(),
-        description: $('#description').val(),
-        due_date: $('#due_date').val()
+        title: $('#titleCreate').val(),
+        description: $('#descriptionCreate').val(),
+        due_date: $('#due_dateCreate').val()
     }
 
     $.ajax({
@@ -112,40 +111,83 @@ function createTodo(event) {
         console.log(err);
     })
     .always(() => {
-        $('#title').val('')
-        $('#description').val('')
-        $('#due_date').val('')
+        $('#titleCreate').val('')
+        $('#descriptionCreate').val('')
+        $('#due_dateCreate').val('')
     })
 }
 
-function showEditPage() {
+function showEditPage(id, title, description, due_date) {
     $('#signUpPage').hide()
     $('#signInPage').hide()
     $('#mainPage').hide()
     $('#createPage').hide()
-    $('#editPage').show()
     $('#buttonSignOut').hide()
+    $('#editPage').show()
+
+    due_date = new Date(due_date)
+
+    $('#insertEditForm').append(
+        `
+        <form id="editForm" onsubmit="editTodo(event, ${id})"> <!-- set in main.js -->
+            <label for="title">Title: </label>
+            <input type="text" name="title" id="titleEdit" class="form-control" placeholder="${title}"><br>
+            <label for="description">Description: </label>
+            <!-- remove empty space before </textarea> -->
+            <textarea  cols="40" rows="10" name="description" id="descriptionEdit" class="form-control" placeholder="${description}"></textarea><br> 
+            <label for="due_date">Due Date: </label><br>
+            <small>Previous due date: ${due_date.getMonth()}/${due_date.getDate()}/${due_date.getFullYear()}</small><br>
+            <small>Note: Due date must be later than today</small>
+            <input type="date" name="due_date" id="due_dateEdit" class="form-control text-center due_date"><br>
+            <!-- input date does not support placeholder -->
+            <input type="submit" class="btn btn-primary" value="Save">
+            <input type="button" class="btn btn-secondary" value="Cancel"
+            onclick="window.location='';return false;">
+        </form>
+        `
+    )
+
+    // document.getElementById("titleEdit").placeholder = title;
+    // document.getElementById("descriptionEdit").placeholder = description;
+    // $('#previousDue').append(
+    //     `Previous due date: ${due_date.getMonth()}/${due_date.getDate()}/${due_date.getFullYear()}`
+    // )
 }
 
-function editTodo(num) {
+function editTodo(event, id) {
+    event.preventDefault()
     let data = {
-        title: $('#title').val(),
-        description: $('#description').val(),
-        due_date: $('#due_date').val()
+        title: $('#titleEdit').val(),
+        description: $('#descriptionEdit').val(),
+        due_date: $('#due_dateEdit').val()
     }
 
-    .always(() => {
-        $('#title').val('')
-        $('#description').val('')
-        $('#due_date').val('')
+    $.ajax({
+        method: 'put',
+        url: baseUrl + '/todos/' + id,
+        data,
+        headers : {
+            token: localStorage.token
+        }
+    })
+    .done(_=> {
+        auth()
+    })
+    .fail(err => {
+        console.log(err)
+    })
+    .always(_=> {
+        $('#titleEdit').val('')
+        $('#descriptionEdit').val('')
+        $('#due_dateEdit').val('')
     })
 }
 
-function deleteTodo(num) {
+function deleteTodo(id) {
     event.preventDefault()
     $.ajax({
         method: 'delete',
-        url: baseUrl + '/todos/' + num,
+        url: baseUrl + '/todos/' + id,
         headers: { //careful of typos
             token: localStorage.token
         }
@@ -157,6 +199,15 @@ function deleteTodo(num) {
         console.log(err)
     })
     
+}
+
+function confirmDelete(id)
+{
+  let message = confirm("Are you sure you want to delete?");
+  if (message) {
+    deleteTodo(id)
+    return true;
+  } else return false;
 }
 
 function showSignUp() {
