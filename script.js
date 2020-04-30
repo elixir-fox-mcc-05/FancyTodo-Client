@@ -16,7 +16,7 @@ $( document ).ready(function(){
                 localStorage.setItem('token', data.Token)
             })
             .fail(err => {
-                console.log(err.responseJSON.msg);
+                console.log(err.responseJSON.Message);
             })
     })
     $("#register-form").submit(function(event) {
@@ -26,14 +26,15 @@ $( document ).ready(function(){
             url: baseUrl + '/user/register',
             data: {
                 email : $('#email-regis').val(),
-                password : $('#password-regis').val()
+                password : $('#password-regis').val(),
+                confirmPassword : $('#confirmpassword-regis').val()
             },
         })
             .done(data => {
                 localStorage.setItem("Message", "Succes Create Account")
             })
             .fail(err => {
-                console.log(err.responseJSON.msg);
+                console.log(err.responseJSON.Message);
             })
     })
 })
@@ -141,6 +142,9 @@ function GetTodo(value){
             <button type="submit">Submit Todo</button>
             `)
         })
+        .fail(err => {
+            console.log(err.responseJSON.Message)
+        })
 }
 
 function edit(){
@@ -167,7 +171,7 @@ function edit(){
             $('#main-page').show();
         })
         .fail(err=>{
-            console.log(err.responseJSON.msg)
+            console.log(err.responseJSON.Message)
         })
 }
 
@@ -202,7 +206,7 @@ function fetchTodo(){
             `)
         })
         .fail(err => {
-            console.log(err.responseJSON.msg)
+            console.log(err.responseJSON.Message)
         })
 }
 
@@ -219,7 +223,7 @@ function deleteTodo(value){
             console.log("Succes Delete Data")
         })
         .fail(err => [
-            console.log(err.responseJSON.msg)
+            console.log(err.responseJSON.Message)
         ])
 }
 
@@ -251,7 +255,7 @@ function createTodo(event) {
         `)
       })
       .fail(function (err) {
-        console.log(err.responseJSON.msg)
+        console.log(err.responseJSON.Message)
       })
   }
 
@@ -269,6 +273,6 @@ function onSignIn(googleUser) {
             authorize()
         })
         .fail(err => {
-            console.log(err)
+            console.log(err.responseJSON.Message)
         })
 }
