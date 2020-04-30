@@ -142,6 +142,8 @@ function fetchTodo() {
   })
     .done(response => {
       const todos = response.Todos;
+      $('#location').append(response.weather.title);
+      $('#currentWeather').append(` ${response.weather.consolidated_weather[0].weather_state_name} <img src="https://www.metaweather.com/static/img/weather/${response.weather.consolidated_weather[0].weather_state_abbr}.svg" width="25" height="25">`);
       $("#todoList tbody").empty();
       let counter = 1;
       if(todos.length){
@@ -372,4 +374,36 @@ function logout(e){
     $('.notlogged-in').show();
     $('.logged-in').hide();
   });
+}
+
+function checkLoginState() {
+  FB.getLoginStatus(function(response) {
+    if (response.status === 'connected') {
+      let accessToken = response.authResponse.accessToken;
+      let userId = response.authResponse.userID;
+      console.log(response);
+      $.ajax({
+        method: 'POST',
+        url: `${baseUrl}/facebook-login`,
+        headers: {
+          accessToken,
+          userId
+        }
+      })
+        .done(response => {
+          localStorage.setItem('token', response.token);
+          $('#loginPage').hide();
+          $('#errorLogin').hide();
+          //manage nav
+          $('.notlogged-in').hide();
+          $('.logged-in').show();
+          // show dashboard
+          $('#dashboardPage').show();
+          fetchTodo();
+        })
+        .fail(err => {
+          console.log(err);
+        });
+    } 
+  } );
 }
