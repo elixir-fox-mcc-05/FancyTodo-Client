@@ -92,6 +92,15 @@ function fetchToDo() {
     }
   })
     .done(function (response) {
+    $('#toDoTable').empty()
+    $('#toDoTable').append(`
+                <tr>
+                    <td>Title</td>
+                    <td>Description</td>
+                    <td>Status</td>
+                    <td>Due Date</td>
+                    <td>Actions</td>
+                </tr>`)
       const toDo = response.todos
 //      console.log(response)
       toDo.forEach(temp => {
@@ -172,9 +181,19 @@ function showAddPage(){
 }
 
 function addToDo(){
+    const token = localStorage.getItem('token')
+    
+    let title = $('#addTitle').val()
+    let description = $('#addDescription').val()
+    let due_date = $('#adddue_date').val()
+    
+    console.log(title,description,due_date)
     $.ajax({
         method: 'POST',
         url: 'http://localhost:3000/todos',
+        headers : {
+            token
+        },
         data: {
             title,
             description,
@@ -182,10 +201,10 @@ function addToDo(){
         }
       })
     .done(response => {
-        
+        fetchToDo()
     })
     .fail(err => {
-        console.log(err)
+        console.log(err.responseJSON)
     })
 }
 
@@ -215,8 +234,8 @@ function showEditPage(id,title,description,due_date,status,UserId){
                     <input type="text" placeholder="title" id="editTitle" value="${title}"><br>
                     <input type="text" placeholder="description" id="editDescription" value="${description}"><br>
                     <input type="text" placeholder="due date" id="editdue_date" value="${due_date}"><br>
-                    <input type="radio" id="editStatus" name="not completed" value="false" ${!status ? "selected" : ""}>not completed
-                    <input type="radio" id="editStatus" name="not completed" value="true" ${status ? "selected" : ""}>completed
+                    <input type="radio" id="editStatus" name="status" value="false" ${!status ? "checked" : ""}>not completed
+                    <input type="radio" id="editStatus" name="status" value="true" ${status ? "checked" : ""}>completed
                     <button class="is-centered" onclick="update('${id}','${title}','${description}','${due_date}','${status}','${UserId}')">Edit</button>
     `)
     
@@ -231,8 +250,8 @@ function update(id){
     title = $('#editTitle').val()
     description = $('#editDescription').val()
     due_date = $('#editdue_date').val()
-    status = $('#editStatus').val()
-    console.log(id,title,description,due_date,status)
+    status = $("#editStatus[name=status]:checked").val()
+    console.log(status)
     $.ajax({
        method: 'put',
        url: `http://localhost:3000/todos/${id}`,
@@ -244,15 +263,15 @@ function update(id){
             description,
             due_date,
             status
-        },
-              
-          success: function(msg){
-            console.log("eh masuk")
-            fetchToDo()
         }
+              
+//          success: function(msg){
+//            console.log("eh masuk")
+//            fetchToDo()
+//        }
      })
     
-     /*
+     
     .done(response => {
       console.log("eh masuk")
        fetchToDo()
@@ -262,7 +281,7 @@ function update(id){
       console.log("eh gak")
         console.log(err)
     })
-    */
+    
     
     console.log("bodo")
 }
@@ -277,14 +296,6 @@ function logout() {
 //    showFormLogin();
 //  });
     localStorage.clear()
-    $('#toDoTable').empty()
-    $('#toDoTable').append(`
-                <tr>
-                    <td>Title</td>
-                    <td>Description</td>
-                    <td>Status</td>
-                    <td>Due Date</td>
-                    <td>Actions</td>
-                </tr>`)
+   
     checkStorage()
 }

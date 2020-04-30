@@ -16,8 +16,8 @@
             </nav>
             <nav id="loggedin" class="breadcrumb menu" aria-label="breadcrumbs" style="position: fixed;">
               <ul>
-                <li><a href="#">List</a></li>
-                <li><a href="#">Add</a></li>
+                <li><a onclick="showList()">List</a></li>
+                <li><a onclick="showAddPage()">Add</a></li>
                   <li><a onclick="logout()">Logout</a></li>
               </ul>
             </nav>
@@ -68,12 +68,10 @@
         
          <div id="add" style="bottom:55%; position: absolute;">
             <h2>add new ToDo's</h2>
-                <form>
                     <input type="text" placeholder="title" id="addTitle"><br>
                     <input type="text" placeholder="description" id="addDescription"><br>
                     <input type="text" placeholder="due date" id="adddue_date"><br>
-                    <button class="modal-close is-centered" type="submit">add</button>
-                </form>
+                    <button class="" onclick="addToDo()">add</button>
         </div>
         
         <div id="edit" style="bottom:55%; position: absolute;">
