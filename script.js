@@ -67,8 +67,8 @@ function registerUser(name, email, password) {
         }
     })
         .done(data => {
-            showNotif(data)
             showLogin()
+            showNotif(data)
         })
         .fail(err => {
             console.log(err)
@@ -107,9 +107,8 @@ function loginUser(email, password) {
     })
         .done(data => {
             localStorage.setItem('token', data.token)
-            showNotif(data)
             authentication()
-            fetchTodo()
+            showNotif(data)
         })
         .fail(err => {
             console.log(err)
@@ -123,8 +122,12 @@ function loginUser(email, password) {
 }
 
 function logout() {
-    localStorage.clear()
-    authentication()
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+        localStorage.clear()
+        authentication()
+    });
+
 }
 
 function fetchTodo() {
@@ -190,8 +193,8 @@ function addTodo(title, description, due_date) {
     })
         .done(data => {
             console.log(data)
-            showNotif(data)
             authentication()
+            showNotif(data)
         })
         .fail(err => {
             console.log(err)
@@ -208,8 +211,8 @@ function deleteTodo(id) {
         }
     })
         .done(data => {
-            showNotif(data)
             authentication()
+            showNotif(data)
         })
         .fail(err => {
             console.log(err)
@@ -278,8 +281,8 @@ function editTodo(id, title, description, due_date) {
     })
         .done(data => {
             console.log(data)
-            showNotif(data)
             authentication()
+            showNotif(data)
         })
         .fail(err => {
             console.log(err)
@@ -315,6 +318,8 @@ function getPublicHolidays() {
 }
 
 function showNotif(response) {
+    $( "#errorSection" ).hide()
+    $( "#notifSection" ).show()
     $( "#notifSection" ).empty()
     if(response.notif) {
         $( "#notifSection" ).append(`
@@ -324,6 +329,8 @@ function showNotif(response) {
 }
 
 function showError(response) {
+    $( "#notifSection" ).hide()
+    $( "#errorSection" ).show()
     $( "#errorSection" ).empty()
     if(Array.isArray(response.err)) {
         for(let i = 0; i < response.err.length; i++) {
@@ -336,4 +343,22 @@ function showError(response) {
             <h5>${response.err}</h5>
         `)
     }
+}
+
+function onSignIn(googleUser) {
+    let id_token = googleUser.getAuthResponse().id_token;
+    $.ajax({
+        url: `${baseUrl}/users/google-login`,
+        method: 'get',
+        headers: {
+            google_token: id_token
+        }
+    })
+        .done(data => {
+            localStorage.setItem('token', data.token)
+            authentication()
+        })
+        .fail(err => {
+            console.log(err);
+        })
 }
