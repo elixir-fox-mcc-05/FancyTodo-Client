@@ -149,6 +149,9 @@ function fetchTodo() {
                         <td>${el.due_date}</td>
                         <td>${status}</td>
                         <td>
+                            <a class="btn btn-warning btn-sm" href="#" role="button" onclick="changeStatus(${el.id})">Check/Uncheck</a>
+                        </td>
+                        <td>
                             <a class="btn btn-info btn-sm" href="#" role="button" onclick="showEditTodo(${el.id})">Edit</a>
                         </td>
                         <td>
@@ -360,5 +363,24 @@ function onSignIn(googleUser) {
         })
         .fail(err => {
             console.log(err);
+        })
+}
+
+function changeStatus(id) {
+    $.ajax({
+        method: 'patch',
+        url: baseUrl + `/todos/${id}`,
+        headers: {
+            token: localStorage.token
+        }
+    })
+        .done(data => {
+            console.log(data)
+            authentication()
+            showNotif(data)
+        })
+        .fail(err => {
+            console.log(err)
+            showError(err.responseJSON)
         })
 }
