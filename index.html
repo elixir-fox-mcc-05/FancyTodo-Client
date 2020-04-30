@@ -8,7 +8,7 @@
 <body>
     <!-- LOGIN PAGE -->
     <div id="loginPage">
-        <h1 class="titleLogin">Fancy Todo Apps</h1>
+        <h1 class="titleLogin">Fancy ToDo Apps</h1>
         <p id="loginError" style="color: red;"></p>
         <form id="formLoginPage">
             <h3>E-mail :</h3>
@@ -21,6 +21,8 @@
             </div><br>
             <button type="submit" class="buttonLogin">Login</button>
         </form> 
+        <p>Don't have account? Please register here</p>
+        <button>Register</button>
     </div>
     <!-- END LOGIN PAGE -->
 
@@ -35,15 +37,9 @@
                 Logout
             </button>
         </nav>
-        <h1>Todo List</h1>
-        <table id="todoList" border>
-            <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Due Date</th>
-            </tr>
-        </table>
+        <h1>ToDo List</h1>
+        <button id="addTodo">Add New ToDo</button>
+        <ol style="margin-bottom: 8px;" id="todoList"></ol> 
     </div>
     <!-- END MAIN PAGE -->
 

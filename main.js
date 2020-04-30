@@ -32,6 +32,7 @@ function login(email, password){
     .fail(function(err) {
         console.log(err.responseJSON.errors[0].msg);
         $('#loginError').show();
+        $('#loginPassword').val('')
         $('#loginError').text(err.responseJSON.errors[0].msg);
     })
 }
@@ -52,6 +53,8 @@ function checkStorage(){
  // logout
 function logout(){
     localStorage.clear();
+    $('#loginEmail').val('');
+    $('#loginPassword').val('')
     $('#loginPage').show();
     $('#mainPage').hide();
 }
@@ -68,15 +71,23 @@ function readTodo() {
     })
     .done(function(response) {
         const todos = response.todos;
-        $('#todoList').empty()
+        $('#todoList').empty();
         for (let i = 0; i < todos.length; i++){
+            let check = null;
+            if(todos[i].status == false){
+                check = `[  ]`
+            }
+            else {
+                check = `[X]`
+            }
             $('#todoList').append(`
-            <tr>
-                <td>${todos[i].id}</td>
-                <td>${todos[i].title}</td>
-                <td>${todos[i].description}</td>
-                <td>${todos[i].due_date}</td>
-            </tr>
+                <li>Titel: ${todos[i].title}</li>
+                <p>Description: ${todos[i].description}</p>
+                <p>Due Date: ${todos[i].due_date}</p>
+                <p>Check: ${check}</p>
+                <button>Edit</button>
+                <button>Delete</button>
+                <br><br>
             `)
         }
     })
@@ -85,4 +96,8 @@ function readTodo() {
     })
 }
 
+// post new tot
 
+// edit available todo
+
+// delete available todo
