@@ -32,6 +32,7 @@ function auth() {
         $('#signInPage').hide()
         $('#mainPage').show()
         $('#createPage').hide()
+        $('#editPage').hide()
         $('#buttonSignOut').show()
         fetchData()
     } else {
@@ -57,6 +58,7 @@ function fetchData() {
                 <th>Task</th>
                 <th>Description</th>
                 <th>Date</th>
+                <th>Actions</th>
             </tr>`
         )        
         data.Todos.forEach(element => {
@@ -65,6 +67,8 @@ function fetchData() {
                         <td>${element.title}</td>
                         <td>${element.description}</td>
                         <td>${element.due_date}</td>
+                        <td> <button class="btn btn-sm" id="buttonEdit" onclick="editTodo(${element.id})">Edit</button> | 
+                        <button class="btn btn-sm" id="buttonDelete" onclick="deleteTodo(${element.id})">Delete</button> </td>
                 </tr>`
             )
         })
@@ -81,6 +85,7 @@ function showCreatePage() {
     $('#signInPage').hide()
     $('#mainPage').hide()
     $('#createPage').show()
+    $('#editPage').hide()
     $('#buttonSignOut').hide()
 }
 
@@ -113,11 +118,53 @@ function createTodo(event) {
     })
 }
 
+function showEditPage() {
+    $('#signUpPage').hide()
+    $('#signInPage').hide()
+    $('#mainPage').hide()
+    $('#createPage').hide()
+    $('#editPage').show()
+    $('#buttonSignOut').hide()
+}
+
+function editTodo(num) {
+    let data = {
+        title: $('#title').val(),
+        description: $('#description').val(),
+        due_date: $('#due_date').val()
+    }
+
+    .always(() => {
+        $('#title').val('')
+        $('#description').val('')
+        $('#due_date').val('')
+    })
+}
+
+function deleteTodo(num) {
+    event.preventDefault()
+    $.ajax({
+        method: 'delete',
+        url: baseUrl + '/todos/' + num,
+        headers: { //careful of typos
+            token: localStorage.token
+        }
+    })
+    .done(() => {
+        auth()
+    })
+    .fail(err => {
+        console.log(err)
+    })
+    
+}
+
 function showSignUp() {
     $('#signUpPage').show()
     $('#signInPage').hide()
     $('#mainPage').hide()
     $('#createPage').hide()
+    $('#editPage').hide()
     $('#buttonSignOut').hide()
 }
 
@@ -126,6 +173,7 @@ function showSignIn() {
     $('#signInPage').show()
     $('#mainPage').hide()
     $('#createPage').hide()
+    $('#editPage').hide()
     $('#buttonSignOut').hide()
 }
 

@@ -18,7 +18,16 @@
 
         #createPage {
             max-width: 600px;
+            margin-right: auto;
+            margin-left: auto;
         }
+
+        #due_date {
+            max-width: 200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
     </style>
 
 </head>
@@ -79,9 +88,7 @@
         <div id="mainPage">
             <h3>All Tasks</h3><br>
             <table class="table table-striped" id="mainTable">               
-                <!-- <div id="mainContainer">
-
-                </div> -->
+                <!-- Append Todos Table Here -->
             </table>
             <button class="btn btn-secondary btn-sm" id="buttonCreate" onclick="showCreatePage()">Add a new Task</button>
         </div>
@@ -92,10 +99,11 @@
                 <label for="title">Title: </label>
                 <input type="text" name="title" id="title" class="form-control" required autofocus><br>
                 <label for="description">Description: </label>
-                <textarea  cols="30" rows="10" name="description" id="description" class="form-control">
+                <textarea  cols="40" rows="10" name="description" id="description" class="form-control">
                     </textarea><br>
-                <label for="due_date">Due Date: </label>
-                <input type="date" name="due_date" id="due_date" class="form-control"><br>
+                <label for="due_date">Due Date: </label><br>
+                <small>Due date must be later than today</small>
+                <input type="date" name="due_date" id="due_date" class="form-control text-center"><br>
 
                 <input type="submit" class="btn btn-primary" value="Save">
                 <input type="button" class="btn btn-secondary" value="Cancel"
