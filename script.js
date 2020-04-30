@@ -2,11 +2,16 @@ $('#signup').hide()
 $('#signupDone').hide()
 $('#dashboard').hide()
 $('#editTask').hide()
+$('#respon').hide()
+$('#taskRes').hide()
+$('#taskResErr').hide()
+
+// $('#newTask').hide()
+
 let baseUrl = 'http://localhost:3000'
 
 $(document).ready(()=>{
     checkToken()
-
 
     // login fuction
 
@@ -29,7 +34,6 @@ $(document).ready(()=>{
 
         signup(email , password , confirm_password )        
     })
-
 
     $('#signupBtn').click((event)=>{
         event.preventDefault()
@@ -83,11 +87,13 @@ function signin (email , password) {
         localStorage.setItem('token',token)
         $('#dashboard').show()
         getTodo()
-        $('#login').hide()
+        $('#landingPage').hide()
         $('#emailLogin').val('')
         $('#passwordLogin').val('')
     })
     .fail(function(err){
+        // return popup()
+        $('#respon').show()
         $('#respon').append(`${err.responseJSON.error}`)
     })
 }
@@ -131,14 +137,20 @@ function getTodo () {
             due_date = element.due_date
 
             $('#tableBody').append(
-                `<tr>
-                <td>${id}</td>
-                <td>${title}</td>
-                <td>${description}</td>
-                <td>${due_date}</td>
-                <td><button id="editTaskBtn" onclick="editTaskBtn('${id}','${title}','${description}','${due_date}')"> EDIT </button> </td>
-                <td><button id="deleteBtn" onclick="deleteTask(event,${id})">DELETE</button></td>
-                </tr>`
+                `
+                <div class="row">
+                    <div class="col-3">
+                        ${title}
+                    </div>
+                    <div class="col-7">
+                        ${description}
+                    </div>
+                    <div class="col-2">
+                        <button id="editTaskBtn" onclick="editTaskBtn('${id}','${title}','${description}','${due_date}')" class="btn btn-warning btn-sm" >edit</button>
+                        <button id="deleteBtn" onclick="deleteTask(event,${id})" class="btn btn-danger btn-sm" style="right: 0;">delete</button>   
+                    </div>
+                </div> <hr>
+                `
                 )
         });
         console.log(data.data)
@@ -158,6 +170,7 @@ function checkToken () {
 
 function addTask (title,description,due_date) {
     $('#taskRes').empty()
+    $('#taskResErr').empty()
     $.ajax({
         method : 'POST',
         url : baseUrl+'/todos',
@@ -174,12 +187,15 @@ function addTask (title,description,due_date) {
         $('#title').val('')
         $('#description').val('')
         $('#due_date').val('')
+        $('#taskRes').show()
         $('#taskRes').append(`${data.msg}`)
+        $('#taskResErr').hide()
         getTodo()
     })
     .fail(err=>{
-        $('#taskRes').append(`${err.responseJSON.error}`)
-        console.log(err)
+        $('#taskResErr').append(`${err.responseJSON.error}`)
+        $('#taskResErr').show()
+        $('#taskRes').hide()
     })
 }
 
@@ -273,11 +289,12 @@ function onSignIn(googleUser) {
         localStorage.setItem('token',data.token)
         $('#dashboard').show()
         getTodo()
-        $('#login').hide()
+        $('#landingPage').hide()
         $('#emailLogin').val('')
         $('#passwordLogin').val('')
     })
     .fail(err=>{
+        $('#respon').empty()
         $('#respon').append(`${err.responseJSON.error}`)
     })
   }

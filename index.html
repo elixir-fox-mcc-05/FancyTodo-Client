@@ -5,38 +5,91 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-signin-client_id" content="110029085748-4mo9cpf4pii1jlkg93tc9k0ifohj8a0f.apps.googleusercontent.com">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
     <title>signin or signup</title>
 </head>
 <body>
-    <div id="landingPage">
-        <div id="login">
-            <h1>Login</h1>
-            <div id="respon" style="color: red;"></div> <br>
-            <form id="formLogin">
-                <input type="text" placeholder="email" id="emailLogin"> <br>
-                <input type="password" placeholder="password" id="passwordLogin"> <br>
-                <button type="submit">Login</button>
-            </form> <br>
-            <p id="signupText"> don't have account ? <button id='signupBtn'> Signup Here</button></p><br>
-            <p>OR login with : </p> <br>
-            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+    <div id="landingPage"  class="container-fluid" >
+        <div class="row d-flex align-items-center justify-content-center" id="home">
+            <!-- left colom -->
+            <!-- <div class="col-7" id="left">
+                <h1>What Todo's Today'S ?</h1>
+            </div> -->
+            <!-- righ colom -->
+            <div class="col-4">
+                <!-- login form -->
+                <div id="login" class="form-group">
+                    <h1>Login</h1>
+    
+                    <!-- respon -->
+    
+                    <div  style="color: red;"></div> <br>
+                    <div id="respon" class="alert alert-danger" role="alert"> </div>
+    
+                    <!-- form login -->
+                    <form id="formLogin">
+                        <input placeholder="email" id="emailLogin" type="email" class="form-control"> <br>
+                        <input type="password" class="form-control" placeholder="password" id="passwordLogin"> <br>
+                        <button type="submit" class="btn btn-primary btn-block">Login</button>
+                    </form> <br>
+
+                    
+                    <div class="row">
+                        <div class="col-5"><hr></div>
+                        <div class="col-2" style="text-align: center;">
+                            <small class="form-text text-muted">OR</small>
+                        </div>
+                        <div class="col-5"><hr></div>
+                    </div> <br>
+                    <!-- sosial login -->
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="g-signin2 btn" data-onsuccess="onSignIn"></div> 
+                        </div>
+                        <div class="col-4">
+                            <!-- <button class="btn btn-primary">Facebook</button> -->
+                        </div>
+                        <div class="col-4">
+                            <!-- <button class="btn btn-info"> Twitter </button> -->
+                        </div>
+                    </div>
+                    
+                    <br>
+                    <!-- divider -->
+                    <div class="row">
+                        <div class="col-3"></div>
+                        <div class="col-6" style="text-align: center;">
+                            <small class="form-text text-muted"><p> don't have account ?</p></small>
+                        </div>
+                        <div class="col-3"></div>
+                    </div>
+                    <!-- button signup -->
+                    <button id='signupBtn' class="btn btn-sm btn-outline-primary btn-block btn-lg">Signup Here</button>
+                
+                </div>
+                <!-- signup form -->
+                <div id="signup">
+                    <h1>Signup</h1> <br>
+                    <div id="errorMsg"></div>
+                    <form id="formSignup">
+                        <div class="form-group">
+                            <label for="email">Email</label> <br>
+                            <input type="text" placeholder="type your email here" id="emailSignup" class="form-control"> <br>
+                            <label for="password" >Password</label> <br>
+                            <input type="text" placeholder="type your password here" id="passwordSignup" class="form-control"> <br>
+                            <label for="confirm_password">Confirm Password</label> <br>
+                            <input type="text" placeholder="confirm password" id="confirm_password" class="form-control"> <br>
+                            <button type="submit" class="btn btn-primary btn-block"> Signup </button>
+                        </div>
+                    </form> <br>
+                    
+                    <p id="signinText"> already have an account ? <button id='signinBtn' class="btn btn-outline-primary btn-sm"> Login Here</button></p>
+                    
+                </div>
+            </div>
         </div>
-        <div id="signup">
-            <h1>Signup</h1>
-            <div id="errorMsg"></div>
-            <form id="formSignup">
-                <label for="email">Email</label> <br>
-                <input type="text" placeholder="type your email here" id="emailSignup"> <br>
-                <label for="password">Password</label> <br>
-                <input type="text" placeholder="type your password here" id="passwordSignup"> <br>
-                <label for="confirm_password">Confirm Password</label> <br>
-                <input type="text" placeholder="confirm password" id="confirm_password"> <br>
-                <button type="submit"> Signup </button>
-            </form> <br>
-            
-            <p id="signinText"> already have an account ? <button id='signinBtn'> Login Here</button></p>
-            
-        </div>
+        
+
         <div id="signupDone">
             <h2> Successfuly Signup </h2>
             <p> <a class="home" href="/"> clikc here to login </a></p>
@@ -44,52 +97,67 @@
     </div>
 
     <!-- dashboard -->
-    <div id="dashboard">
-        <nav>
-            <a id="logout" href="/">Logout</a>
+    <div id="dashboard" class="container-fluid">
+        <nav class="navbar bg-ligth navbar-light">
+            <!-- Links -->
+              <ul class="navbar-nav">
+                  <li class="nav-item">
+                      <button class="btn btn-outline-primary" onclick="openNav()" id="sb-btn">
+                          <span class="navbar-toggler-icon"></span>
+                      </button>  
+                  </li>
+              </ul>
+              <!-- Navbar text-->
+              <span class="navbar-text">
+                  <a id="logout" href="/"> <button class="btn btn-outline-primary">Logout</button></a>
+              </span>
         </nav>
-        <h1> Dash board </h1>
 
-        <!-- add new task -->
-        <div id="newTask">
-            <h3 for="add">Add New Task</h3>
-            <div id="taskRes" style="color: red;"></div> <br>
-            <form>
-                <label for="title">title</label> <br>
-                <input type="text" id="title"> <br>
-                <label for="description">description</label> <br>
-                <input type="text" id="description"> <br>
-                <label for="due_date" >due date</label> <br>
-                <input type="date" id="due_date"> <br> <br>
-                <button type="submit">add task</button> <br> <br>
-            </form>
-        </div> <br>
-
-        <!-- lodo list -->
-        <div id="todoList">
-            <table border>
-                <thead>
-                    <tr>
-                        <th>id</th>
-                        <th>title</th>
-                        <th>description</th>
-                        <th>due date</th>
-                        <th colspan="2">action</th>
-                    </tr>
-                </thead>
-                <tbody id="tableBody">
-                    
-                </tbody>
-            </table>
+        <div class="row">
+            <div class="col-3" id="sidebar">
+                <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" role="tab" aria-controls="v-pills-home" aria-selected="true" onclick="getTodo()">Todo's</a>
+                    <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Reminder</a>
+                    <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Upcoming</a>
+                    <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</a>
+                  </div>
+            </div>
+        <!-- main container -->
+            <div class="col" id="main">
+                <!-- add new task -->
+                <div id="newTask">
+                    <h4 for="add">Add New Task</h4> <hr> <br>
+                    <!-- response -->
+                    <div id="taskRes"  class="alert alert-success" role="alert"></div>
+                    <div id="taskResErr"  class="alert alert-danger" role="alert"></div>
+                    <!-- form add task -->
+                    <form>
+                        <div class="input-group">
+                            <input type="text" aria-label="title" class="form-control" placeholder="title" id="title">
+                            <input type="text" aria-label="description" class="form-control" placeholder="description" id="description">
+                            <input type="date" aria-label="due_date" class="form-control" id="due_date" >
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-success" type="submit">Submit Task</button>
+                            </div>
+                        </div>
+                    </form>
+                </div> <br> <br> <br>
+                
+                <!-- lodo list -->
+                <div id="todoList" >
+                    <h3>Todo List</h3> <hr> <br>
+                    <div id="tableBody"></div>
+                </div>
+        
+        
+                <!-- edit task -->
+        
+                <div id="editTask">
+                    <h3>Edit Task</h3>
+                    <div id="editRes"></div>
+                </div>
+            </div>
         </div>
-
-        <!-- edit task -->
-
-        <div id="editTask">
-            <h3>Edit Task</h3>
-            <div id="editRes"></div>
-        </div>
-
     </div>
 
     <!-- google api -->
@@ -97,5 +165,7 @@
     <!-- ---- -->
     <script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
     <script src="script.js" ></script>
+    <script src="style.js" ></script>
+
 </body>
 </html>
