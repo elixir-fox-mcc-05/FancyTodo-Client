@@ -12,7 +12,7 @@
 <body>
     <nav class="navbar navbar-expand-sm navbar-dark bg-success mb-3">
         <div class="container">
-          <a class="navbar-brand" href="#">My Todo</a>
+          <a class="navbar-brand" href="" onclick="showMainContent(event)">My Todo</a>
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link" id="register" href="">Register</a>
@@ -21,7 +21,7 @@
                     <a class="nav-link" id="login" href="" id="login">Login</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" onclick="logout()" href="" id="logout">Logout</a>
+                    <a class="nav-link" onclick="logout(event)" href="" id="logout">Logout</a>
                 </li class="nav-item">
             </ul>
         </div>
@@ -98,6 +98,12 @@
             <button type="submit" class="btn btn-success">Submit</button>
         </form>
     </div>
+
+    <!-- Edit Todo -->
+    <div id="edit-todo" class="container">
+        
+    </div>
+
 
     <!-- Footer -->
     <footer class="page-footer font-small blue pt-4">

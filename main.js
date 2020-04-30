@@ -4,6 +4,7 @@ $( document ).ready(function() {
     auth();
     $('#register').on('click', function(event) {
         event.preventDefault();
+        $('#edit-todo').empty();
         $('#form-login').hide();
         $('#form-register').show();
         $('#feedback-register').text(``);
@@ -12,6 +13,7 @@ $( document ).ready(function() {
 
     $('#login').on('click', function(event) {
         event.preventDefault();
+        $('#edit-todo').empty();
         $('#form-login').show();
         $('#form-register').hide();
         $('#feedback-login').text(``);
@@ -124,6 +126,8 @@ function auth() {
         fetchTodo();
         $('.add-btn').show();
         $('#form-todo').hide();
+        $('#register').hide();
+        
     } else {
         $('#form-login').show();
         $('#form-register').hide();
@@ -134,7 +138,9 @@ function auth() {
     }
 }
 
-function logout() {
+function logout(event) {
+    event.preventDefault();
+    $('#main-section').hide();
     localStorage.clear();
     auth();
 }
@@ -157,14 +163,15 @@ function fetchTodo() {
                 const year = date.getFullYear();
                 const month = date.getMonth() + 1;
                 const day = date.getDate();
-                const newDate = `${year}-${month}-${day}`;
+                const newDate = `${day}/${month}/${year}`;
+                const realDate = changeDate(date);
                 $('#main-section').append(`
                     <div class="card text-white bg-${color[counter]} mb-3">
                         <div class="card-header d-flex flex-row justify-content-between">
                             <div>Deadline: ${newDate}</div>
                             <div>
-                                <a href="" class="edit-delete btn btn-${color[counter]}">Edit</a>
-                                <a href="" class="edit-delete btn btn-${color[counter]}">Delete</a>
+                                <a href="javascript:;" onclick="updateTodo(${todo.id},'${todo.title}', '${todo.description}', '${realDate}')" class="edit-delete btn btn-${color[counter]}">Edit</a>
+                                <a href="javascript:;" onclick="deleteTodo(${todo.id})" class="edit-delete btn btn-${color[counter]}">Delete</a>
                             </div>
                         </div>
                         <div class="card-body">
@@ -190,3 +197,99 @@ function showTodoForm() {
     $('#main-section').hide();
 }
 
+function deleteTodo(id) {
+   $.ajax({
+       method: 'delete',
+       url: baseUrl + `/todos/${id}`,
+       headers: {
+           token: localStorage.token
+       }
+   })
+        .done(_ => {
+            fetchTodo();
+            $('#form-login').hide();
+            $('#form-register').hide();
+            $('#feedback-register').text(``);
+            $('.add-btn').hide();
+            $('#form-todo').hide();
+            $('#main-section').show();
+        })
+        .fail(err => {
+            const error = err.responseJSON.errors[0].message;
+            $('#feedback-todo').text(`${error}`);
+        })
+}
+
+function updateTodo(id, title, description, due_date) {
+    $('#edit-todo').append(`
+        <h2 class="text-center mt-4">Update Todo</h2>
+        <form action="http://localhost:3000/todos/${id}" method="PATCH">
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" name="title" value="${title}" id="title-edit" placeholder="e.g: Running" class="form-control is-valid">
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <input type="text" name="description" value="${description}" id="description-edit" placeholder="e.g: running routine (5km)" class="form-control is-valid">
+            </div>
+            <div class="form-group">
+                <label for="due_date">Due Date</label>
+                <input type="date" name="due_date" value="${due_date}" id="due_date-edit" class="form-control is-valid">
+                <div class="invalid-feedback" id="feedback-todo-edit"></div>
+            </div>
+            <button type="submit" onclick="submitEdit(event, ${id})" class="btn btn-success">Submit</button>
+        </form>
+    `)
+    $('#edit-todo').show();
+    $('#main-section').hide();
+}
+
+function submitEdit(event, id) {
+    event.preventDefault();
+    $.ajax({
+        method: 'patch',
+        url: baseUrl + `/todos/${id}`,
+        headers: {
+            token: localStorage.token
+        },
+        data: {
+            title: $('#title-edit').val(),
+            description: $('#description-edit').val(),
+            due_date: $('#due_date-edit').val(),
+        }
+    })
+        .done(_ => {
+            fetchTodo();
+            $('#form-login').hide();
+            $('#form-register').hide();
+            $('#feedback-register').text(``);
+            $('.add-btn').hide();
+            $('#form-todo').hide();
+            $('#main-section').show();
+            $('#edit-todo').hide();
+            $('#edit-todo').empty();
+        })
+        .fail(err => {
+            const error = err.responseJSON.errors[0].message.errors[0].message;
+            $('#feedback-todo-edit').text(`${error}`);
+        })
+}
+
+function changeDate(date) {
+    let dt = date
+    let month = dt.getMonth() + 1;
+    if (month < 10) {
+        month = '0' + String(month);
+    }
+    let day = dt.getDate();
+    if (day < 10) {
+        day = '0' + String(day);
+    }
+    const newDate = dt.getFullYear() + "-" + month + "-" + day;
+    return newDate;
+}
+
+function showMainContent(event) {
+    event.preventDefault();
+    auth();
+}
