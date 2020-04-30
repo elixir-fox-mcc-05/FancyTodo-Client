@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>FANCY TODO</title>
+
+	<meta charset="UTF-8">
+	<meta name="google-signin-client_id" content="636705423948-jk7m1fvtdv0go84aorh7g79agb78lvk1.apps.googleusercontent.com">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
+<!--===============================================================================================-->
+<style>	@import url('css/main.css');</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.css" integrity="sha256-He3QEBKoL/nMXlVsoM7S2C2kjFQqS5L+mgA+F8LpG+U=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css" integrity="sha256-R91pD48xW+oHbpJYGn5xR0Q7tMhH4xOrWn1QqMRINtA=" crossorigin="anonymous" />
+<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="css/util.css">
+<!--===============================================================================================-->
+</head>
+<body>
+	<!-- <div id ="forgotform">
+        <div class="container-contact100">
+		<div class="wrap-contact100">
+			<form class="contact100-form validate-form">
+				<span class="contact100-form-title">
+					FORGOT PASSWORD
+				</span>
+				<div class="wrap-input100 validate-input" data-validate="Email is required">
+					<span class="label-input100">Email</span>
+					<input class="input100" type="text" id="forgot_email" name="title" placeholder="Enter Email">
+					<span class="focus-input100"></span>
+                </div>                
+				
+				<label id="forgotpass"></label>
+				<div class="container-contact100-form-btn">
+					<div class="wrap-contact100-form-btn">
+						<div class="contact100-form-bgbtn"></div>
+						<button onclick="forgotpassword(event)"  class="contact100-form-btn">
+							<span>
+								<i class=" m-l-7" aria-hidden="true"></i>
+								Submit
+							</span>
+						</button>						
+					</div>
+				</div>
+				
+			</form>
+		</div>
+	    </div>
+    </div> -->
+
+
+
+	<div id ="registerForm">
+        <div class="container-contact100">
+		<div class="wrap-contact100">
+			<form class="contact100-form validate-form">
+				<span class="contact100-form-title">
+					SIGN UP
+				</span>
+				<div class="wrap-input100 validate-input" data-validate="Email is required">
+					<span class="label-input100">Email</span>
+					<input class="input100" type="text" id="signup_email" name="title" placeholder="Enter Email">
+					<span class="focus-input100"></span>
+                </div>                
+				<div class="wrap-input100 validate-input" data-validate = "Password is required">
+					<span class="label-input100">password</span>
+					<input type="password" class="input100" id="signup_pass" name="passw" placeholder="Your Password"></input>
+					<span class="focus-input100"></span>
+                </div>                                
+				<div class="wrap-input100 validate-input" data-validate = "Password is required">
+					<span class="label-input100">retype password</span>
+					<input type="password" class="input100" id="signup_pass2" name="passw2" placeholder="Your Password"></input>
+					<span class="focus-input100"></span>
+				</div>
+				<label id="msg_signup"></label>
+				<div class="container-contact100-form-btn">
+					<div class="wrap-contact100-form-btn">
+						<div class="contact100-form-bgbtn"></div>
+						<button onclick="createUser(event)"  class="contact100-form-btn">
+							<span>
+								<i class=" m-l-7" aria-hidden="true"></i>
+								Submit
+							</span>
+						</button>						
+					</div>
+				</div>
+				<div class="container-contact100-form-btn">
+					<div class="wrap-contact100-form-btn">
+						<div class="contact100-form-bgbtn"></div>
+						
+						<button onclick="loginview(event)" class="contact100-form-btn">
+							<span>
+								<i class=" m-l-7" aria-hidden="true"></i>
+								cancel
+							</span>
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	    </div>
+    </div>
+
+	<div class="limiter">
+		<div class="container-login100" style="background-image: url('images/bg-01.jpg');">
+			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
+				<form class="login100-form validate-form">
+					<span class="login100-form-title p-b-49">
+						Sign in
+								
+					</span>
+
+					<div class="wrap-input100 validate-input m-b-23" data-validate = "Username is required">
+						<span class="label-input100">Email</span>
+						<input class="input100"  type="email" id="email" placeholder="Type your email">
+						<span class="focus-input100"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate="Password is required">
+						<span class="label-input100">Password</span>
+						<input class="input100" type="password" id="pass" placeholder="Type your password">
+						<span class="focus-input100" ></span>
+					</div>
+					
+					<div class="text-right p-t-8 p-b-31">						
+						<span onclick="show_forgot_form(event)" >
+							Forgot password?
+						</span>
+					</div>
+
+					<label id="msg_limiter"></label>
+					<div class="container-login100-form-btn">
+						<div class="wrap-login100-form-btn">
+							<div class="login100-form-bgbtn"></div>
+							<button  onclick="login(event)" class="login100-form-btn">
+								Sign in
+							</button>
+						</div>
+					</div>
+
+					<div class="txt1 text-center p-t-54 p-b-20">
+						<span>
+							Or Sign Up Using
+						</span>
+					</div>
+
+					<div class="flex-c-m">
+						
+						<button class ="g-signin2" data-onsuccess="onSignIn">
+							<i class="fa fa-google"></i>
+						</button>
+					
+					</div>
+
+					<div class="flex-col-c p-t-155">
+						<span class="txt1 p-b-17">
+							Or Sign Up Using
+						</span>
+
+						<button onclick="show_signup_form(event)" id="signup_button" class="txt2">
+							Sign Up
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+
+    <div class ="createForm">
+        <div class="container-contact100">
+		<div class="wrap-contact100">
+			<form id="form_add" class="contact100-form validate-form">
+				<span class="contact100-form-title">
+					Add Todo
+				</span>
+
+				<div class="wrap-input100 validate-input" data-validate="Name is required">
+					<span class="label-input100">title</span>
+					<input class="input100" type="text" id="title" name="title" placeholder="Enter title">
+					<span class="focus-input100"></span>
+                </div>
+                
+				<div class="wrap-input100 validate-input" data-validate = "Message is required">
+					<span class="label-input100">description</span>
+					<textarea class="input100" id="description" name="description" placeholder="Your description"></textarea>
+					<span class="focus-input100"></span>
+                </div>
+                
+                <div class="wrap-input100 validate-input" data-validate = "Due date is required">
+					<span class="label-input100">Due date</span>
+					<input type="date" class="input100" id= "duedate" name="duedate" placeholder="Your Due date"></textarea>
+					<span class="focus-input100"></span>
+				</div>
+
+				<div class="container-contact100-form-btn">
+					<div class="wrap-contact100-form-btn">
+						<div class="contact100-form-bgbtn"></div>
+						<button onclick="createTodo(event)" class="contact100-form-btn">
+							<span>
+								Submit
+								<i class="m-l-7" aria-hidden="true"></i>
+							</span>
+						</button>
+					</div>
+				</div>
+				<div class="container-contact100-form-btn">
+					<div class="wrap-contact100-form-btn">
+						<div class="contact100-form-bgbtn"></div>						
+						<button onclick="createTodoCancel(event)" class="contact100-form-btn">
+							<span>
+								<i class=" m-l-7" aria-hidden="true"></i>
+								cancel
+							</span>
+						</button>
+					</div>
+				</div>
+
+			</form>
+		</div>
+	    </div>
+    </div>
+    
+    <div class ="editForm">
+        <div class="container-contact100">
+		<div class="wrap-contact100">
+			<form  class="contact100-form validate-form">
+				<span class="contact100-form-title">
+					Edit Todo
+				</span>
+                <input class="input100" type="hidden" id="editid" name="id" >
+				<div class="wrap-input100 validate-input" data-validate="Name is required">
+					<span class="label-input100">title</span>
+					<input class="input100" type="text" id="edittitle" name="title" placeholder="Enter title">
+					<span class="focus-input100"></span>
+                </div>
+                
+				<div class="wrap-input100 validate-input" data-validate = "Message is required">
+					<span class="label-input100">description</span>
+					<textarea class="input100" id="editdescription" name="description" placeholder="Your description"></textarea>
+					<span class="focus-input100"></span>
+                </div>
+                
+                <div class="wrap-input100 validate-input" data-validate = "Due date is required">
+					<span class="label-input100">Due date</span>
+					<input type="date" class="input100" id= "editduedate" name="duedate"  ></textarea>
+					<span class="focus-input100"></span>
+				</div>
+
+				<div class="container-contact100-form-btn">
+					<div class="wrap-contact100-form-btn">
+						<div class="contact100-form-bgbtn"></div>
+						<button onclick="update(event)" class="contact100-form-btn">
+							<span>
+								Submit
+								<i class=" m-l-7" aria-hidden="true"></i>
+							</span>
+						</button>
+					</div>
+				</div>
+				<div class="container-contact100-form-btn">
+					<div class="wrap-contact100-form-btn">
+						<div class="contact100-form-bgbtn"></div>						
+						<button onclick="createTodoCancel(event)" class="contact100-form-btn">
+							<span>
+								<i class=" m-l-7" aria-hidden="true"></i>
+								cancel
+							</span>
+						</button>
+					</div>
+				</div>
+
+			</form>
+		</div>
+	    </div>
+    </div>
+    <div class ="addmember">
+        <div class="container-contact100">
+		<div class="wrap-contact100">
+			<form  class="contact100-form validate-form">
+				<span class="contact100-form-title">
+					ADD TODO MEMBER
+				</span>
+				<label for="optionmember">Choose member:</label>
+				<input class="input100" type="hidden" id="idtodomember" name="id" >
+        		<select id="optionmember" name="optionmember">					
+				</select>
+				<div class="container-contact100-form-btn">
+					<div class="wrap-contact100-form-btn">
+						<div class="contact100-form-bgbtn"></div>
+						<button onclick="createmember(event)" class="contact100-form-btn">
+							<span>
+								Submit
+								<i class=" m-l-7" aria-hidden="true"></i>
+							</span>
+						</button>
+					</div>
+				</div>
+				<div class="container-contact100-form-btn">
+					<div class="wrap-contact100-form-btn">
+						<div class="contact100-form-bgbtn"></div>						
+						<button onclick="createTodoCancel(event)" class="contact100-form-btn">
+							<span>
+								<i class=" m-l-7" aria-hidden="true"></i>
+								cancel
+							</span>
+						</button>
+					</div>
+				</div>
+
+			</form>
+		</div>
+	    </div>
+    </div>
+    <div id="dropDownSelect1"></div>
+	
+	
+	
+	<div id="todocontent" class="container-login100" style="background-image: url('images/bg-01.jpg');"">
+	<main>
+	<h1 align="center">TODO LIST</h1><br>
+	<h4 align="center">quotes of the day</h4><br>
+	<h6 align="center" id="msg_quotes" ></h6><br>
+	</main>
+	
+    <P ></p>
+    <div class="container" >
+        <div class="row">           
+        </div>
+     </div>
+    
+    
+	
+	</br></br></br></br></br></br>  
+		 <div id="circularMenu1" class="circular-menu circular-menu-left active">
+
+		<a class="floating-btn" onclick="document.getElementById('circularMenu1').classList.toggle('active');">
+		  <i class="fa fa-plus"></i>
+		</a>
+	  
+		<menu class="items-wrapper">
+		  <button type="submit" class="menu-item fa fa-plus-circle addtodoform"></button>
+		  <button type="submit" class="menu-item fa fa-eye view_undone"></button>
+		  <button type="submit" class="menu-item fa fa-eye-slash view_done"></button>
+		  <button type="submit" class="menu-item fa fa-sign-out signout"></button>
+		</menu>
+	  
+	  </div>
+
+	</div>
+
+
+<!--===============================================================================================-->
+	<!-- <script src="vendor/jquery/jquery-3.2.1.min.js"></script> -->
+	
+	<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyDCrysSwqwu4T9tj03xfTvnWgRIvGyEScU",
+    authDomain: "g-todo-d30cb.firebaseapp.com",
+    databaseURL: "https://g-todo-d30cb.firebaseio.com",
+    projectId: "g-todo-d30cb",
+    storageBucket: "g-todo-d30cb.appspot.com",
+    messagingSenderId: "521498548819",
+    appId: "1:521498548819:web:38e8048e8c3b0628c104a6"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+</script>
+	
+	<script
+src="https://code.jquery.com/jquery-3.4.1.js"
+integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/animsition/js/animsition.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/bootstrap/js/popper.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/daterangepicker/moment.min.js"></script>
+	<script src="vendor/daterangepicker/daterangepicker.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/countdowntime/countdowntime.js"></script>
+<!--===============================================================================================-->
+
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+
+<script src="js/main.js"></script>
+</body>
+</html>
