@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link
+      href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      rel="stylesheet"
+      id="bootstrap-css"
+    />
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+    <title>Todo</title>
+  </head>
+
+  <body>
+    <div class="login-page">
+      <div class="tile">
+        <div class="tile-header">
+          <h2
+            style="
+              color: white;
+              opacity: 0.75;
+              font-size: 4rem;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              height: 100%;
+            "
+          >
+            LOGIN
+          </h2>
+        </div>
+
+        <div class="tile-body">
+          <form id="login-form">
+            <label class="form-input">
+              <i class="material-icons">person</i>
+              <input type="email" id="email" required />
+              <span class="label">Email</span>
+              <span class="underline"></span>
+            </label>
+
+            <label class="form-input">
+              <i class="material-icons">lock</i>
+              <input type="password" id="password" required />
+              <span class="label">Password</span>
+              <div class="underline"></div>
+            </label>
+
+            <div class="submit-container clearfix" style="margin-top: 2rem;">
+              <input
+                type="submit"
+                class="btn btn-irenic float-right"
+                tabindex="0"
+                value="Login"
+              />
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAINPAGE -->
+
+    <div class="homepage">
+      <navbar
+        class="navbar"
+      >
+        <a class="navbar-home" href=""><strong>TODO LIST</strong></a>
+        <a class="navbar-home" href="" onclick="logout()"><strong>LOGOUT</strong></a>
+      </navbar>
+      
+      <h1 style="font-size: 50px; margin-top: 60px;">My Todo List</h1>
+      <button id="button" onclick="addFormPage()">Add New Task</button>
+
+      <div class="main-content" style="margin-top: 50px;"></div>
+    </div>
+
+    <!-- ADD FORM PAGE -->
+    
+    <div class="add-form-page">
+        <form>
+            <label for="new-task">Title</label><br>
+            <input type="text" placeholder="new task"><br>
+            <label for="new-task">Description</label><br>
+            <input type="text" placeholder="description"><br>
+            <label for="new-task">Status</label><br>
+            <input type="text" placeholder="belum dibikin"><br>
+            <label for="new-task">Date</label><br>
+            <input type="text" placeholder="belum dibikin"><br>
+        </form>
+
+    </div>
+
+    <script
+      src="https://code.jquery.com/jquery-3.5.0.js"
+      integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc="
+      crossorigin="anonymous"
+    ></script>
+    <script src="script.js"></script>
+  </body>
+</html>
