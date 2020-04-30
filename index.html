@@ -1,93 +1,131 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
-        <link href="https://fonts.googleapis.com/css?family=Lato|Spartan" rel="stylesheet">
-        <meta name="google-signin-client_id" content="352204718470-r8jhv922iacikpn3rk1b5msm5eipfo9p.apps.googleusercontent.com">
-         <script src="https://apis.google.com/js/platform.js" async defer></script>
-        <title>Fancy Todo - Hello WORLD!!</title>
-    </head>
-    <body>
-        <header>
-            <nav id="loggedout" class="breadcrumb login-register" aria-label="breadcrumbs" style="position: fixed; ">
-              <ul>
+
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Lato|Spartan" rel="stylesheet">
+    <meta name="google-signin-client_id"
+        content="352204718470-r8jhv922iacikpn3rk1b5msm5eipfo9p.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <title>Fancy Todo - Hello WORLD!!</title>
+</head>
+
+<body>
+    <header>
+        <div id="loggedout" class="breadcrumb login-register" aria-label="breadcrumbs"
+            style="position: fixed;text-align: center; left : 3%;top : 2%;">
+            <ul>
                 <li><a onclick="">Home</a></li>
                 <li><a onclick="showLogin()">Login</a></li>
                 <li><a onclick="showRegister()">Register</a></li>
-              </ul>
-            </nav>
-            <nav id="loggedin" class="breadcrumb menu" aria-label="breadcrumbs" style="position: fixed;">
-              <ul>
+            </ul>
+        </div>
+        <nav id="loggedin" class="breadcrumb menu" aria-label="breadcrumbs"
+            style="position: fixed;text-align: center; left : 3%;top : 2%;">
+            <ul>
                 <li><a onclick="showList()">List</a></li>
                 <li><a onclick="showAddPage()">Add</a></li>
-                  <li><a onclick="logout()">Logout</a></li>
-              </ul>
-            </nav>
-        </header>
-        
-        <div id="landingPage">
-        
-        <div id="login" style="bottom:55%; position: absolute;">
-            <h2>Login</h2>
-             <form id="login">
-                <input id="loginEmail" type="text" placeholder="email" name="email">
-                 <input id="loginPassword" type="password" placeholder="password" name="password">
-                 <input type="submit" value="login">
-            </form>
-           <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                <li><a onclick="logout()">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div id="landingPage">
+
+        <div id="login" style="bottom:50%;" class="container has-text-centered">
+            <div class="column is-4 is-offset-4">
+                <h2 class="title has-text-black">Login</h2>
+                <hr class="login-hr">
+                <form id="login">
+                    <div class="field">
+                        <div class="control">
+                            <input class="input is-medium" id="loginEmail" type="text" placeholder="email" name="email">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <input class="input is-medium" id="loginPassword" type="password" placeholder="password"
+                                name="password">
+                        </div>
+                    </div>
+
+                    <input class="button is-block is-info is-medium is-fullwidth" type="submit" value="login">
+                </form>
+                <hr class="login-hr">
+                <div class="g-signin2" class="container has-text-centered" data-onsuccess="onSignIn"></div>
+            </div>
         </div>
-        
+
         <div id="register" style="bottom:55%; position: absolute;">
             <h2>Register</h2>
-             <form id="register">
-                <input type="text" placeholder="first_name" id="regFirst_Name">
-                 <input type="text" placeholder="last name" id="regLast_Name">
-                 <input type="text" placeholder="email" id="regEmail">
-                 <input type="password" placeholder="password" id="regPassword">
-                 <input type="submit" value="Register">
+            <form id="register">
+                <div class="field">
+                    <div class="control">
+                        <input type="text" placeholder="first_name" id="regFirst_Name">
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="control">
+                        <input type="text" placeholder="last name" id="regLast_Name">
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="control">
+                        <input type="text" placeholder="email" id="regEmail">
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="control">
+                        <input type="password" placeholder="password" id="regPassword">
+                    </div>
+                </div>
+                <input class="button is-block is-info is-medium is-fullwidth" type="submit" value="Register">
             </form>
         </div>
-            
-            </div>
-        
-        
-    <div id="dashboardPage">
-        
-        <div id="list"  style="bottom:55%; position: absolute;">
-            <h2>welcome back, here's your toDo List</h2>
-            <div  style="position: absolute">
-                <table id="toDoTable" border="">
-                <tr>
-                    <td>Title</td>
-                    <td>Description</td>
-                    <td>Status</td>
-                    <td>Due Date</td>
-                    <td>Actions</td>
-                </tr>
-                    </table>
-            </div>
-                
-        </div>
-        
-         <div id="add" style="bottom:55%; position: absolute;">
-            <h2>add new ToDo's</h2>
-                    <input type="text" placeholder="title" id="addTitle"><br>
-                    <input type="text" placeholder="description" id="addDescription"><br>
-                    <input type="text" placeholder="due date" id="adddue_date"><br>
-                    <button class="" onclick="addToDo()">add</button>
-        </div>
-        
-        <div id="edit" style="bottom:55%; position: absolute;">
-            
-        </div>
-        
+
     </div>
-        
 
-        <footer>
 
-        </footer>
-    </body>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="scripts.js"></script>
+    <div id="dashboardPage">
+
+        <div id="list" style="bottom:55%; right: 10%; position: absolute;">
+            <div class="hero is-info welcome is-small">
+                <h2 class="hero-body title" id="listtitle"></h2>
+            </div>
+            <div style="position: absolute">
+                <table id="toDoTable" border="">
+                    <tr>
+                        <td>Title</td>
+                        <td>Description</td>
+                        <td>Status</td>
+                        <td>Due Date</td>
+                        <td>Actions</td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+
+        <div id="add" style="bottom:55%; position: absolute;">
+            <h2>add new ToDo's</h2>
+            <input type="text" placeholder="title" id="addTitle"><br>
+            <input type="text" placeholder="description" id="addDescription"><br>
+            <input type="text" placeholder="due date" id="adddue_date"><br>
+            <button class="" onclick="addToDo()">add</button>
+        </div>
+
+        <div id="edit" style="bottom:55%; position: absolute;">
+
+        </div>
+
+    </div>
+
+
+    <footer>
+
+    </footer>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="scripts.js"></script>
+
 </html>

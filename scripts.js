@@ -102,6 +102,8 @@ function fetchToDo() {
                     <td>Actions</td>
                 </tr>`)
       const toDo = response.todos
+      console.log(toDo)
+      $('#listtitle').append(`welcome back ${toDo[0].User.first_name} ${toDo[0].User.last_name}, here's your toDo List`)
 //      console.log(response)
       toDo.forEach(temp => {
           var date = new Date(temp.due_date)
