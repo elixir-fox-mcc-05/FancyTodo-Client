@@ -202,6 +202,8 @@ function editTask () {
         $('#editTask').hide()
         $('#editRes').empty()
         $('#editTask').empty()
+        $('#taskRes').empty()
+        
         getTodo()
     })
     .fail(err=>{
