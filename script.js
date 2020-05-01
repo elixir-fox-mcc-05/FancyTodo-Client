@@ -26,40 +26,50 @@ $( document ).ready(function() {
     })
 })
 
-// function register(event){
-//     event.preventDefault()
-//     $.ajax({
-//         method: 'post',
-//         url: baseurl + '/users/signup',
-//         data: {
-//             email: $('#email-register').val(),
-//             password: $('#password-register').val()
-//         }
-//     })
-//         .done(data => {
-//             localStorage.setItem('token', data.token)
-//             auth()
-//         })
-//         .fail(err => {
-//             console.log(err.responseJSON.error)
-//         })
-//         .always(() => {
-//             $('#exampleInputEmail1').val('')
-//             $('#exampleInputPassword1').val('')
-//         })    
-// }
+function registerForm(event){
+    event.preventDefault()
+    $('#edit-page').hide()
+    $('#signin-page').hide()
+    $('#home-page').hide()
+    $('#signup-page').show()
+}
+
+function register(event){
+    event.preventDefault()
+    $.ajax({
+        method: 'post',
+        url: baseurl + '/users/signup',
+        data: {
+            email: $('#email-register').val(),
+            password: $('#password-register').val()
+        }
+    })
+        .done(data => {
+            console.log(data)
+            auth()
+        })
+        .fail(err => {
+            console.log(err.responseJSON.error)
+        })
+        .always(() => {
+            $('#exampleInputEmail1').val('')
+            $('#exampleInputPassword1').val('')
+        })    
+}
 
 
 function auth(){
     if(localStorage.getItem('token')){
         $('#edit-page').hide()
         $('#signin-page').hide()
+        $('#signup-page').hide()
         $('#home-page').show()
         fetchTodos()
     } else {
         $('#edit-page').hide()
-        $('#signin-page').show()
         $('#home-page').hide()
+        $('#signup-page').hide()
+        $('#signin-page').show()
     }
 }
 

@@ -24,16 +24,17 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Signin</button>
             </form>
+            <p>don't have an account? <a href="#!" onclick="registerForm(event)">sign up</a></p>
             <p>or</p>
             <div class="g-signin2" data-onsuccess="onSignIn"></div>
         </div>
     </div>
 
     <!-- REGISTER PAGE -->
-    <!-- <div id="signup-page">
+    <div id="signup-page">
         <div class="container">
             <h1>Welcome to Todos app</h1>
-            <form id="signup-form">
+            <form id="signup-form" onsubmit="register(event)">
                 <div class="form-group">
                     <label for="email-register">Email address</label>
                     <input type="email" class="form-control" id="email-register" aria-describedby="emailHelp" placeholder="Enter email">
@@ -46,7 +47,7 @@
                 <button type="submit" class="btn btn-primary">Signup</button>
             </form>
         </div>
-    </div> -->
+    </div>
 
     <!-- HOME PAGE -->
     <div id="home-page">
@@ -69,7 +70,7 @@
                                 </tr>
                             </thead>
                             <tbody style="cursor: pointer;" id="table-main-todos" onclick="formEdit(event)">
-                            <!--BELUM--><!--di script.js-->
+                            <!--di script.js-->
                             </tbody>    
                         </table>
                     </div>
