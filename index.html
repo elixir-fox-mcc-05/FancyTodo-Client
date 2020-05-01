@@ -1,15 +1,22 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta name="google-signin-client_id" content="121252242533-ejkv268938ffai2al52emoje775v6ap9.apps.googleusercontent.com">
         <title>FancyClient</title>
-        <script src="jquery-3.5.0.min.js"></script>
-        <link rel="stylesheet" href="bootstrap.min.css">
-        <script src="bootstrap.min.js"></script>
+        <!-- <script src="jquery-3.5.0.min.js"></script> -->
+        <!-- <link rel="stylesheet" href="bootstrap.min.css"> -->
+        <!-- <script src="bootstrap.min.js"></script> -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <script src="main.js"></script>
         <link rel="stylesheet" href="custom.css">
         <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
         <link rel="stylesheet" href="https://jqueryui.com/resources/demos/style.css">
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
     </head>
     <body>
         <div id="login-container" class="modal fade" role="dialog"  tabindex="-1" aria-hidden="true">
@@ -19,8 +26,8 @@
                     <div>
                         <div class="form-group col-md-12"><input id="login-email" class="form-control" type="text" name="email" placeholder="E-mail"></div>
                         <div class="form-group col-md-12"><input id="login-password" class="form-control" type="password" name="password" placeholder="Password"></div>
-                        <div class="form-group col-md-12"><label></label><input id="login-submit" class="form-control" type="button" value="Continue" onclick="login()"></div>
-                        <!-- <div class="form-group col-md-12"><a id="btn-fblogin" href="#" class="btn btn-primary">Login with Facebook</a></div>                 -->
+                        <div class="form-group col-md-12"><label></label><input id="login-submit" class="form-control" type="button" value="Continue" onclick="login()"></div>   
+                        <div id="googlebutton" class="g-signin2 form-group col-md-12" data-onsuccess="onSignIn"></div>           
                     </div>
                 </div>
             </form>
@@ -35,7 +42,8 @@
                         <div class="form-group col-md-12"><input id="register-email" class="form-control" type="text" name="email" placeholder="E-mail"></div>
                         <div class="form-group col-md-12"><input id="register-password" class="form-control" type="password" name="password" placeholder="Password"></div>
                         <div class="form-group col-md-12"><label></label><input id="register-submit" class="form-control" type="button" value="Register" onclick="register()"></div>
-                        <!-- <div class="form-group col-md-12"><a id="btn-fblogin" href="#" class="btn btn-primary">Register with Facebook</a></div> -->
+                        <div id="googlebutton" class="g-signin2 form-group col-md-12" data-onsuccess="onSignIn"></div>           
+                        
                     </div>
                 </div>
             </form>
@@ -48,19 +56,22 @@
           
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
+                    <li class="nav-item ">
                         <a style="color: white;" id="register-nav" href="#" class="nav-link" data-toggle="modal" data-target="#register-container">Register<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
                         <a style="color: white;" id="login-nav" href="#" class="nav-link" data-toggle="modal" data-target="#login-container">Login<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
+                        <a style="color: white;" id="user-nav" href="#" class="nav-link" data-toggle="modal" data-target="#edituser-container"></a>
+                    </li>
+                    <li class="nav-item active">
                         <a style="color: white;" id="logout-nav" href="#" class="nav-link" onclick="logout()">Logout<span class="sr-only">(current)</span></a>
                     </li>
                 </ul>
 
                 <form id="new-task" class="form-inline my-2 my-lg-0"> 
-                    <a id="btn-fblogin" href="#" class="btn btn-primary" data-toggle="modal" data-target="#todo-add-container">Add Task</a>
+                    <a id="btn" href="#" class="btn btn-primary" data-toggle="modal" data-target="#todo-add-container" onclick="ready();clearForms()">Add Task</a>
                 </form>
             </div>
         </nav>
@@ -88,13 +99,17 @@
 
         <div id="todo-add-container" class="modal fade" role="dialog"  tabindex="-1" aria-hidden="true">
             <form class="modal-dialog modal-dialog-centered" >
+                <input type="hidden" id="edit-id" name="edit-id">
                 <div class="modal-content">
                     <div class="form-group col-md-12"><label></label><div id="todo-error" class="alert alert-danger"></div></div>
                     <div>
                         <div class="form-group col-md-12"><input id="todo-title" class="form-control" type="text" name="title" placeholder="title"></div>
                         <div class="form-group col-md-12"><input id="todo-description" class="form-control" type="text" name="description" placeholder="description"></div>
-                        <div class="form-group col-md-12"><input id="datepicker" class="form-control" type="text" name="due-date" placeholder="due-date"></div>
-                        <div class="form-group col-md-12"><label></label><input id="todo-submit" class="form-control" type="button" value="Save" onclick="createTodo()"></div>
+                        <div class="form-group col-md-12"><input id="datepicker" class="edit-datepicker form-control" type="text" name="due-date" placeholder="due-date"></div>
+                        <div class="form-group col-md-12"><label></label>
+                            <input id="todo-submit" class="form-control" type="button" value="Save" onclick="createTodo()">
+                            <input id="todo-edit" class="form-control" type="button" value="Save Changes" onclick="editTodo()">
+                        </div>
                     </div>
                 </div>
             </form>
@@ -104,6 +119,7 @@
             $( function() {
                 $( "#datepicker" ).datepicker({ minDate: +1 });
                 $( "#datepicker" ).datepicker( "option", "dateFormat", `yy-mm-dd` );
+                  $('#datepicker').datepicker("setDate", new Date() );
             } );
             </script>
     </body>

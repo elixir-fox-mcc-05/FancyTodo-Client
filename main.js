@@ -1,11 +1,34 @@
 $(document).ready(_=> {
+  // getSplash();
+  if(localStorage.getItem('token')){
+    ready()
+    getNick()
+    loadTodos()
+  } else {
     hideAll();
-    if(localStorage.getItem('token')){
-      ready()
-    }
+  }
+
 })
 
+function getNick(){
+  const token = localStorage.getItem('token')
+  $.ajax({
+    method : `GET`,
+    url : `http://localhost:3000/users/getNick`,
+    headers : {
+      token
+    }
+  }).done( result => {
+    $(`#user-nav`).html(`Hello, ${result.nickname}`);
+  })
+  .fail(function (err) {
+    console.log(err)
+  })  
+}
+
 function ready() {
+  $(`#todo-error`).hide();
+  $(`#edit-error`).hide();
   $(`#todo-pending`).show();
   $(`#todo-active`).show();
   $(`#todo-complete`).show();
@@ -13,7 +36,22 @@ function ready() {
   $(`#register-nav`).hide();
   $(`#login-nav`).hide();
   $(`#logout-nav`).show();
-  loadTodos()
+  $(`#user-nav`).show();
+  $(`#todo-edit`).hide()
+  $(`#todo-submit`).show()
+}
+
+function getSplash(){
+  $.ajax({
+    method : `GET`,
+    url : `https://api.unsplash.com/photos/random?client_id=uB0iTLuGuthziJ3jGZmTjRVDu5Us4ifS9m_8Qr41L1s`
+  }).done( result => {
+    console.log(result.urls.full)
+    $(`body`).css(`background-image`,`url(${result.urls.full})`)
+  })
+  .fail(function (err) {
+    console.log(err)
+  })  
 }
 
 function hideAll() {
@@ -26,10 +64,12 @@ function hideAll() {
     $(`#todo-add-container`).hide();
     $(`#new-task`).hide();
     $(`#logout-nav`).hide();
+    $(`#user-nav`).hide();
     $(`#todo-queue-container`).empty()
     $(`#todo-active-container`).empty()
     $(`#todo-complete-container`).empty()
-};
+    $(`#todo-edit`).hide()
+  };
 
 function login() {
     $(`#login-error`).hide()
@@ -55,8 +95,10 @@ function login() {
           $(`#todo-pending`).show();
           $(`#todo-active`).show();
           $(`#todo-complete`).show();
+          $(`#user-nav`).show();
           $(`#new-task`).show();
           loadTodos()
+          getNick()
         })
         .fail(function (err) {
           $(`#login-error`).show()
@@ -96,6 +138,10 @@ function register() {
 
 function logout() {
     localStorage.clear()
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
+    });
     hideAll()
     $(`#register-nav`).show();
     $(`#login-nav`).show();
@@ -155,9 +201,14 @@ function newCard(id, title, description, due, status) {
   return `
 <div class="card">
   <div class="card-body">
+  <a href="#">
+   <span class="glyphicon glyphicon-pencil"></span>
+  </a>
   <button title="Delete Entry" type="button" class="close" data-dismiss="modal" aria-label="Close" onClick="deleteTodo(${id})"><span aria-hidden="true">&times;</span></button>
+    <div><a title="Edit entry" href="#" data-toggle="modal" data-target="#todo-add-container" onClick="prepEdit(${id},'${title}','${description}','${due}')"><i class="fa fa-pencil-square-o" style="font-size:16px; float:"></i></a></div>
     <h5 class="card-title">${title}</h5>
-    <p class="card-text">${description} <br>Due :<br> ${fullDate}</p>
+    <hr>
+    <p class="card-text">${description} <br><br>Due :<br> ${fullDate}</p>
     <a href="#" class="" id="todoid${id}" onClick="alterTodo(${id},'active')">mark active</a>
   </div>
 </div>`
@@ -166,8 +217,10 @@ function newCard(id, title, description, due, status) {
     <div class="card">
       <div class="card-body">
       <button title="Delete Entry" type="button" class="close" data-dismiss="modal" aria-label="Close" onClick="deleteTodo(${id})"><span aria-hidden="true">&times;</span></button>
-        <h5 class="card-title">${title}</h5>
-        <p class="card-text">${description} <br>Due :<br> ${fullDate}</p>
+      <div><a title="Edit entry" href="#" data-toggle="modal" data-target="#todo-add-container" onClick="prepEdit(${id},'${title}','${description}','${due}')"><i class="fa fa-pencil-square-o" style="font-size:16px; float:"></i></a></div>
+      <h5 class="card-title">${title}</h5>
+      <hr>
+        <p class="card-text">${description} <br><br>Due :<br> ${fullDate}</p>
         <a href="#" class="" id="todoid${id}" onClick="alterTodo(${id},'queued')">mark inactive</a>
         <a href="#" class="" id="todoid${id}" onClick="alterTodo(${id},'complete')">mark complete</a>
       </div>
@@ -177,8 +230,9 @@ function newCard(id, title, description, due, status) {
     <div class="card">
       <div class="card-body">
       <button title="Delete Entry" type="button" class="close" data-dismiss="modal" aria-label="Close" onClick="deleteTodo(${id})"><span aria-hidden="true">&times;</span></button>
-        <h5 class="card-title">${title}</h5>
-        <p class="card-text">${description} <br>Status :<br> ${status}</p>
+      <h5 class="card-title">${title}</h5>
+      <hr>
+        <p class="card-text">${description} <br><br>Status :<br> ${status}</p>
       </div>
     </div>`
   }
@@ -289,4 +343,81 @@ function clearToast(milis){
   setTimeout(_=> {
     $(`.toast-container`).empty();
   },milis)
+}
+
+function prepEdit(id, title, description, due) {
+  $(`#todo-error`).hide();
+  $(`#todo-submit`).hide()
+  $(`#todo-edit`).show()
+  let date = new Date(due)
+  let fullDate = date.getFullYear()+'/'+(date.getMonth()+1)+'/'+date.getDate();
+  $(`#edit-id`).val(id)
+  $(`#todo-title`).val(title)
+  $(`#todo-description`).val(description)
+  $('#datepicker').datepicker("setDate", date );
+}
+
+function editTodo(){
+  const token = localStorage.getItem('token')
+  $(`#todo-error`).hide()
+
+  let id = $(`#edit-id`).val();
+  let title = $(`#todo-title`).val()
+  let description = $(`#todo-description`).val()
+  let due_date = $(`#datepicker`).val()
+  $.ajax({
+    method: 'PUT',
+    url: `http://localhost:3000/todos/${id}`,
+    data: {
+      title,
+      description,
+      due_date
+    },
+    headers : {
+      token
+    }
+  })
+  .done(function (response) {
+    loadTodos()
+    $(`#todo-add-container`).modal(`hide`)
+    clearForms();
+  })
+  .fail(function (err) {
+    console.log(err)
+    $(`#todo-error`).show();
+    $(`#todo-error`).empty();
+    $(`#todo-error`).append(err.statusText);
+  })
+}
+
+function onSignIn(googleUser) {
+  var google_token = googleUser.getAuthResponse().id_token;
+  $.ajax({
+    url : `http://localhost:3000/users/googleauth`,
+    method : `POST`,
+    headers : {
+      google_token
+    }
+  })
+  .done( response => {
+    $(`#register-nav`).hide();
+    $(`#login-nav`).hide();
+    $(`#logout-nav`).show();
+    $(`#login-container`).modal(`hide`);
+
+    const token = response.token
+    localStorage.setItem('token', token)
+    clearForms();
+    $(`#todo-pending`).show();
+    $(`#todo-active`).show();
+    $(`#todo-complete`).show();
+    $(`#user-nav`).show();
+    $(`#new-task`).show();
+    loadTodos()
+    getNick()
+  })
+  .fail(function (err) {
+    // console.log(err.statusText)
+  })
+
 }

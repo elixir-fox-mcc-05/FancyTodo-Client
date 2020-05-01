@@ -1,6 +1,8 @@
 body{
-    background-image: url('./bg.jpg'); 
+    background-image: url('bg.jpg');
     background-repeat: repeat;
+    background-position: center; /* Center the image */
+    background-size: cover; /* Resize the background image to cover the entire container */
 }
 .todotitle {
     background-color: white;
