@@ -2,7 +2,7 @@ let baseurl = 'http://localhost:3000'
 
 $( document ).ready(function() {
     auth()
-    $('#form-login').submit( event => {
+    $('#signin-form').submit( event => {
         event.preventDefault()
         $.ajax({
             method: 'post',
@@ -26,22 +26,49 @@ $( document ).ready(function() {
     })
 })
 
+// function register(event){
+//     event.preventDefault()
+//     $.ajax({
+//         method: 'post',
+//         url: baseurl + '/users/signup',
+//         data: {
+//             email: $('#email-register').val(),
+//             password: $('#password-register').val()
+//         }
+//     })
+//         .done(data => {
+//             localStorage.setItem('token', data.token)
+//             auth()
+//         })
+//         .fail(err => {
+//             console.log(err.responseJSON.error)
+//         })
+//         .always(() => {
+//             $('#exampleInputEmail1').val('')
+//             $('#exampleInputPassword1').val('')
+//         })    
+// }
+
+
 function auth(){
     if(localStorage.getItem('token')){
         $('#edit-page').hide()
-        $('#login-page').hide()
+        $('#signin-page').hide()
         $('#home-page').show()
         fetchTodos()
     } else {
         $('#edit-page').hide()
-        $('#login-page').show()
+        $('#signin-page').show()
         $('#home-page').hide()
     }
 }
 
 function logout(){
-    localStorage.clear()
-    auth()
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+        localStorage.clear()
+        auth()
+    });
 }
 
 function fetchTodos(){
@@ -102,7 +129,7 @@ function addNewTodo(event){
 function formEdit(event){
     event.preventDefault()
     let id
-    $('#login-page').hide()
+    $('#signin-page').hide()
     $('#home-page').hide()
     $('#edit-page').show()
     $("#home-table").on("click", "tr", function (row, $el, field) {
@@ -195,7 +222,7 @@ function editTodo(event){
             .done(data => {
                 fetchTodos()
                 $('#edit-page').hide()
-                $('#login-page').hide()
+                $('#signin-page').hide()
                 $('#home-page').show()
                 
             })
@@ -224,7 +251,7 @@ function deleteTodo(event){
             .done(() => {
                 fetchTodos()
                 $('#edit-page').hide()
-                $('#login-page').hide()
+                $('#signin-page').hide()
                 $('#home-page').show()
             })  
             .fail(err => {
@@ -233,3 +260,20 @@ function deleteTodo(event){
     })
 }       
 
+function onSignIn(googleUser) {
+    const id_token = googleUser.getAuthResponse().id_token;     
+    $.ajax({
+        method: 'post',
+        url: `${baseurl}/users/google-signin`,
+        headers: {
+            google_token: id_token
+        }
+    })
+        .done(data => {
+            localStorage.setItem('token', data.token)
+            auth()
+        })
+        .catch(err => {
+            console.log(err.responseJSON.error)
+        })
+}
