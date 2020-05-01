@@ -8,8 +8,11 @@ function checkToken() {
         $('#logout').show();
         $('#btn-login').hide();
         $('#modal-body').css('display', 'none');
+        $('#modal-covid').css('display', 'none');
         $('#modal-body-home').css('display', 'none');
         $('#addTask').slideUp();
+        $('nav').removeClass('fixed-top');
+        $('.bg-custom').css('background-color','rgba(80, 39, 28, 0.8)')
         showAllTask();
     } else {
         $('#homePage').hide();
@@ -18,6 +21,8 @@ function checkToken() {
         $('#logout').hide();
         $('#modal-body').css('display', 'none');
         $('#modal-body-home').css('display', 'none');
+        $('nav').addClass('fixed-top');
+        $('.bg-custom').css('background-color','rgba(94, 94, 92, 0.5)')
     }
 }
 
@@ -111,12 +116,14 @@ function addNewTask(title, description, due_date) {
         }
     })
         .done(res=> {
-            console.log(res);
             $('#newTaskTitle').val('');
             $('#newTaskDescription').val('');
             $('#newTaskDue_Date').val('');
-            appendTodo(res.Todo)
+            appendTodo(res.Todo);
+            showCountry();
+            showPopUp('Global');
             $('.alert').hide();
+            $('#modal-covid').css('display', 'flex');
         })
         .fail(err => {
             $('.alert').show();
@@ -124,11 +131,92 @@ function addNewTask(title, description, due_date) {
         })
 }
 
+function showCountry() {
+    const { token } = localStorage;
+    $.ajax({
+        method: 'GET',
+        url: `${baseURl}/public_apis/covid`,
+        headers: {
+            token
+        }
+    })
+        .done(res => {
+            $('#country').append(`<option value="Global">Global</option>`);
+            res.countries.forEach(country => {
+                $('#country').append(`<option value="${country}">${country}</option>`);
+            })
+        })
+        .fail(err => {
+            console.log(err);
+        })
+}
+
+function showPopUp(country) {
+    const { token } = localStorage;
+    $.ajax({
+        method: 'GET',
+        url: `${baseURl}/public_apis/covid/${country}`,
+        headers: {
+            token
+        }
+    })
+        .done(res => {
+            var ctx = $('#covid');
+            var myChart = new Chart(ctx, {
+                type: 'horizontalBar',
+                data: {
+                    labels: ['New Confirmed', 'Total Confirmed', 'New Deaths', 'Total Deaths', 'New Recovered', 'Total Recovered'],
+                    datasets: [{
+                        label: `${country} casualties`,
+                        data: [res.country.NewConfirmed, res.country.TotalConfirmed, res.country.NewDeaths, res.country.TotalDeaths, res.country.NewRecovered, res.country.TotalRecovered],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        text: 'Global Casualties Cause by COVID19'
+                    }
+                }
+            });
+            console.log(res);
+        })
+        .fail(err => {
+            console.log(err);
+        })
+}
+
 function appendTodo(todo) {
-    let newTodo = $(`<li class="list-group-item">${todo.title}
-                    <i class="fas fa-fw fa-times-circle">
-                    </i><input type="button" value="Edit" class="btn btn-outline-warning edit-task btn-sm">
-                    </input><input type="button" value="Show Detail" class="btn btn-outline-primary display-task btn-sm"></input>
+    let newTodo = $(`<li class="list-group-item" style="overflow: hidden;">
+                    <div class="title-btn-group">
+                    <h5>${todo.title}</h5>
+                    <div>
+                    <input type="button" value="Show Detail" class="btn btn-outline-primary display-task btn-sm"></input>
+                    <input type="button" value="Edit" class="btn btn-outline-warning edit-task btn-sm"></input>
+                    <i class="fas fa-fw fa-times-circle"></i>
+                    </div>
+                    </div>
+                    <div class="collapse-detail" style="display: none;">
+                    <h6>Title: ${todo.title}</h6>
+                    <h6>Description: ${todo.description}</h6>
+                    <h6>Due Date: ${todo.due_date.slice(0,10)}</h6>
+                    </div>
                     </li>`);
     newTodo.data('id', todo.id);
     newTodo.data('status', todo.status);
@@ -311,21 +399,20 @@ $(document).ready(function() {
         const title = $('#newTaskTitle').val();
         const description = $('#newTaskDescription').val();
         const due_date = $('#newTaskDue_Date').val();
-        console.log(due_date);
         addNewTask(title, description, due_date)
     })
 
     //Delete
     $('#tasklist').on('click', 'i', function(event) {
         event.stopPropagation();
-        const id = $(this).parent().data('id');
+        const id = $(this).parent().parent().parent().data('id');
         deleteTask(id);
     })
 
     //Show edit form
     $('#tasklist').on('click', '.edit-task', function(event) {
         event.stopPropagation();
-        const id = $(this).parent().data('id');
+        const id = $(this).parent().parent().parent().data('id');
         readTaskById(id);
     })
 
@@ -350,6 +437,33 @@ $(document).ready(function() {
         checkedTodo($(this));
     })
 
+    //Toggle detail
+    $('#tasklist').on('click', '.display-task', function(event){
+        event.stopPropagation();
+        $(this).parent().parent().parent().find('.collapse-detail').slideToggle(function(){
+            if($(this).parent().find('.display-task').val() === "Show Detail") {
+                $(this).parent().find('.display-task').val('Hide Detail');
+            } else {
+                $(this).parent().find('.display-task').val('Show Detail');
+            }
+        });
+    })
+
+    //Show pop-up
+    $('#country').change(function(event) {
+        country = $(this).val();
+        $('#covid').remove();
+        $('#canvas').append(`<canvas id="covid" class="text-center" height="280"></canvas>`);
+        showPopUp(country);
+    })
+
+    //Close pop-up
+    $('#okay').click(function(event) {
+        event.preventDefault();
+        $('#modal-covid').css('display', 'none');
+    })
+
+
     //Logout
     $('#logout').click(function(event) {
         event.preventDefault();
@@ -362,6 +476,5 @@ $(document).ready(function() {
     })
     
 })
-
 
 

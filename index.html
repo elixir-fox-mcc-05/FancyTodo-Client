@@ -14,14 +14,20 @@
     <title>Document</title>
     <style>
         #homePage {
-            background-color: rgb(137, 109, 240);
+            background-color: #c97c5d;
             height: 100%;
             min-height: 100vh;
             overflow: hidden;
         }
 
+        .username {
+            color: #3a2b2a;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: 35px;
+        }
+
         i.fa-times-circle {
-            float: right;
+            /* float: right; */
             color: rgb(241, 41, 41);
             font-weight: 900;
             opacity: 0.5;
@@ -30,6 +36,13 @@
         i.fa-times-circle:hover, .list-group-item:hover {
             opacity: 1;
             cursor: pointer;
+        }
+
+        .list-group-item {
+            margin-top: 1px;
+            border-radius: 10px;
+            background-color: #f0f0fe;
+            color: #323a38;
         }
 
         .complete {
@@ -68,7 +81,7 @@
         }
 
         .bg-custom {
-            background-color: rgb(94, 94, 92, 0);
+            background-color: rgb(80, 39, 28);
         }
 
         .custom_padding {
@@ -78,7 +91,7 @@
             position: fixed;
         }
 
-        #modal-body, #modal-body-home {
+        #modal-body, #modal-body-home, #modal-covid {
             position: fixed;
             width: 100%;
             height: 100vh;
@@ -92,9 +105,18 @@
         }
 
         .edit-task, .display-task {
-            float: right;
             padding: 3px;
             margin-right: 1rem;
+        }
+        
+        .title-btn-group {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        #covid {
+            width: 65%;
+            height: 40px;
         }
     </style>
 </head>
@@ -173,7 +195,7 @@
         <!-- Home Page -->
         <div id="homePage" class="custom-padding">
             <div class="listtask container">
-                <h2 style="text-align: center;">Hey, <span id="user_name"></span> this is list of your task</h2>
+                <h2 class="text-center username">Hey, <span id="user_name"></span> this is list of your task</h2>
                 <button id="addFormToggle" class="btn btn-success btn-xl mb-3">Add New Task</button>
                 <ul id="tasklist" class="list-group">
 
@@ -181,7 +203,7 @@
             </div>
 
 
-            <div id="addTask" class="container border rounded shadow-sm p-3 mb-5 bg-white mt-5 w-75">
+            <div id="addTask" class="container border rounded shadow-sm p-3 mb-5 bg-white mt-5 w-75" style="display: none;">
                 <form class="form-group" id="addTaskForm">
                     <h1>Add Task</h1>
                     <div class="form-group">
@@ -231,13 +253,36 @@
                     </form>
                 </div>
             </div>
+
+            <div id="modal-covid" class="container-fluid">
+                <div id="covid-warning" class="container border rounded shadow-sm p-3 mb-5 bg-white mt-5 w-75 text-center">
+                    <i class="text-center fas fa-check-circle" style="font-size: 35px; color: greenyellow;"></i>
+                    <h6 class="text-center"><strong>Success Add New Task to Your To Do List</strong></h6>
+                    <h5>Whatever you have plan to do, while its not essentials, <br> Please <strong>#StayAtHome</strong></h5>
+                    <select name="country" id="country">Select country
+                        <option value="" selected disabled>choose country</option>
+                    </select>
+                    <div id="canvas">
+                        <canvas id="covid" class="text-center" height="280"></canvas>
+                    </div>
+                    <div>
+                        <input type="button" id="okay" value="I Understand" class="btn btn-success btn-sm text-center">
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     
+    <!-- Google APIs Script -->
     <script src="https://apis.google.com/js/platform.js" async defer></script>
 
+    <!-- Jquery -->
     <script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
+    
+    <!-- Chart Js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
+    <!-- Main Script -->
     <script src="./jquery.js"></script>
 </body>
 </html>
-
