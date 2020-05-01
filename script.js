@@ -122,6 +122,11 @@ $(document).ready(function () {
             
         })
     })
+
+    // $("#randomize-quote").on("click", function() {
+        
+        
+    // })
 });
 
 /**
@@ -139,6 +144,7 @@ const auth = () => {
         $("#main-page").show()
         $("#create-todo-form").hide()
         fetchToDos()
+        checkIp()
     } else {
         $("#landing-page").show()
         $("#register-page").hide()
@@ -201,12 +207,15 @@ const fetchToDos = () => {
         $(".card").text("")
         data.ToDos.forEach(element => {
             let date = new Date(element.due_date)
+            let dateNow = new Date()
+            let dayRemaining = Math.round((date - dateNow)/86400000)
+            
             $(".card").append(`
             <div id="card-${element.id}" class="card-body">
 
                 <h4 class="card-title">${element.status ? "&#9745; - " : ""}${element.title}</h4>
                 <div class="alert alert-info" role="alert">
-                <strong>Due date : </strong>${element.due_date}
+                <strong>Due date : </strong>${element.due_date} ${dayRemaining >= 0 ? "- ( " + dayRemaining + " days remaining )" : "- ( EXPIRED )"}
                 </div>
                 <h6 class="card-subtitle mb-2 text-white ${element.status ? "bg-success" : "bg-danger"} " >${element.status ? "[ COMPLETED ! ]" : "[ Not yet completed ]"}</h6>
                 <p class="card-text">
@@ -268,5 +277,37 @@ const deleteToDo = (id) => {
     })
     .fail(err => {
         console.log(err)
+    })
+}
+
+const randomizeQuote = () => {
+    
+    $.ajax({
+        method : "get",
+        url : baseUrl + "/randomquote",
+
+    })
+    .done(data => {
+        $("#quote-author").empty()
+        $("#quote-text").empty()
+        $("#quote-author").append(` -( ${data.quote.quoteAuthor} ) :`)
+        $("#quote-text").append(data.quote.quoteText)
+    })
+    .fail(err => {
+        console.log(err);
+    })
+}
+
+const checkIp = () => {
+
+    $.ajax({
+        method : "get",
+        url : baseUrl + "/checkip"
+    })
+    .done(data => {
+        $("#ip").text(data.ipAddress)
+    })
+    .fail(err => {
+        console.log(err);
     })
 }

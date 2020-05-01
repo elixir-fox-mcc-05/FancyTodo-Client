@@ -62,6 +62,9 @@
                     <button id="create-button" class="btn btn-success" onclick="create()">Create a ToDo</button>
                     <button id="logout-button" class="btn btn-danger" onclick="logout()">Logout</button>
                 </nav>
+
+                <button id="randomize-quote" type="button" class="btn btn-info" onclick="randomizeQuote()">Randomize Quote</button><i id="quote-author"></i><p id="quote-text"></p>
+
                 <hr>
                 <form id="create-todo-form">
                     <h2>Create a ToDo</h2>
@@ -83,6 +86,11 @@
                 </div>       
             </div>
             <!-- End Main Page -->
+
+            <footer>
+                <p>Copyright &copy; <script>document.write(new Date().getFullYear())</script> Yudha Arief Wijaya - All Rights Reserved |
+                <strong>Your IP Address</strong> : <i id="ip"></i></p>
+            </footer>
         </div>
 
         <!-- Begin jQuery -->
