@@ -36,6 +36,8 @@ $( document ).ready(function() {
             .done(data => {
                 const token = data.token;
                 localStorage.setItem('token', token);
+                $('#main-section').show();
+                $('#add-button').show();
                 auth();
             })
             .fail(err => {
@@ -68,8 +70,11 @@ $( document ).ready(function() {
                 $('#form-register').hide();
             })
             .fail(err => {
-                const error = err.responseJSON.errors[0].message;
-                $('#feedback-register').text(`${error}`);
+                let error;
+                for (let i = 0; i < err.responseJSON.errors.length; i++) {
+                    error = err.responseJSON.errors[i].message;
+                    $('#feedback-register').append(`<p>${error}</p>`);
+                }
             })
             .always(_ => {
                 $('#name-register').val('');
@@ -104,6 +109,7 @@ $( document ).ready(function() {
                 $('.add-btn').hide();
                 $('#form-todo').hide();
                 $('#main-section').show();
+                $('#add-button').show();
             })
             .fail(err => {
                 const error = err.responseJSON.errors[0].message;
@@ -127,6 +133,7 @@ function auth() {
         $('.add-btn').show();
         $('#form-todo').hide();
         $('#register').hide();
+        $('#google-signin').hide();
         
     } else {
         $('#form-login').show();
@@ -135,14 +142,19 @@ function auth() {
         $('#login').show();
         $('.add-btn').hide();
         $('#form-todo').hide();
+        $('#google-signin').show();
     }
 }
 
 function logout(event) {
     event.preventDefault();
-    $('#main-section').hide();
-    localStorage.clear();
-    auth();
+    const auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+        $('#main-section').hide();
+        localStorage.clear();
+        $('#register').show();
+        auth();
+    });
 }
 
 function fetchTodo() {
@@ -213,6 +225,7 @@ function deleteTodo(id) {
             $('.add-btn').hide();
             $('#form-todo').hide();
             $('#main-section').show();
+            $('#add-button').show();
         })
         .fail(err => {
             const error = err.responseJSON.errors[0].message;
@@ -238,6 +251,7 @@ function updateTodo(id, title, description, due_date) {
                 <div class="invalid-feedback" id="feedback-todo-edit"></div>
             </div>
             <button type="submit" onclick="submitEdit(event, ${id})" class="btn btn-success">Submit</button>
+            <button type="" onclick="showMainContent(event)" class="btn btn-success">Cancel</button>
         </form>
     `)
     $('#edit-todo').show();
@@ -266,6 +280,7 @@ function submitEdit(event, id) {
             $('.add-btn').hide();
             $('#form-todo').hide();
             $('#main-section').show();
+            $('#add-button').show();
             $('#edit-todo').hide();
             $('#edit-todo').empty();
         })
@@ -291,5 +306,30 @@ function changeDate(date) {
 
 function showMainContent(event) {
     event.preventDefault();
-    auth();
+    fetchTodo();
+    $('#main-section').show();
+    $('#add-button').show();
+    $('#form-todo').hide();
+    $('#edit-todo').empty();
+    $('#edit-todo').hide();
+}
+
+function onSignIn(googleUser) {
+   const id_token = googleUser.getAuthResponse().id_token;
+   $.ajax({
+       method: 'post',
+       url: baseUrl + '/users/google-login',
+       headers: {
+           google_token: id_token
+       }
+   })
+        .done(data => {
+            localStorage.setItem('token', data.token);
+            $('#main-section').show();
+            $('#add-button').show();
+            auth();
+        })
+        .fail(err => {
+            console.log(err)
+        })
 }
