@@ -39,26 +39,34 @@ function home(){
         let todaymonth = new Date().toLocaleString('default', { month: 'long' })
         $('#homeContent').html(`
             <h1>${todaymonth}<h1>
+            <div class="column"></div>
             
         `)
-        for (let i =0; i < (new Date(today.getFullYear(), today.getMonth(),0).getDate()); i+6){
-                $('#homeContent').append(`
-                    <div class="columns">
-                    <div class="column">${i+1}</div>
-                    <div class="column">${i+2}</div>
-                    <div class="column">${i+3}</div>
-                    <div class="column">${i+4}</div>
-                    <div class="column">${i+5}</div>
-                    <div class="column">${i+6}</div>
-                    <div class="column">${i+7}</div>
-                    </div>
-                    `)
-//            if(i % 7 == 0){
-//                    $('#homeContent').append(`
-//                       </div>
-//                        <div class="columns">
-//                    `)
-//            }
+        let temp = ``
+        for (let i = 0; i < (new Date(today.getFullYear(), today.getMonth(),0).getDate()); i++){
+            temp += `<div class="columns">`
+            for(let o = 0; o < 7 ; o++){
+//                console.log(response.data[0])
+                for(let x = 0; x < response.data.length; x++){
+//                    console.log(response.data[x])
+                    console.log(i+1,response.data[x].date.datetime.day)
+                    if(today.getMonth() == response.data[x].date.datetime.month){
+                        if(`${i+1}` == `${response.data[x].date.datetime.day}`){
+                             temp += `<div class="column has-text-centered" style="background-color:red;border-radius:50%;height:60px;">${i+1}</div>`
+                             $('#holidayList').append(`<p>${response.data[x].date.datetime.day} : ${response.data[x].name}</p>`)
+                        }else if (today.getDate() == i+1){
+                            temp += `<div class="column has-text-centered" style="background-color:powderblue;border-radius:50%;height:60px;">${i+1}</div>`
+                        }else {
+                             temp += `<div class="column has-text-centered" style="border-radius:50%;height:60px;">${i+1}</div>`
+                        }
+                        break;
+                    }
+                }   
+                i++
+            }
+            temp += `</div>`
+            $('#homeContent').append(temp)
+            temp = ``
         }
 
     })
@@ -111,6 +119,7 @@ function checkStorage() {
     $('#login').show()
     $('#loggedin').hide()
     $('#loggedout').show()
+    
   }
 }
 
@@ -156,7 +165,7 @@ function fetchToDo() {
             <td>${temp.status ? 'completed' : 'incompleted'}</td>
             <td>${date.getDate()}-${date.getMonth()}-${date.getFullYear()}</td>
             <td><button class="button is-small is-primary has-background-info" onclick="showEditPage(${temp.id},'${temp.title}','${temp.description}','${temp.due_date}',${temp.status},${temp.UserId})">edit</button>
-            <button  class="button is-small is-primary has-background-danger" onclick="showRemoveConfirm(${temp.id})">delete</button></td>
+            <button  class="button is-small is-primary has-background-danger" onclick="showRemoveConfirm('${temp.id}','${temp.title}')">delete</button></td>
         </tr><br>
          `)
       })
@@ -250,34 +259,26 @@ function addToDo() {
       let error = err.responseJSON.err.split(",")
       $('#addErrorHeader').show()
       $('#addError').text(error[0])
-//      console.log(err.responseJSON)
     })
 }
 
 
-function showDelete(){
-    hideAll()
+
+function showRemoveConfirm(id,name){
     $('#delete').show()
-    $('#delete').html(`<div class="box">
-                    <h1 class="hero-body title">Edit ToDo</h1>
-                    <h2 id="editError" class=""></h2>
-                    <input class="input is-medium" type="text" placeholder="title" id="editTitle" value="${title}"><br>
-                    <input class="input is-medium" type="text" placeholder="description" id="editDescription" value="${description}"><br>
-                    <input class="input is-medium" type="text" placeholder="due date" id="editdue_date" value="${due_date}"><br>
-                    <input class="radio" type="radio" id="editStatus" name="status" value="false" ${!status ? "checked" : ""}>not completed
-                    <input class="radio" type="radio" id="editStatus" name="status" value="true" ${status ? "checked" : ""}>completed
-                    <button class="button is-block is-info is-large is-fullwidth" onclick="update('${id}','${title}','${description}','${due_date}','${status}','${UserId}')">Edit</button>
+     $('#delete').html(`<div class="box">
+                    <h1 class="title">Delete?</h1>
+                    <h3 style="margin-bottom:15px;">are you sure want to delete ${name} ?</h3>
+                    <button class="button is-block is-info is-large is-fullwidth" onclick="remove(${id})">Delete</button>
+                    <section class="column is-small"></section>
+                    <button class="button is-block is-info is-yellow is-small is-fullwidth" onclick="$('#delete').hide()">Cancel</button>
                     <div>
     `)
 }
 
-function showRemoveConfirm(id){
-    $('#delete').show()
-    $('#delete').append()
-}
-
 
 function remove(id) {
+    $('#delete').hide()
   const token = localStorage.getItem('token')
   $.ajax({
     method: 'delete',
@@ -302,16 +303,27 @@ function showEditPage(id, title, description, due_date, status, UserId) {
   $('#edit').show()
   $('#edit').html(`<div class="box">
                     <h1 class="hero-body title">Edit ToDo</h1>
-                    <h2 id="editError" class=""></h2>
+                    <article id="editErrorHeader" class="is-offset-3 message is-danger">
+                                      <div class="message-header  is-half">
+                                        <p>Error</p>
+                                      </div>
+                                      <h2 id="editError" class=""></h2>
+                                    </article>
+                    <h1 class="column">title</h1>
                     <input class="input is-medium" type="text" placeholder="title" id="editTitle" value="${title}"><br>
+                    <h1 class="column">Description</h1>
                     <input class="input is-medium" type="text" placeholder="description" id="editDescription" value="${description}"><br>
-                    <input class="input is-medium" type="text" placeholder="due date" id="editdue_date" value="${due_date}"><br>
-                    <input class="radio" type="radio" id="editStatus" name="status" value="false" ${!status ? "checked" : ""}>not completed
-                    <input class="radio" type="radio" id="editStatus" name="status" value="true" ${status ? "checked" : ""}>completed
+                    <h1 class="column">Due Date</h1>
+                    <input class="input is-medium" type="date" placeholder="due date" id="editdue_date" value="${due_date}"><br>
+                    <h1 class="column">Status</h1>
+                    <div class="columns">
+                    <div class="column"><input class="radio" type="radio" id="editStatus" name="status" value="false" ${!status ? "checked" : ""}><h2>not completed</h2></div>
+                    <div class="column"><input class="radio" type="radio" id="editStatus" name="status" value="true" ${status ? "checked" : ""}><h2>completed</h2></div>
+                    </div>
                     <button class="button is-block is-info is-large is-fullwidth" onclick="update('${id}','${title}','${description}','${due_date}','${status}','${UserId}')">Edit</button>
                     <div>
     `)
-
+    $('#editErrorHeader').hide()
 }
 
 function update(id) {
@@ -343,7 +355,10 @@ function update(id) {
     })
 
     .fail(err => {
-      $('#editError').html(err.responseJSON.err)
+      let error = err.responseJSON.err.split(",")
+      $('#editErrorHeader').show()
+      $('#editError').text(error[0])
+//      $('#editError').html(err.responseJSON.err)
 //      console.log("eh gak")
       console.log(err)
     })

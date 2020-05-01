@@ -12,8 +12,8 @@
 
 <body>
     <header>
-        <div id="loggedout" class="breadcrumb login-register" aria-label="breadcrumbs"
-            style="position: fixed;text-align: center; left : 5%;top : 4%;padding-bottom: 500px;">
+        <div id="loggedout" class="breadcrumb login-register box" aria-label="breadcrumbs"
+            style="position: fixed;text-align: center; left : 5%;top : 4%;z-index: 999">
             <ul>
                 <li><span class="icon is-medium">
                         <img src="img/PngItem_230510.png" class="is-medium"></span>
@@ -29,7 +29,7 @@
                             </span>Register</a></li>
             </ul>
         </div>
-        <nav id="loggedin" class="breadcrumb menu" aria-label="breadcrumbs"
+        <nav id="loggedin" class="breadcrumb menu box" aria-label="breadcrumbs"
             style="position: fixed;text-align: center; left : 5%;top : 4%;">
             <ul>
                 <li></li>
@@ -56,8 +56,14 @@
                 <div class="box">
                     <h2 class="title has-text-black">Home</h2>
                     <hr class="login-hr">
-                    <div id="homeContent" class="calendar-body">
-                       
+                    <div id="homeContent">
+<!--                       <div class="columns">-->
+                    </div>
+                </div>
+                <div class="box">
+                    <h2 class="title has-text-black">Holiday this month</h2>
+                    <hr class="login-hr">
+                    <div id="holidayList">
                     </div>
                 </div>
             </div>
@@ -127,7 +133,7 @@
 
     <div class="hero-body" id="dashboardPage">
         
-        <div id="list"  class="column is-three-fifths is-offset-one-fifth" style="bottom:10%;" >
+        <div id="list"  class="column is-three-fifths is-offset-one-fifth" style="top:20%;bottom:10%;" >
             <div class="is-full" style="bottom:10%;">
                 
                 <section class="hero is-info welcome is-small">
@@ -155,28 +161,30 @@
                 </div>
         </div>
         
-        <div id="add" class="column is-half  is-offset-3 has-text-centered"  style="bottom : 10%; position: absolute;">
+        <div id="add" class="column is-half  is-offset-3 has-text-centered"  style="bottom : 10%;">
             <div class="box">      
             <h1 class="hero-body title">add new ToDo's</h1>
                 <article id="addErrorHeader" class="is-offset-3 message is-danger">
-                  <div class="message-header  is-half">
+                  <div style="position:static" class="message-header  is-half" >
                     <p>Error</p>
                   </div>
                  <h2 id="addError" class="column is-size-4"></h2>
                 </article>
 <!--                <h2 id="addError" class=""></h2>-->
             <div class="column is-6 is-offset-3"  >
-            
+            <h1 class="column">Title</h1>
              <div class="field">
                             <div class="control">
             <input class="input is-medium" type="text" placeholder="title" id="addTitle"><br>
                  </div>
             </div>
+                <h1 class="column">Description</h1>
              <div class="field">
                             <div class="control">
             <input class="input is-medium" type="text" placeholder="description" id="addDescription"><br>
                  </div>
             </div>
+                <h1 class="column">Due Date</h1>
              <div class="field">
                             <div class="control">
             <input  class="input is-medium" type="date" placeholder="due date" id="adddue_date"><br>
@@ -187,11 +195,11 @@
         </div>
     </div>
 
-        <div id="edit"  class="column is-half  is-offset-3 has-text-centered"  style="bottom : 10%; position: absolute;" >
+        <div id="edit"  class="column is-half  is-offset-3 has-text-centered"  style="top:20%;bottom:10%;" >
 
         </div>
         
-        <div id="delete" style="bottom:55%; position: absolute;">
+        <div id="delete" class="column is-one-quarter" style="bottom:10%; position: fixed;">
             
         </div>
 
