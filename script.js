@@ -13,6 +13,7 @@ $( document ).ready(function() {
                 }
             })
             .done(data => {
+                // console.log(data.id, 'ini data')
                 localStorage.setItem('token', data.token)
                 authentication()
             })
@@ -28,13 +29,19 @@ $( document ).ready(function() {
 
 function authentication() {
     if(localStorage.getItem('token')){
-        $('#loginPage').hide()
         $('#MainPage').show()
+        $('#loginPage').hide()
         $('#createPage').hide()
+        $('#regisPage').hide()
+        $('#updatePage').hide()
         fecthTodo()
     }else{
         $('#loginPage').show()
         $('#MainPage').hide()
+        $('#createPage').hide()
+        $('#regisPage').hide()
+        $('#updatePage').hide()
+
     }
 }
 // GOOGLE
@@ -84,6 +91,7 @@ function fecthTodo() {
                     <td>${e.status}</td>
                     <td>${e.due_date}</td>
                     <td><button onclick=deleteTodo(${e.id})>Delete</button></td>
+                    <td><button onclick=updatePage(${e.id})>Update</button></td>
                 </tr>
             `)
         })
@@ -99,8 +107,42 @@ function toAddTodo(){
     $('#createPage').show()
 }
 
+function Registrasi() {
+    $('#loginPage').hide()
+    $('#regisPage').show()
+}
+
+function Registration() {
+    let Registrasi = {
+        email : $('#email').val(),
+        password : $('#password').val(),
+    }
+    $.ajax({
+        method : 'post',
+        url : `${baseUrl}/users/signUp`,
+        // headers : {
+        //     token : localStorage.token
+        // },
+        data : Registrasi
+    })
+    .done(data => {
+        fecthTodo()
+        $('#loginPage').show()
+        $('#regisPage').hide()    
+
+    })
+    .fail(err => {
+        console.log(err.responseJSON.error)
+    })
+    .always(() => {
+        $('#email').val(''),
+        $('#password').val('')
+    })
+
+}
+
 function CreateTodo(event) {
-    console.log(        $("#input[name='status']:checked")   )
+    // console.log(        $("#input[name='status']:checked")   )
     event.preventDefault()
     let todo = {
         title : $('#title').val(),
@@ -131,11 +173,11 @@ function CreateTodo(event) {
         $("#input[name='status']:checked").prop("checked", false)
         $('#due_date').val('')
     })
-    
+
 }
 
 function deleteTodo(id) {
-    console.log(id)
+    // console.log(id)
     $.ajax({
         method : 'DELETE',
         url : `${baseUrl}/todos/${id}`,
@@ -148,3 +190,73 @@ function deleteTodo(id) {
         console.log(err)
     })
 }
+
+function updatePage(id) {
+    $('#MainPage').hide()
+    $('#updatePage').show()
+    console.log(localStorage)
+    $.ajax({
+        method : "get",
+        url : baseUrl + `/todos/${id}`,
+        headers: {
+            token : localStorage.token
+        },
+    })
+        .done(data => {
+            // console.log(data, 'ini data')
+            let Todos = data.data
+            $('#formUpdate').append(`
+            <label>ID</label>
+            <input type="text" id="id-edit" value="${Todos.id}" /><br>
+            <label>Title</label><br>
+            <input type="text" id="title-edit" value="${Todos.title}" /><br>
+            <label>Description</label><br>
+            <input type="text" id="description-edit" value="${Todos.description}" /><br>
+            <label>status</label><br>
+            <p>Complete<input type="radio" name="status" autocomplete="off" value="true" ${Todos.status ? "checked" : ''}> Uncomplete<input type="radio" autocomplete="off" name="status" value="false" ${!Todos.status ? "checked" : ''}>
+            </p>
+            <label>Due Date</label><br>
+            <input type="date" id="due_date-edit" value="${Todos.due_date}"><br>
+            <button type="submit">Update Todo</button>
+            `)
+        })
+        .fail(err => {
+            console.log(err.responseJSON.Message)
+        })
+
+}
+
+function updateTodo(){
+    let id = $('#id-edit').val()
+    let todo = {
+        title : $('#title-edit').val(),
+        description : $('#description-edit').val(),
+        status : $("input[name='status']:checked").val(),
+        due_date : $('#due_date-edit').val(),
+    }
+    $.ajax({
+        method : 'put',
+        url : `${baseUrl}/todos/${id}`,
+        headers : {
+            token : localStorage.token
+        },
+        data : todo
+    })
+    .done(data => {
+        fecthTodo()
+        $('#MainPage').show()
+        $('#updatePage').hide()    
+
+    })
+    .fail(err => {
+        console.log(err.responseJSON.error)
+    })
+    .always(() => {
+        $('#title').val('')
+        $('#description').val('')
+        $("#input[name='status']:checked").prop("checked", false)
+        $('#due_date').val('')
+    })
+
+}
+
