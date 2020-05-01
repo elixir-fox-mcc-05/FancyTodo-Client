@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="94289824709-9elnoiuecs7tfdilbrmos1gus49umpr6.apps.googleusercontent.com">
+    <link rel="stylesheet" href="./assets/home.css" type="text/css">
+    <link rel="stylesheet" href="./assets/navbar.css" type="text/css">
+    <title>FancyTodo</title>
+</head>
+
+<body>
+    <div class="header">
+        <div id="nav">
+            <div class="btn">
+                <button class="btn btn-info btn-lg " onclick="openNav()"><span class="glyphicon glyphicon-menu-hamburger" id="btnicon"></span></button>
+            </div>
+        </div>
+        <div id="title">
+            <h1>Fancy Todo App</h1>
+        </div>
+        <div id="ip-address"></div>
+    </div>
+    <div class="obs"></div>
+    <div class="loginpage">
+        <div id="login-content">
+            <br>
+            <h1>Login page</h1>
+            <form id="login" onsubmit="login(event)">
+                <!-- <label for="email-login">email</label><br> -->
+                <br>
+                <input type="email" id="email-login" placeholder="email"><br>
+                <!-- <label for="password-login">password</label><br> -->
+                <br>
+                <input type="password" id="password-login" placeholder="password"><br><br>
+                <input type="submit" id="submitbtn" value="Login"><br><br>
+                <a href="#" onclick="registerPage()" style="font-weight: 700;">Dont have an Account?</a>
+                <br>__________________________________<br>
+                <div class="social">
+                    <!-- <a href="#" id="googleSignIn" class="fa fa-google" data-onsuccess="onSignIn"></a> -->
+                    <div class="g-signin2" id="g-loginbtn" data-onsuccess="onSignIn"></div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="registerpage">
+        <div id="register-content">
+            <br>
+            <h1>Register page</h1>
+            <form id="register" onsubmit="register(event)">
+                <!-- <label for="email-register">email</label><br> -->
+                <br>
+                <input type="email" id="email-register" placeholder="email"><br>
+                <!-- <label for="password-register">password</label><br> -->
+                <br>
+                <input type="password" id="password-register" placeholder="password"><br><br>
+                <input type="submit" id="submitbtn2" value="Register">
+                <br><br>
+                <a href="#" onclick="loginPage()" style="font-weight: 700;">Have an Account?</a>
+                <br>__________________________________<br>
+                <div class="social">
+                    <!-- <a href="#" class="fa fa-google"></a> -->
+                    <div class="g-signin2" id="g-loginbtn2" data-onsuccess="onSignIn"></div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="page">
+        <div id="mySidenav" class="sidenav">
+            <a id="x" href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <a id="homebtn" href="#">Home</a>
+            <a id="addbtn" href="#" onclick="add()">Add</a>
+            <a id="logoutbtn" href="#" onclick="logout(event)">Logout</a>
+        </div>
+        <div class="content">
+            <!-- <h1>List</h1> -->
+            <div class="content-body"></div>
+        </div>
+        <div class="rightBar">
+
+        </div>
+    </div>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="/__/firebase/7.14.2/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+    <!-- Initialize Firebase -->
+    <script src="/__/firebase/init.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha384-LVoNJ6yst/aLxKvxwp6s2GAabqPczfWh6xzm38S/YtjUyZ+3aTKOnD/OJVGYLZDl" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+    <script src="./main.js"></script>
+</body>
+
+</html>
