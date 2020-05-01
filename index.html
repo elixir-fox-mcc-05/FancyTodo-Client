@@ -8,38 +8,71 @@
 <body>
     <!-- LOGIN PAGE -->
     <div id="loginPage">
+        <!-- LOGIN -->
         <h1 class="titleLogin">Fancy ToDo Apps</h1>
         <p id="loginError" style="color: red;"></p>
         <form id="formLoginPage">
             <h3>E-mail :</h3>
-            <div class="loginGroup">
-                <input id="loginEmail" type="text" placeholder="e.g youremail@mail.com">
-            </div>
+            <input id="loginEmail" type="text" placeholder="E-Mail">
             <h3>Password :</h3>
-            <div class="loginGroup">
-                <input id="loginPassword" type="password" placeholder="e.g password">
-            </div><br>
-            <button type="submit" class="buttonLogin">Login</button>
+            <input id="loginPassword" type="password" placeholder="Password">
+            <br><br><button type="submit" class="button">Login</button>
         </form> 
+        <!-- END LOGIN -->
+
         <p>Don't have account? Please register here</p>
-        <button>Register</button>
+        <button onclick="showRegister()" class="button">Register</button>
     </div>
     <!-- END LOGIN PAGE -->
 
+    <!-- REGISTER PAGE -->
+    <div id="registerPage">
+        <h3>Register Your E-mail</h3>
+        <p id="registerError" style="color: red;"></p>
+        <form id="formRegisterPage" onsubmit="register(event)">
+            <h3>E-mail :</h3>
+            <input id="registerEmail" type="text" placeholder="E-Mail">
+            <h3>Password :</h3>
+            <input id="registerPassword" type="password" placeholder="Password">
+            <br><br><button type="submit" class="button">Register</button>
+            <button type="button" onclick="cancelRegister()"class="button">Cancel</button>
+        </form>
+    </div>
+    <!-- END REGISTER PAGE -->
+
     <!-- MAIN PAGE -->
     <div id="mainPage">
+        <!-- LOGOUT -->
         <nav style="padding: 5px; margin-bottom: 3px;">
             <button 
                 id="buttonLogout" 
                 style="float: right; background-color: skyblue;"
-                onclick="logout()"
-            >
+                onclick="logout()">
                 Logout
             </button>
         </nav>
+        <!-- END LOGOUT -->
+
         <h1>ToDo List</h1>
-        <button id="addTodo">Add New ToDo</button>
+
+        <!-- ADD NEW TODO -->
+        <button onclick="showAddTodo()" id="buttonAddTodo">Add New ToDo</button>
+        <form id="formAddTodo" onsubmit="inputAddTodo(event)">
+            <p id="addTodoError" style="color: red;"></p>
+            <label>Title &emsp;&emsp;&emsp;&nbsp;: </label>
+            <input id="addTitle" type="text" placeholder="Title">
+            <br><label>Description: </label><br>
+            <textarea rows ="3" cols ="47" id ="addDescription" placeholder="Description"></textarea>            
+            <br><label>Due Date &ensp;&nbsp;:</label>
+            <input id="add_due_date" type="date">
+            <br><button type="submit" class="button">Submit</button>
+            <button type="button" onclick="cancelAddTodo()"class="button">Cancel</button>
+        </form>
+        <!-- END ADD NEW TODO -->
+
+        <!-- SHOW TODO -->
         <ol style="margin-bottom: 8px;" id="todoList"></ol> 
+        <!-- END SHOW TODO LIST -->
     </div>
     <!-- END MAIN PAGE -->
 
