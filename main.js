@@ -1,6 +1,7 @@
 let baseUrl = 'http://localhost:3000';
 
 $( document ).ready(function() {
+    $('#anime').hide();
     auth();
     $('#register').on('click', function(event) {
         event.preventDefault();
@@ -87,7 +88,12 @@ $( document ).ready(function() {
         event.preventDefault();
         $('#feedback-todo').text(``);
         const title = $('#title').val();
-        const description = $('#description').val();
+        let description = null;
+        if ($('#description').val() == '') {
+            description = $('#anime').val();
+        } else {
+            description = $('#description').val();
+        }
         const due_date = $('#due_date').val();
         $.ajax({
             method: 'post',
@@ -333,3 +339,27 @@ function onSignIn(googleUser) {
             console.log(err)
         })
 }
+
+$('#title').on('keyup', function() {
+    let title = $('#title').val();
+    let n = title.search('anime')
+    if (n !== -1) {
+        $('#description').hide();
+        $('#anime').show();
+        $.ajax({
+            method: 'get',
+            url: baseUrl + '/anime'
+        })
+            .done(anime => {
+                let list_anime = anime.movie;
+                for (let i = 0; i < list_anime.length; i++) {
+                    $('#anime').append(`
+                    <option id="anime-val" value="${list_anime[i].title}">'${list_anime[i].title}'</option>
+                `)
+                }
+            })
+            .fail(err => {
+                console.log(err);
+            })
+    }
+})
