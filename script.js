@@ -112,31 +112,29 @@ function Registrasi() {
     $('#regisPage').show()
 }
 
-function Registration() {
+function Registration(event) {
+    event.preventDefault()
     let Registrasi = {
-        email : $('#email').val(),
-        password : $('#password').val(),
+        email : $('#emailRegis').val(),
+        password : $('#passwordRegis').val(),
     }
+    console.log(Registrasi, 'ini regist')
     $.ajax({
         method : 'post',
         url : `${baseUrl}/users/signUp`,
-        // headers : {
-        //     token : localStorage.token
-        // },
         data : Registrasi
     })
     .done(data => {
-        fecthTodo()
         $('#loginPage').show()
         $('#regisPage').hide()    
 
     })
     .fail(err => {
-        console.log(err.responseJSON.error)
+        console.log(err)
     })
     .always(() => {
-        $('#email').val(''),
-        $('#password').val('')
+        $('#emailRegis').val(''),
+        $('#passwordRegis').val('')
     })
 
 }
