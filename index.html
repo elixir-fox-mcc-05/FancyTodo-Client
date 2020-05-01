@@ -1,89 +1,183 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="google-signin-client_id" content="779296103208-phqt3uq2e5hr62n3kia64tgvb69nhseb.apps.googleusercontent.com">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <title>FanctTodo-Client</title>
-</head>
-<body>
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <meta name="google-signin-client_id" content="779296103208-phqt3uq2e5hr62n3kia64tgvb69nhseb.apps.googleusercontent.com">
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+      <link rel="icon" href="favicon_logo.png">
+      <link rel="stylesheet" href="css/bootstrap-responsive.css">
+      <title>FancyTodo</title>
+  </head>
+  <body class="p-3 mb-2 bg-light ">
     <!-- NAV -->
-    <div id="navigation" >
-        <ul class="nav justify-content-end">
-            <li class="nav-item">
-              <a class="nav-link" id="home" href="">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="login"  href="">Login</a>
-            </li>
-            <a href="#" onclick="signOut();">Sign out</a>
-          </ul>
-        </div>
-        <!-- HOME -->
-        <div class="jumbotron">
-          <h1 class="display-4">Hello!</h1>
-          <p class="lead">This is a simple app, with simple features</p>
-          <hr class="my-4">
-          <p>Created by : Irwan Syafani</p>
-          <a class="btn btn-primary btn-lg" href="https://github.com/IrwanKhaliq" role="button">Open Github</a><br><br>
-          <button type="button" id="register" class="btn btn-primary">Register App</button><br><br>
-          <div class="g-signin2" data-onsuccess="onSignIn"></div><br>
+    <div id="navigation">
+      <ul class="nav justify-content-end justify-content-center">
+          <li class="nav-item">
+            <a class="nav-link" id="home" href="">Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" onclick="signOut()">Sign Out</a>
+          </li>
+      </ul>
     </div>
+
+    <!-- NAV LANDING PAGE -->
+    <div id="landing_page_nav">
+      <ul class="nav justify-content-end justify-content-center">
+          <li class="nav-item"><a class="nav-link" id="landing_page" href="">Landing Page</a></li>
+      </ul>
+    </div>
+
+    <!-- HOME -->
+    <div class="jumbotron text-center">
+      <h1 class="display-1">Hello!</h1>
+      <p class="lead">This is a simple app, with simple features</p>
+      <hr class="my-7">
+      <p class="lead">Created by : Irwan Syafani</p>
+      <br><br>
+      <div class="d-flex justify-content-center">
+        <a class="btn btn-dark btn-lg mr-2 rounded-pill" href="https://github.com/IrwanKhaliq" role="button">Open Github</a>
+        <br><br>
+        <button type="button" id="register" class="btn btn-primary mr-2 rounded-pill">Register App</button>
+        <br><br>
+        <button type="button" id="login" class="btn btn-primary rounded-pill">Sign In</button>
+        <br><br>
+      </div>
+      <br><br>
+      <p class="lead">Don't have an Account? Let's Sign in with Google</p>
+      <button type="button" class="g-signin2 btn btn-link rounded-pill" data-onsuccess="onSignIn">Sign in With Google</button>
+      <br><br>
+    </div>
+
     <!-- REGISTER -->
     <div id="form_register"> 
-        <h3>Register</h3>
-        <form id="submit_register">
-            <div class="form-group w-25">
-              <input type="email" class="form-control" id="email_register" placeholder="email">
-            </div>
-            <div class="form-group w-25">
-              <input type="password" class="form-control" id="password_register" placeholder="password">
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+      <div class="text-center d-flex justify-content-center align-items-center container" style="margin-top: 10%;">
+        <div class="row">
+          <form id="submit_register">
+            <h3 class="font-weight-normal">Register</h3>
+            <br><br><br>
+              <div class="form-group">
+                <input type="email" class="form-control" id="email_register" placeholder="email">
+                <br>
+                <input type="password" class="form-control" id="password_register" placeholder="password">
+              </div>
+              <br>
+              <button type="submit" class="btn btn-outline-primary rounded-pill w-100">Submit</button>
           </form>
-
+        </div>
+      </div>
     </div>
-    <!-- LOGIN -->
-    <div id="form_login"> 
-        <h3>Log In</h3>
-        <form id="submit_login">
-          <div class="form-group w-25">
-              <input type="email" class="form-control" id="email_login" placeholder="email">
-              <input type="password" class="form-control" id="password_login" placeholder="password">
+
+    <!-- SIGN IN -->
+    <div id="form_login">
+      <div class="text-center  d-flex justify-content-center align-items-center container" style="margin-top: 10%;">
+        <div class="row">
+          <form id="submit_login">
+            <h3 class="font-weight-normal">Sign In</h3>
+            <br><br><br>
+              <div class="form-group">
+                  <input type="email" class="form-control" id="email_login" placeholder="email">
+                  <br>
+                  <input type="password" class="form-control" id="password_login" placeholder="password">
+              </div>
+              <br>
+              <button type="submit" class="btn btn-outline-primary rounded-pill w-100">Submit</button>
+            </form>
           </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
-          </form>
-
+      </div> 
     </div>
+
     <!-- success message -->
-    <p id="success" class="font-weight-light" style="color: rgb(102, 255, 85);"></p>
+    <p id="success" class="font-weight-light text-center" style="color: rgb(102, 255, 85);"></p>
+
     <!-- error message  -->
-    <p id="message" class="font-weight-light" style="color: red;"></p>
+    <p id="message" class="font-weight-light text-center" style="color: red;"></p>
 
     <!-- Dashboard -->
-    <div id="dashboard">
-      <p class="font-weight-lighter"></p></p><br><br>
-      <button type="button" class="btn btn-success" id="create_todo">Create Todo</button><br><br><br>
-      <table border>
-        <thead>
-          <th class="table-active">Number</th>
-          <th class="table-active">Todo</th>
-          <th class="table-active">Status</th>
-          <th class="table-active">Due Date</th>
-          <th class="table-active">Action</th>
-        </thead>
-        <tbody id="table_content"></tbody>
-      </table>
+    <div id="dashboard" class="text-center">
+      <p class="font-weight-lighter"></p></p>
+      <br><br>
+      <button type="button" class="btn btn-success" id="create_todo">Create Todo</button>
+      <br><br><br>
+      <div class="text-center d-flex justify-content-center align-items-center container">
+        <div class="row">
+          <table border>
+            <thead>
+              <th class="table-dark">ID</th>
+              <th class="table-dark">Todo</th>
+              <th class="table-dark">Status</th>
+              <th class="table-dark">Due Date</th>
+              <th class="table-dark">Action</th>
+            </thead>
+            <tbody id="table_content"></tbody>
+          </table>
+        </div>
+      </div>
     </div>
 
     <!-- render edit page -->
-    <form id="edit_page"></form>
-    <!-- render add page -->
-    <form id="add_page"></form>
+    <div class="text-center d-flex justify-content-center align-items-center container">
+      <div class="row">
+        <form id="edit_page">
+          <div class="form-group">
+            <h4 class="font-weight-normal">Edit Todo</h4>
+            <br>
+            <input type="hidden" name="" id="update_id">
+            <p class="font-weight-light"><b>Title :</b></p>
+            <br>
+            <input type="text" id="update_title" class="border border-primary rounded-pill text-center" required>
+            <p class="font-weight-light"><b>Description :</b></p>
+            <br>
+            <input type="text" id="update_description" class="border border-primary rounded-pill text-center" required>
+            <p class="font-weight-light"><b>Status :</b></p>
+            <br>
+            <label><input type="radio" name="update_status" value=true>True</label> 
+            <label><input type="radio" name="update_status" value=false >False</label> 
+            <br><br>
+            <p class="font-weight-light"><b>Due Date :</b></p><br>
+            <input type="date" id="update_due_date" class="border border-primary rounded-pill text-center" required>
+          </div>
+          <br><br>
+        <button type="submit" class="btn btn-outline-primary rounded-pill w-100">Submit</button>
+        </form>
+      </div>
+    </div>
 
+    <!-- render add page -->
+    <div class="text-center d-flex justify-content-center align-items-center container">
+      <div class="row">
+        <form id="add_page">
+          <div class="form-group">
+            <h4 class="font-weight-normal">Create Todo</h4>
+            <br>
+            <label class="font-weight-light">Title :</label>
+            <br><br>
+            <input type="text" id="new_title" class="border border-primary rounded-pill" required>
+            <br><br>
+            <label class="font-weight-light">Description :</label>
+            <br><br>
+            <input type="text" id="new_description" class="border border-primary rounded-pill" required>
+            <br><br>
+            <label class="font-weight-light" for="status">Status :</label>
+            <br><br>
+            <label><input type="radio" name="new_status" value=true >True</label> 
+            <label><input type="radio" name="new_status" value=false >False</label> 
+            <br><br>
+            <label class="font-weight-light">Due Date :</label>
+            <br><br>
+            <input type="date" id="new_due_date" class="border border-primary rounded-pill" required>
+            <br><br>
+          </div>
+          <br><br>
+        <button type="submit" class="btn btn-outline-primary rounded-pill w-100">Submit</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- script -->
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
     <script src="main.js"></script>
-</body>
+  </body>
 </html>
