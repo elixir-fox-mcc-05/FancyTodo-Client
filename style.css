@@ -1,3 +1,8 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
 .container {
     display: flex;
     justify-content: center;
@@ -6,7 +11,7 @@
 }
 
 #landing-page {
-    padding: 250px;
+    padding: 100px;
 }
 
 #login-page, #register-page{

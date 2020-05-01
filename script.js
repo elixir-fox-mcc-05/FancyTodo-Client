@@ -122,11 +122,6 @@ $(document).ready(function () {
             
         })
     })
-
-    // $("#randomize-quote").on("click", function() {
-        
-        
-    // })
 });
 
 /**
@@ -184,12 +179,14 @@ const create = () => {
 const logout = () => {
 
     localStorage.clear()
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {});
     auth()
 }
 
 /**
  * ===========================================
- * Fetch, Update, Delete
+ * Fetch, Update, Delete, Random Quote, Check Ip
  * ===========================================
  */
 
@@ -204,7 +201,7 @@ const fetchToDos = () => {
     })
     .done(data => {
         // console.log(data);
-        $(".card").text("")
+        $(".card").empty()
         data.ToDos.forEach(element => {
             let date = new Date(element.due_date)
             let dateNow = new Date()
@@ -217,7 +214,7 @@ const fetchToDos = () => {
                 <div class="alert alert-info" role="alert">
                 <strong>Due date : </strong>${element.due_date} ${dayRemaining >= 0 ? "- ( " + dayRemaining + " days remaining )" : "- ( EXPIRED )"}
                 </div>
-                <h6 class="card-subtitle mb-2 text-white ${element.status ? "bg-success" : "bg-danger"} " >${element.status ? "[ COMPLETED ! ]" : "[ Not yet completed ]"}</h6>
+                <h6 class="card-subtitle mb-2 text-white ${element.status ? "badge badge-success" : "badge badge-danger"} " >${element.status ? "[ COMPLETED ! ]" : "[ Not yet completed ]"}</h6>
                 <p class="card-text">
                 ${element.description}
                 </p>
@@ -306,6 +303,32 @@ const checkIp = () => {
     })
     .done(data => {
         $("#ip").text(data.ipAddress)
+    })
+    .fail(err => {
+        console.log(err);
+    })
+}
+
+/**
+ * ===========================================
+ * Google Sign In
+ * ===========================================
+ */
+
+function onSignIn(googleUser) {
+
+    const id_token = googleUser.getAuthResponse().id_token;
+
+    $.ajax({
+        method : "post",
+        url : baseUrl + "/google-login",
+        headers : {
+            google_token : id_token
+        }
+    })
+    .done(data => {
+        localStorage.setItem("token", data.token)
+        auth()
     })
     .fail(err => {
         console.log(err);
