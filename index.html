@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-client_id" content="169811749346-omhs7jmf2n73ssep3dsv6o54dcevto1h.apps.googleusercontent.com">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>Todo</title>
+</head>
+
+<body class="bg-dark pt-5 mt-5">
+    <!-- Navbar -->
+    <section id="navbar">
+        <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-white pt-0 pb-0 pl-0 pr-0">
+            <div class="container text-center">
+                <div class="row w-100 d-flex align-items-center">
+                    <div class="col-auto align-self-center">
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav w-80 d-flex justify-content-around">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#" onclick="authentication()">Home</a>
+                                </li>
+                                <li class="nav-item" id="dashboardButton">
+                                    <a class="nav-link" href="#" onclick="authentication()">Dashboard</a>
+                                </li>
+                                <li class="nav-item" id="registerButton">
+                                    <a class="nav-link" href="#" onclick="showRegister()">Register</a>
+                                </li>
+                                <li class="nav-item" id="loginButton">
+                                    <a class="nav-link" href="#" onclick="showLogin()">Login</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#" onclick="getPublicHolidays()">Public Holidays</a>
+                                </li>
+                                <li class="nav-item" id="logoutButton">
+                                    <a class="nav-link" href="#" onclick="logout()">Logout</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col justify-content-start">
+                        <a class="navbar-brand" href="#"><img src="./img/logo.png" alt="" width="52" height="52" class="img"></a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                        </button>
+                    </div>
+                    <div class="col align-self-center">
+                        <div class="nav-item" id="googleButton">
+                            <div class=" nav-link g-signin2" data-onsuccess="onSignIn"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </section>
+
+    <!-- Notif Section -->
+    <section id="notifSection" class="container text-center mt-4 text-success">
+
+    </section>
+
+    <!-- Error Section -->
+    <section id="errorSection" class="container text-center mt-4 text-danger">
+
+    </section>
+
+    <!-- HomePage -->
+    <section id="home" class="mb-5 pb-5">
+        <!-- Title Jumbotron -->
+        <section id="titleJumbotron">
+            <div class="jumbotron text-center bg-dark text-light">
+                <h1 class="display-4">Welcome to Todo App!</h1>
+                <p class="lead">The best website for storing your to-do-list</p>
+                <hr class="my-4">
+                <div class="row">
+                    <div class="col">
+                        <p>For new member, please register.</p>
+                        <a class="btn btn-primary btn-lg" href="#" role="button" onclick="showRegister()">Register</a>
+                    </div>
+                    <div class="col">
+                        <p>For our loyal member, please login first.</p>
+                        <a class="btn btn-primary btn-lg" href="#" role="button" onclick="showLogin()">Login</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- RegisterPage -->
+        <section id="register" class="container text-light center mt-5">
+            <h2 class="text-center text-light mb-3">Register</h2>
+            <form>
+                <div class="form-group">
+                    <label for="newName">Full Name</label>
+                    <input type="text" class="form-control" id="newName" placeholder="your full name">
+                </div>
+                <div class="form-group">
+                    <label for="newEmail">Email</label>
+                    <input type="email" class="form-control" id="newEmail" placeholder="name@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="newPassword">Password</label>
+                    <input type="password" class="form-control" id="newPassword" placeholder="password">
+                </div>
+                <button type="submit" class="btn btn-primary" onclick="registerUser()">Register</button>
+            </form>
+        </section>
+
+        <!-- LoginPage -->
+        <section id="login" class="container center text-light mt-5">
+            <form id="loginForm">
+                <h2 class="text-center text-light mb-3">Login</h2>
+                <div class="form-group">
+                    <label for="inputEmail">Email address</label>
+                    <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp">
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword">Password</label>
+                    <input type="password" class="form-control" id="inputPassword">
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+        </section>
+
+    </section>
+
+
+
+    <!-- Dashboard -->
+    <section id="dashboardPage" class="container center mb-5 pb-5">
+        <!-- List Todo -->
+        <section id="listTodo">
+            <h2 class="text-center text-light mb-3">List Todo</h2>
+            <a class="btn btn-success btn-lg mb-3" href="#" role="button" onclick="showAddTodo()">Add Todo</a>
+            <table class="table table-hover table-dark text-light">
+                <thead class="thead-dark">
+                    <tr class="text-center">
+                        <th scope="col">Title</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Due Date</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Change Status</th>
+                        <th scope="col">Modify</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                </thead>
+                <tbody id="todoContainer">
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Add Todo -->
+        <section id="addTodo" class="container center text-light mt-5">
+            <h2 class="text-center mb-3">Add New Todo</h2>
+            <form id="addTodoForm">
+                <div class="form-group">
+                    <label for="newTitle">Title</label>
+                    <input type="text" class="form-control" id="newTitle">
+                </div>
+                <div class="form-group">
+                    <label for="newDescription">Description</label>
+                    <textarea class="form-control" id="newDescription" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="newDueDate">Due Date</label>
+                    <input type="date" class="form-control" id="newDueDate">
+                </div>
+                <button type="submit" class="btn btn-primary">Add</button>
+            </form>
+        </section>
+
+        <!-- Edit Todo -->
+        <section id="editTodo" class="container center text-light mt-5">
+            <h2 class="text-center mb-3">Edit Todo</h2>
+            <form id="editTodoContainer">
+                
+            </form>
+        </section>
+
+    </section>
+
+
+    
+    <!-- Public Holidays -->
+    <section id="publicHolidays" class="container center text-light mt-5 pb-5">
+        <h1 class="text-center mb-3">Public Holidays</h1>
+        <table class="table table-hover table-bordered table-dark">
+            <thead>
+                <tr class="text-center bg-primary">
+                    <th>Date</th>
+                    <th>Name</th>
+                    <th>Local Name</th>
+                </tr>
+            </thead>
+            <tbody id="publicHolidaysContainer">
+
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Footer -->
+    <section id="footer">
+        <footer class="fixed-bottom bg-light text-dark font-small">
+            <div class="row pt-2">
+                <div class="col text-center align-items-center">
+                    <p>© 2020 Copyright: TodoApp</p>
+                </div>
+            </div>
+        </footer>
+    </section>
+
+    <!-- SCRIPTS -->
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="script.js"></script>
+</body>
+</html>
