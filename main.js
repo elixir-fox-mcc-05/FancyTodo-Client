@@ -3,11 +3,33 @@ let baseUrl = 'http://localhost:3000';
 $( document ).ready(function() {
     $('#anime').hide();
     auth();
+
+    // Mengisi running-text corona
+    $.ajax({
+        method: 'get',
+        url: baseUrl + '/corona'
+    })
+        .done(data => {
+            let corona = data.corona;
+            corona = corona[corona.length - 1];
+            const date = new Date(corona.Date);
+            const year = date.getFullYear();
+            const month = date.getMonth() + 1;
+            const day = date.getDate();
+            const newDate = `${day}/${month}/${year}`;
+            $('#running-text').text(`
+            Per tanggal ${newDate} jumlah kasus corona di Indonesia sebanyak ${corona.Confirmed}, jumlah yang sembuh ${corona.Recovered}, dan jumlah yang mati ${corona.Deaths}. Please Stay Safe!
+            `);
+        })
+
+    
+
     $('#register').on('click', function(event) {
         event.preventDefault();
         $('#edit-todo').empty();
         $('#form-login').hide();
         $('#form-register').show();
+        $('#running-text').hide();
         $('#feedback-register').text(``);
         $('.add-btn').hide();
     });
@@ -17,6 +39,7 @@ $( document ).ready(function() {
         $('#edit-todo').empty();
         $('#form-login').show();
         $('#form-register').hide();
+        $('#running-text').hide();
         $('#feedback-login').text(``);
         $('.add-btn').hide();
     });
@@ -140,6 +163,7 @@ function auth() {
         $('#form-todo').hide();
         $('#register').hide();
         $('#google-signin').hide();
+        $('#running-text').show();
         
     } else {
         $('#form-login').show();
@@ -149,6 +173,7 @@ function auth() {
         $('.add-btn').hide();
         $('#form-todo').hide();
         $('#google-signin').show();
+        $('#running-text').hide();
     }
 }
 
@@ -211,6 +236,8 @@ function fetchTodo() {
 }
 
 function showTodoForm() {
+    $('.add-btn').hide();
+    $('#running-text').hide();
     $('#form-todo').show();
     $('#main-section').hide();
 }
@@ -232,6 +259,7 @@ function deleteTodo(id) {
             $('#form-todo').hide();
             $('#main-section').show();
             $('#add-button').show();
+            $('#running-text').show();
         })
         .fail(err => {
             const error = err.responseJSON.errors[0].message;
@@ -240,6 +268,8 @@ function deleteTodo(id) {
 }
 
 function updateTodo(id, title, description, due_date) {
+    $('#running-text').hide();
+    $('#add-button').hide();
     $('#edit-todo').append(`
         <h2 class="text-center mt-4">Update Todo</h2>
         <form action="http://localhost:3000/todos/${id}" method="PATCH">
@@ -289,6 +319,7 @@ function submitEdit(event, id) {
             $('#add-button').show();
             $('#edit-todo').hide();
             $('#edit-todo').empty();
+            $('#running-text').show();
         })
         .fail(err => {
             const error = err.responseJSON.errors[0].message.errors[0].message;
@@ -318,6 +349,7 @@ function showMainContent(event) {
     $('#form-todo').hide();
     $('#edit-todo').empty();
     $('#edit-todo').hide();
+    $('#running-text').show();
 }
 
 function onSignIn(googleUser) {
@@ -363,3 +395,4 @@ $('#title').on('keyup', function() {
             })
     }
 })
+

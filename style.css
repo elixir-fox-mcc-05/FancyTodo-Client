@@ -44,3 +44,7 @@ body {
     right: 10px;
     border-color: white;
 }
+
+#running-text {
+	font-family: 'Open Sans Condensed', sans-serif;
+}
