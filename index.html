@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-client_id" content="437059327074-hstods4dn8250c2bsttlpef5chhhcijg.apps.googleusercontent.com">
+    <title>Document</title>
+</head>
+<body id="body-id">
+<!-- KINDA NAVBAR?? -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            <a class="nav-link" id="btn-home" onclick="auth(event)">HOME<span class="sr-only"></span></a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" id="btn-add" onclick="showTodo(event)">ADD TODO<span class="sr-only"></span></a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" id="btn-project" onclick="formAddProject(event)">ADD PROJECT<span class="sr-only"></span></a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" id="btn-myproject" onclick="myProject(event)">MY PROJECT<span class="sr-only"></span></a>
+        </li>
+
+        <li class="nav-item" id="navbar-li">
+        
+        </li>
+    
+        <li class="nav-item">
+            <a class="nav-link" id="btn-logout" onclick="logout()">LOG OUT<span class="sr-only"></span></a>
+            </li>
+        <li class="nav-item">
+            <a class="nav-link" id="btn-regis" onclick="registerForm()"> REGISTER<span class="sr-only"></span></a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" id="btn-login" onclick="auth()">LOG IN<span class="sr-only"></span></a>
+        </li>
+
+        <li>
+            <div id="g-signin2" class="g-signin2" data-onsuccess="onSignIn"></div>
+        </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0" onsubmit="weather(event)" id="form-weather">
+        <input type="text" id="location" name="location" placeholder="CURRENT LOCATION">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        
+        </form>
+    </div>
+    </nav>
+<!-- JOMBOTRON API WEATHER -->
+<div class="jumbotron" id="API-weather-jumbo">
+    <h5 class="display-4" id="Api_day"></h5>
+    <h5 class="display-4" id="Api_location"></h5>
+    <h5 class="display-4" id="Api_temp"></h5>
+</div>
+<!-- PROJECT LIST -->
+<h5 class="display-4" id="Hiterto"></h5>
+<div id="project-list">
+    <table>
+        <thead>
+            <tr>
+                <th>NAME</th>
+                <th>ACTION</th>
+            </tr>
+        </thead>
+        <tbody id="project-body">
+
+        </tbody>
+    </table>
+</div>
+<!-- MY TODO LIST CONTAINER -->
+<div id="list">
+    <table>
+        <thead>
+            <tr>
+                <th>TITLE</th>
+                <th>DESC</th>
+                <th>STATUS</th>
+                <th>DUE DATE</th>
+                <th>ACTION</th>
+            </tr>
+        </thead>
+        <tbody id="todo-list">
+
+        </tbody>
+    </table>
+</div>
+<!-- NEW TODO -->
+<div class="form-ottoyd" id="add">
+    <form onsubmit="createTodo(event)">
+    <input type="text" name="title" id="title" placeholder="title"><br>
+    <select id="description" name="description">
+        <option value="Bermain">Bermain</option>
+        <option value="Belajar">Belajar</option>
+        <option value="Liburan">Liburan</option>
+        <option value="Belanja">Belanja</option>
+    </select><br>
+    <input type="date" name="due_date" id="due_date" placeholder="due date"><br>
+    <input type="submit" value="Add Todo">
+    </form>
+</div>
+<!-- REGISTER USER -->
+<div id="form-register" class="form-ottoyd">
+    <form onsubmit="register(event)">
+        <h1>REGISTER</h1>
+        <input type="email" name="email" id="email-reg" placeholder="email">
+        <input type="password" name="password" id="password-reg" placeholder="password">
+        <input type="submit" value="Register">
+    </form>
+</div>
+<!-- LOGIN -->
+<div id="login" class="form-ottoyd">
+    <form onsubmit="login(event)" id="login-form">
+        <h1>LOGIN</h1>
+        <div class="input-ottoyd">
+            <input type="email" name="email" id="email" placeholder="email">
+            <input type="password" name="password" id="password" placeholder="password">
+            <input type="submit" value="Login">
+        </div>
+    </form>
+</div>
+<!-- ADD PROJECT -->
+<div id="form-add-project">
+    <form onsubmit="addProject(event)">
+        <input type="text" name="name" id="project-add-name" placeholder="Project Name">
+        <input type="submit" value="Add Project">
+    </form>
+</div>
+<!-- DETAIL -->
+<div id="detail-form">
+    <h1 id="detail-proj-name"></h1>
+    <table>
+        <tr>
+            <thead>
+                <th>Project Name</th>
+                <th>Action</th>
+            </thead>
+        </tr>
+        <tr>
+            <tbody id="tbl-detail-proj">
+                
+            </tbody>
+        </tr>
+    </table>
+</div>
+
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+    <script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
+    <script src="main.js"></script>
+</body>
+</html>
