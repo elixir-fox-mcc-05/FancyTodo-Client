@@ -2,15 +2,16 @@ let baseUrl = 'http://localhost:3000'
 
 $( document ).ready(function() {
     auth()
-    $('.logout').click(function(){
-        var auth2 = gapi.auth2.getAuthInstance();
-        auth2.signOut().then(function() {
-            console.log('User signed out.');
-        });
-        localStorage.clear()
-        auth()
-    })
 })
+
+function logout(){
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function() {
+        swal('You have signed out.');
+    });
+    localStorage.clear()
+    auth()
+}
 
 function register(event){
     event.preventDefault()
@@ -26,18 +27,24 @@ function register(event){
         }
     })
         .done(data => {
+            $('#emailRegister').val('')
+            $('#passwordRegister').val('')
+            swal("Successfully create new account", {
+                icon: "success"
+            })
             localStorage.setItem('token', data.access_token)
-            console.log(data, 'DATA');
+            auth()
             
         }) 
         .fail(err => {
-            console.log(err.responseJSON.errors[0].message);
+            swal("Upss", err.responseJSON.errors[0].message, "error");
         })
+
 }
 
 function login(event){
     event.preventDefault()
-    let email =$('#emailLogin').val()
+    let email =$('#emailLogin').val() 
     let password =$('#passwordLogin').val()
 
     $.ajax({
@@ -49,12 +56,17 @@ function login(event){
         }
     })
         .done(data => {
+            $('#emailLogin').val('')
+            $('#passwordLogin').val('')
             localStorage.setItem('token', data.access_token)
             auth()
+            swal("Success login", {
+                icon: "success"
+            })
             
         }) 
         .fail(err => {
-            console.log(err.responseJSON.errors[0].message);
+            swal("Upss", err.responseJSON.errors[0].message, "error");
         })
 }
 
@@ -73,8 +85,25 @@ function onSignIn(googleUser) {
             auth()
         })
         .fail(err => {
-            console.log(err.responseJSON);
+            swal("Upss", err.responseJSON, "error");
         })
+}
+
+function logoutBtn(){
+    swal({
+        title: "Are you sure?",
+        text: "Want to logout now?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then((willLogout) => {
+        if (willLogout) {
+            logout()
+        } else {
+          swal("Yass stay here");
+        }
+      });
 }
 
 function auth(){
@@ -184,7 +213,7 @@ function readTodos(){
         })
 
         .fail(err => {
-            console.log(err);
+            swal("Caution", err, "error");
         })
     
 }
@@ -208,7 +237,9 @@ function createTodo(event){
         }
     })
         .done(data => {
-            console.log(data.result.due_date);
+            swal(data.msg, {
+                icon: "success"
+            })
             $('#title').val('')
             $('#description').val('')
             $('#due_date').val('')
@@ -216,12 +247,12 @@ function createTodo(event){
         })
 
         .fail(err => {
-            console.log(err.responseJSON.errors[0].message);
+            swal("Upss", err.responseJSON.errors[0].message, "error");
         })
     
 }
 
-function deleteBtn(id) {
+function deleteTodo(id) {
     $.ajax({
         method: 'DELETE',
         url: baseUrl + '/todos/' + id,
@@ -230,16 +261,54 @@ function deleteBtn(id) {
         }
     })
         .done(res => {
-            console.log(res.msg);
+            swal(res.msg, {
+                icon: "success"
+            })
             readTodos()
         })
 
         .fail(err => {
-            console.log(err);
+            swal("Upss", err.responseJSON.errors[0].message, "error");
         })
 }
 
+function deleteBtn(id){
+    swal({
+        title: "Are you sure?",
+        text: "Once deleted, you will not be able to recover this data!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then((willDelete) => {
+        if (willDelete) {
+            deleteTodo(id)
+        } else {
+          swal("Your todo list is safe!");
+        }
+      });
+}
+
 function doneBtn(id) {
+    swal({
+        title: "Are you sure?",
+        text: "Want to change this list's status?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then((todoDone) => {
+        if (todoDone) {
+            makeItDone(id)
+        }
+      })
+      .catch((err) => {
+        swal("Upss", err, "error");
+      })
+
+}
+
+function makeItDone(id){
     $.ajax({
         method: 'PATCH',
         url: baseUrl + '/todos/' +id,
@@ -248,14 +317,15 @@ function doneBtn(id) {
         }
     })
         .done(res => {
-            console.log(res.msg);
+            swal(res.msg, {
+                icon: "success"
+            })
             readTodos()
         })
 
         .fail(err => {
-            console.log(err);
+            swal("Upss", err.responseJSON.errors[0].message, "error");
         })
-
 }
 
 function updateBtn(id){
@@ -286,7 +356,7 @@ function updateBtn(id){
             
         })
         .fail(err => {
-            console.log(err);
+            swal("Upss", err.responseJSON.errors[0].message, "error");
         })
 }
 
@@ -310,11 +380,13 @@ function updateTodo(event){
         }
     })
         .done(data => {
-            console.log(data.msg);
+            swal(data.msg, {
+                icon: "success"
+            })
             readTodos()
         })
         .fail(err => {
-            console.log(err.responseJSON.errors[0].message);
+            swal("Upss", err.responseJSON.errors[0].message, "error");
         })
 
 }
@@ -388,10 +460,9 @@ function readWeather(){
             
         })
         .fail(err => {
-            console.log(err);
+            swal("Caution", err, "error");
         })
 }
-
 
 function landingBtn(){
     $('.registerPage').hide()

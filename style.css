@@ -231,19 +231,8 @@ table tr {
 }
 
 .navbar-brand {
-	font-size: 25px;
+	font-size: 30px;
 }
-
-/* .landingPage::before{
-    content: "";
-    display: block;
-    position: absolute;
-    width: 100vw;
-    height: 100vh;
-    top: 0;
-    left: 0;
-    background-color: rgba(255,255,255,0.35);
-} */
 
 /* Finish Landing Page */
 
