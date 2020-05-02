@@ -45,7 +45,7 @@ function register(event){
         }
     })
         .done(data => {
-            console.log(data)
+            localStorage.clear()
             auth()
         })
         .fail(err => {

@@ -8,10 +8,12 @@
     <title>Todos App</title>
 </head>
 <body>
+    
     <!-- LOGIN PAGE -->
     <div id="signin-page">
         <div class="container">
             <h1>Welcome to Todos app</h1>
+            <h2>Sign In</h2>
             <form id="signin-form">
                 <div class="form-group">
                     <label for="exampleInputEmail1">Email address</label>
@@ -22,9 +24,9 @@
                     <label for="exampleInputPassword1">Password</label>
                     <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
                 </div>
-                <button type="submit" class="btn btn-primary">Signin</button>
+                <button type="submit" class="btn btn-primary">Sign in</button>
             </form>
-            <p>don't have an account? <a href="#!" onclick="registerForm(event)">sign up</a></p>
+            <p>don't have an account? <a href="#!" onclick="registerForm(event)">Sign Up</a></p>
             <p>or</p>
             <div class="g-signin2" data-onsuccess="onSignIn"></div>
         </div>
@@ -33,7 +35,9 @@
     <!-- REGISTER PAGE -->
     <div id="signup-page">
         <div class="container">
-            <h1>Welcome to Todos app</h1>
+            <nav class="nav nav-pills flex-column flex-sm-row">
+                <a class="flex-sm-fill text-sm-center nav-link" href="#!" onclick="auth()">Sign in</a><br>
+            </nav>
             <form id="signup-form" onsubmit="register(event)">
                 <div class="form-group">
                     <label for="email-register">Email address</label>
