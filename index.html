@@ -49,23 +49,23 @@
 </div>
 
 <!-- MAIN PAGE -->
-<div id="MainPage">
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <button class="btn btn-default navbar-btn" onclick="logOut()">Logout</button>
-            <a class="navbar-brand" href="#">Todos Movies Anime</a>
-          </div>
-        </div>
-    </nav>
-    <div class="mainContainer">
-        <table class="table table-hover">
+<div id="MainPage" >
+<nav class="navbar navbar-default" id="navBar" style="background-color: black;">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" style="color: white;">Todos</a>
+      </div>
+      <button class="btn btn-default navbar-right navbar-btn" onclick="logOut()">Logout</button>
+    </div>
+</nav>
+    <div class="mainContainer col-md-8 justify-content-center" >
+        <table class="table table-hover container" >
             <thead>
                 <tr>
                     <th>Name</th>
@@ -81,6 +81,23 @@
         <!-- Button Adding -->
         <button onclick="toAddTodo()">Add Todo</button>
     </div>
+    <!-- Movie Search -->
+    <div class="row mt-3 justify-content-center container">
+      <div class="col-md-8">
+        <h2>Search Movies</h2>
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" id="search-input" placeholder="Movie title">
+          <div class="input-group-append">
+            <button class="btn btn-dark" id="search-button">Search</button>
+          </div>
+        </div>
+      </div>
+    </div>
+<hr>
+<!-- Movie list -->
+  <div class="row" id="movie-list">
+
+  </div>
 </div>
 
 <!-- Registrasi Page -->
