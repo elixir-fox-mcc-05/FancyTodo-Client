@@ -141,18 +141,25 @@ function readTodo() {
         for (let i = 0; i < todos.length; i++){
             let check = null;
             if(todos[i].status == false){
-                check = `[  ]`
+                check = `Unfinished`
             }
             else {
-                check = `[X]`
+                check = `Finished`
             }
             $('#todoList').append(`
-                <li>Title  &emsp;&emsp;&emsp;&nbsp;: ${todos[i].title}</li>
-                <p>Description: ${todos[i].description}</p>
-                <p>Due Date &ensp;&nbsp;: ${todos[i].due_date}</p>
-                <p>Status  &emsp;&emsp;&nbsp;: ${check}</p>
-                <button onclick="showUpdateTodo(${todos[i].id})">Update</button>
-                <button onclick="deleteTodo(${todos[i].id})">Delete</button>
+                <div class="card-group">
+                    <div class="card">
+                        <div class="card-body">
+                        <h5 class="card-title">${todos[i].title}</h5>
+                        <p class="card-text">Description:</p>
+                        <p class="card-text">${todos[i].description}</p>
+                        <p class="card-text">Due Date: ${todos[i].due_date}</p>
+                        <p class="card-text"><small class="text-muted">Status: ${check}</small></p>
+                        <button class="card-text" onclick="showUpdateTodo(${todos[i].id})">Update</button>
+                        <button class="card-text" onclick="deleteTodo(${todos[i].id})">Delete</button>
+                        </div>
+                    </div>
+                </div>
                 <br><br>
             `)
         }
