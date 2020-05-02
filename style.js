@@ -21,6 +21,9 @@ function closeNav() {
     $('#settings').hide()
     $('#newTask').show()
     $('#editTask').hide()
+    $('#taskRes').hide()
+    $('#taskResErr').hide()
+    $('#taskResDel').hide()
 }
 
 function setNavBtn () {

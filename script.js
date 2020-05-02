@@ -326,9 +326,10 @@ function cancelEdit () {
     $('#newTask').show()
     $('#editTask').hide()
     $('#taskResErr').hide()
-    $('#taskResErr').empty()
     $('#taskRes').hide()
-    $('#taskRes').empty()
+    $('#taskResDel').hide()
+
 }
+
 
 
