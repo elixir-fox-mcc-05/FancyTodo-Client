@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="google-signin-client_id" content="926421529791-vu779ktgp375qqnurr15o61k45ttjaq2.apps.googleusercontent.com">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a81368914c.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Fancy Todo</title>
+</head>
+<body>
+
+    <div class="landingContainer landingPage">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <div class="container">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+                        aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-between" id="navbarNavAltMarkup">
+                        <a class="navbar-brand nav-link"> Fancy Todo </a>
+                        <div class="navbar-nav right">
+                            <a class="nav-link" href="#" onclick="landingBtn()"> Home </a>
+                            <a class="nav-link" href="#" onclick="loginBtn()"> Login </a>
+                            <a class="nav-link" href="#" onclick="registerBtn()"> Register </a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <div class="container">
+            <h1>Make It Fancy!</h1>
+		</div>
+		<div class="container">
+			<div id="api" class="col-sm-6">
+				<div id="weather"></div>
+			</div>
+		</div>
+	</div>
+
+    <div class="containerForm loginPage">
+		<div class="img">
+			<img src="img/todo-list.svg">
+		</div>
+		<div class="auth-content">
+			<form onsubmit="login(event)" id="login">
+				<img src="img/avatar.svg">
+				<h2 class="title">Login</h2>
+           		<div class="input-div one">
+           		   <div class="i">
+           		   		<i class="fas fa-user"></i>
+           		   </div>
+           		   <div class="div">
+           		   		<h5></h5>
+           		   		<input type="email" id="emailLogin" class="input" placeholder="email" required>
+           		   </div>
+           		</div>
+           		<div class="input-div pass">
+           		   <div class="i"> 
+           		    	<i class="fas fa-lock"></i>
+           		   </div>
+           		   <div class="div">
+           		    	<h5></h5>
+           		    	<input type="password" id="passwordLogin" class="input" placeholder="password" required>
+            	   </div>
+				</div>
+				<div class="row">
+					<div class="col-sm-4">
+						<a onclick="landingBtn()">Back to home</a>
+					</div>
+					<div class="col-sm">
+						<a onclick="registerBtn()">Dont have account?</a>
+					</div>
+				</div>
+				<input type="submit" class="formBtn" value="login">
+				<div class="col-sm">
+					<p>Or Login Using Google Account</p>
+				</div>
+				<div class="g-signin2" data-onsuccess="onSignIn"></div> 
+            </form>
+        </div>
+    </div>
+
+    <div class="containerForm registerPage">
+		<div class="img">
+			<img src="img/regist.svg">
+		</div>
+		<div class="auth-content">
+			<form onsubmit="register(event)" id="register">
+				<img src="img/avatar.svg">
+				<h2 class="title">Regist Now</h2>
+           		<div class="input-div one">
+           		   <div class="i">
+           		   		<i class="fas fa-user"></i>
+           		   </div>
+           		   <div class="div">
+           		   		<h5></h5>
+           		   		<input type="email" id="emailRegister" class="input" placeholder="email" required>
+           		   </div>
+           		</div>
+           		<div class="input-div pass">
+           		   <div class="i"> 
+           		    	<i class="fas fa-lock"></i>
+           		   </div>
+           		   <div class="div">
+           		    	<h5></h5>
+           		    	<input type="password" id="passwordRegister" class="input" placeholder="password" required>
+            	   </div>
+				</div>
+				<div class="row">
+					<div class="col-sm-4">
+						<a onclick="landingBtn()">Back to home</a>
+					</div>
+					<div class="col-sm">
+						<a onclick="loginBtn()">Already have account?</a>
+					</div>
+				</div>
+				<input type="submit" class="formBtn" value="register">
+				<div class="col-sm">
+					<p>Or Login Using Google Account</p>
+				</div>
+				<div class="g-signin2" data-onsuccess="onSignIn"></div>
+            </form>
+        </div>
+    </div>
+	
+	<div class="homePage">
+		<div id="logoutBtn">
+			<button class="logout btn btn-danger">Logout</button>
+		</div>
+		<h2>MY LIST TO DO</h2>
+		<!-- Modal For Create New Todo -->
+		<div id="createBtn">
+			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">+Todo</button>
+		</div>
+		
+		<div class="modal fade" id="exampleModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Create New Todo</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<form onsubmit="createTodo(event)">
+				<div class="form-group">
+					<label for="recipient-name" class="col-form-label">Title:</label>
+					<input type="text" class="form-control" id="title" name="titleCreate" required>
+				</div>
+				<div class="form-group">
+					<label for="message-text" class="col-form-label">Description:</label>
+					<textarea class="form-control" id="description" name="descriptionCreate"></textarea>
+				</div>
+				<div class="form-group">
+					<label for="message-text" class="col-form-label">Due Date:</label>
+					<input type="date" class="form-control" id="due_date" name="dateCreate">
+				</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				<button type="submit" class="btn btn-primary" onclick="createTodo(event)" data-dismiss="modal">Create</button>
+			</div>
+			</div>
+		</div>
+		</div>
+		<!-- Finish Modal For Create New Todo-->
+
+		<!-- Modal for Edit Todo -->
+		<div class="modal fade" id="editModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Edit Todo</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<form onsubmit="updateTodo(event)">
+					<input type="hidden" id="editId">
+				<div class="form-group">
+					<label for="recipient-name" class="col-form-label">Title:</label>
+					<input type="text" class="form-control" id="editTitle" name="editTitle" required>
+				</div>
+				<div class="form-group">
+					<label for="message-text" class="col-form-label">Description:</label>
+					<textarea class="form-control" id="editDescription" name="editDescription"></textarea>
+				</div>
+				<div class="form-group">
+					<label for="message-text" class="col-form-label">Due Date:</label>
+					<input type="date" class="form-control" id="editDue_date" name="editDue_date">
+				</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				<button type="submit" class="btn btn-primary" onclick="updateTodo(event)" data-dismiss="modal">Edit</button>
+			</div>
+			</div>
+		</div>
+		</div>
+		<!-- Finish Modal for Create New Todo -->
+		<div class="todoList"></div>
+	</div>
+	
+	<script src="https://apis.google.com/js/platform.js" async defer></script>
+	<!-- Bootsrap -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+	<!-- Finish Bootstrap -->
+	<script
+		src="https://code.jquery.com/jquery-3.4.1.js"
+		integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+		crossorigin="anonymous"> 
+	</script>
+    <script src="main.js"></script>
+</body>
+</html>
