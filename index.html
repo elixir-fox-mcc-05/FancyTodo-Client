@@ -61,7 +61,10 @@
           <a class="nav-link" href="#formRegister" onclick="showRegister(event)">Register</a>
         </li>
         <li class="nav-item logged-in">
-          <a class="nav-link" href="#dashboardPage">Dashboard</a>
+          <a class="nav-link" href="#dashboardPage" onclick="showDashboard(event)">Dashboard</a>
+        </li>
+        <li class="nav-item logged-in">
+          <a class="nav-link" href="#projectPage" onclick="showProjects(event)">Projects</a>
         </li>
         <li class="nav-item logged-in">
           <a class="nav-link" href="#logout" onclick="logout(event)">Logout</a>
@@ -170,6 +173,80 @@
     </div>
   </div>
 
+  <!-- PROJECT PAGE -->
+  <div class="container mx-auto mt-4" id="projectPage">
+    <div class="row">
+      <div class="col-md-12">
+        <h1>Your Project(s)</h1>
+        <div class="col-md-4 mb-3">
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addProjectModal">
+            Add Project
+          </button>
+        </div>
+        <table class="table table-striped" id="projectList">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Title</th>
+              <th scope="col">Description</th>
+              <th scope="col">Status</th>
+              <th scope="col">Due Date</th>
+              <th colspan="3" style="text-align: center;">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Detail PROJECT PAGE -->
+  <div class="container mx-auto mt-4" id="detailProjectPage">
+    <div class="row">
+      <div class="col-md-12">
+        <h1 id="project-title"></h1>
+        <div class="row">
+          <div class="col-md-4">
+            <h2>Member List</h2>
+            <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#addMemberModal">
+              Add Member
+            </button>
+            <table class="table table-striped" id="memberList">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Email</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addTodoModal">
+            Add Todo
+          </button>
+        </div>
+        <table class="table table-striped" id="todoProjectList">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Title</th>
+              <th scope="col">Description</th>
+              <th scope="col">Status</th>
+              <th scope="col">Due Date</th>
+              <th colspan="3" style="text-align: center;">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
   <!-- MODAL CREATE -->
   <div class="modal fade" id="addTodoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -183,6 +260,7 @@
         <div class="modal-body">
           <p class="error" id="errorAdd"></p>
           <form onsubmit="addTodo(event)">
+            <input type="hidden" name="projectid" id="projectid" value="">
             <div class="form-group">
               <label for="title">Title</label>
               <input type="text" name="title" id="title" placeholder="Todo Title" class="form-control">
@@ -213,12 +291,55 @@
     </div>
   </div>
 
+   <!-- MODAL CREATE PROJECT-->
+   <div class="modal fade" id="addProjectModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addTodoModalLabel">Add Project</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p class="error" id="errorAddProject"></p>
+          <form onsubmit="addProject(event)">
+            <div class="form-group">
+              <label for="title">Name</label>
+              <input type="text" name="name" id="project_name" placeholder="Project Name" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="title">Description</label>
+              <input type="text" name="description" id="project_description" placeholder="Description" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="title">Status</label>
+              <select name="status" id="project_status" class="form-control">
+                <option value="" selected disabled>--Select Todo Status--</option>
+                <option value="false">Pending</option>
+                <option value="true">Done</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="title">Due Date</label>
+              <input type="date" name="due_date" id="project_due_date" class="form-control">
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">Add</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- EDIT Modal -->
   <div class="modal fade" id="editTodoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="addTodoModalLabel">Add Todo</h5>
+          <h5 class="modal-title" id="addTodoModalLabel">Edit Todo</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -227,6 +348,7 @@
           <p class="error" id="errorEdit"></p>
           <form onsubmit="update(event)">
             <input type="hidden" id="todoId" value="">
+            <input type="hidden" id="projectid_edittodo" value="">
             <div class="form-group">
               <label for="title">Title</label>
               <input type="text" name="title" id="titleEdit" placeholder="Todo Title" class="form-control" value="">
@@ -257,6 +379,79 @@
     </div>
   </div>
 
+    <!-- EDIT Project Modal -->
+    <div class="modal fade" id="editProjectModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addTodoModalLabel">Edit Project</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p class="error" id="errorEditProject"></p>
+            <form onsubmit="updateProject(event)">
+              <input type="hidden" id="projectId" value="">
+              <div class="form-group">
+                <label for="title">Name</label>
+                <input type="text" name="name" id="project_name_edit" placeholder="Todo Title" class="form-control" value="">
+              </div>
+              <div class="form-group">
+                <label for="title">Description</label>
+                <input type="text" name="description" id="project_description_edit" placeholder="Description" class="form-control" value="">
+              </div>
+              <div class="form-group">
+                <label for="title">Status</label>
+                <select name="status" id="project_status_edit" class="form-control">
+                  <option value="" selected disabled>--Select Todo Status--</option>
+                  <option value="false">Pending</option>
+                  <option value="true">Done</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="title">Due Date</label>
+                <input type="date" name="due_date" id="project_due_date_edit" class="form-control" value="">
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-success">Edit</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADD MEMBER MODAL -->
+    <div class="modal fade" id="addMemberModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addTodoModalLabel">Add Member</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p class="error" id="errorEdit"></p>
+            <form onsubmit="addMember(event)">
+              <input type="hidden" id="projectid_addmember" value="">
+              <div class="form-group">
+                <label for="user-list">Select User</label>
+                <select class="form-control" id="user-list">
+                </select>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-success">Add</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
   <!-- Delete Modal -->
   <div class="modal fade" id="deleteTodoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -271,7 +466,8 @@
           <p class="error" id="errorDelete"></p>
           <form onsubmit="deleteTodo(event)">
             <input type="hidden" id="idDelete" value="">
-            <p id="deleteMessage">Delete data Todo </p>
+            <input type="hidden" id="projectid_delete" value="">
+            <p id="deleteMessage"></p>
         <div class="modal-footer">
           <button type="submit" class="btn btn-danger">Delete</button>
           <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
