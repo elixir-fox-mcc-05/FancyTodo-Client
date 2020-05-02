@@ -219,7 +219,7 @@ body {
   text-align: center;
 }
 
-.g-signin2{
+.g-signin2 {
   display: flex;
   justify-content: center;
 }
@@ -292,12 +292,11 @@ body {
   right: 5px;
 }
 
-
 /* ========== sign in and sign up page end ==========*/
 
 /* ========== main page ==========*/
 
-#mainPage{
+#mainPage {
   overflow-x: hidden;
 }
 
@@ -313,6 +312,35 @@ body {
   font-weight: 600;
 }
 
+.navbarLink {
+  color: red !important;
+  font-weight: bold;
+  margin-left: 20px;
+  cursor: pointer;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    /* box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7); */
+  }
+
+  70% {
+    transform: scale(1);
+    /* box-shadow: 0 0 0 10px rgba(0, 0, 0, 0); */
+  }
+
+  100% {
+    transform: scale(0.95);
+    /* box-shadow: 0 0 0 0 rgba(0, 0, 0, 0); */
+  }
+}
+
+.navbarLink:hover {
+  color: grey !important;
+}
+
 .navbar .btn {
   color: #6200a4 !important;
   border-color: #6200a4 !important;
@@ -324,20 +352,6 @@ body {
 }
 
 /* navbar end */
-
-/* user name */
-.userNameContainer {
-  display: flex;
-  justify-content: center;
-  margin-top: 50px;
-}
-
-.userName {
-  color: #6200a4;
-  font-weight: 600;
-  font-size: 25px;
-}
-/* user name end */
 
 /* Todo List */
 
@@ -385,7 +399,7 @@ body {
   margin-left: 10px;
 }
 
-.card .btnDelete:hover{
+.card .btnDelete:hover {
   color: #6200a4;
 }
 
@@ -446,7 +460,7 @@ body {
   background: #9400ff;
 }
 
-.cancelButton{
+.cancelButton {
   display: flex;
   justify-content: center;
   margin-top: 40px;
@@ -464,4 +478,30 @@ body {
 
 /* add todo form end */
 
+/* covid page */
+.covidHeader{
+margin-top: 50px;
+display: flex;
+justify-content: center;
+color: #6200a4;
+}
 
+.covidText {
+  padding: 20px;
+  color: #6200a4;
+  margin: 0;
+  font-size: 22px;
+}
+
+.btnCovid{
+  margin-left: 40px;
+  bottom: 78vh;
+  position: fixed;
+  background-color: #6200a4 !important;
+  border: none !important;
+}
+
+.btnCovid:hover{
+  background-color: #9400ff !important;
+}
+/* covid page end */

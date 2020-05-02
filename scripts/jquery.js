@@ -59,6 +59,8 @@ function auth() {
     $("#mainPage").show();
     $("#formAddTodo").hide();
     $("#formEditTodo").hide();
+    $("#covidContainer").hide();
+
 
     fetchTodo();
   } else {
@@ -66,6 +68,7 @@ function auth() {
     $("#mainPage").hide();
     $("#formAddTodo").hide();
     $("#formEditTodo").hide();
+    $("#covidContainer").hide();
   }
 }
 
@@ -77,6 +80,7 @@ function signout() {
     $("#mainPage").hide();
     $("#formAddTodo").hide();
     $("#formEditTodo").hide();
+    $("#covidContainer").hide();
     auth();
   });
 
@@ -96,7 +100,7 @@ function fetchTodo() {
       data.todos.forEach((todo) => {
         $(".cardContainer").append(`
         <div class="card" style="width: 18rem;">
-          <div class="card-header">${todo.id}. ${todo.title}</div>
+          <div class="card-header">${todo.title}</div>
           <div class="card-body">
             <p class="card-title">Status: ${todo.status}</p>
             <p class="card-text">
@@ -122,6 +126,7 @@ function showAddForm() {
   $("#mainPage").hide();
   $("#formAddTodo").show();
   $("#formEditTodo").hide();
+  $("#covidContainer").hide();
 }
 
 function addNewTodo(event) {
@@ -144,6 +149,7 @@ function addNewTodo(event) {
       $("#mainPage").show();
       $("#formAddTodo").hide();
       $("#formEditTodo").hide();
+      $("#covidContainer").hide();
     })
     .fail((err) => {
       console.log(err.responseJSON.err.msg);
@@ -159,6 +165,7 @@ function cancel() {
   $("#mainPage").show();
   $("#formAddTodo").hide();
   $("#formEditTodo").hide();
+  $("#covidContainer").hide();
 }
 
 // delete
@@ -269,6 +276,7 @@ function editTodo(event) {
     });
 }
 
+// google sign in
 function onSignIn(googleUser) {
   const id_token = googleUser.getAuthResponse().id_token;
   
@@ -284,11 +292,52 @@ function onSignIn(googleUser) {
     $("#mainPage").show();
       $("#formAddTodo").hide();
       $("#formEditTodo").hide();
+      $("#covidContainer").hide();
     auth()
-    console.log(data)
   })
   .fail(err=>{
     console.log(err);
     
   })
+}
+
+// data covid
+
+function fetchCovid() {
+  $.ajax({
+    method: "get",
+    url: baseUrl + "/covid",
+    headers: {
+      token: localStorage.token,
+    },
+  })
+    .done((data) => {
+      $(".cardCovid").empty();
+      data.covids.forEach((covid) => {
+        $(".cardCovid").append(`
+        <div class="card" style="width: 18rem;">
+          <div class="card-header">${covid.attributes.Provinsi}</div>
+            <p class="covidText"> 
+              Positif = ${covid.attributes.Kasus_Posi}
+            </p>
+            <p class="covidText">
+              Sembuh = ${covid.attributes.Kasus_Semb}
+            </p>
+            <p class="covidText">
+              Meninggal = ${covid.attributes.Kasus_Meni}
+            </p>
+          </div>
+        </div>
+        `);
+      });
+    })
+    .fail((err) => {
+      console.log(err.responseJSON.err.msg, "erooooooooooooooooorrrr");
+    });
+    $("#covidContainer").show();
+    $("#signinPage").hide();
+    $("#mainPage").hide();
+    $("#formAddTodo").hide();
+    $("#formEditTodo").hide();
+    
 }
