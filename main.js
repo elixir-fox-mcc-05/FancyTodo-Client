@@ -2,18 +2,28 @@ const LOCALHOST = 'http://localhost:3000'
 
 $(document).ready(() => { // digunakan agar render dari HTML selesai
     if (localStorage.token) {
+        $('#edit_project_page').hide()
+        $('#project_dashboard').hide()
+        $('#add_project_page').hide()
         $('#landing_page_nav').hide()
         $('#form_register').hide()
         $('#form_login').hide()
         $('.jumbotron').hide()
         $('#edit_page').hide()
         $('#add_page').hide()
+        $('#message').hide()
 
+        $('#table_content').empty()
+        
         $('#navigation').show()
         $('#dashboard').show()
         
         get_all_todos(localStorage.token)
+        get_all_projects(localStorage.token)
     } else {
+        $('#edit_project_page').hide()
+        $('#project_dashboard').hide()
+        $('#add_project_page').hide()
         $('#landing_page_nav').hide()
         $('#form_register').hide()
         $('#navigation').hide()
@@ -21,18 +31,23 @@ $(document).ready(() => { // digunakan agar render dari HTML selesai
         $('#dashboard').hide()
         $('#edit_page').hide()
         $('#add_page').hide()
+        $('#message').hide()
     } // [ok]
 
     $('#home').click((event) => {
         event.preventDefault()
 
+        $('#edit_project_page').hide()
+        $('#project_dashboard').hide()
+        $('#add_project_page').hide()
         $('#landing_page_nav').hide()
         $('#form_register').hide()
         $('#form_login').hide()
         $('.jumbotron').hide()
         $('#edit_page').hide()
         $('#add_page').hide()
-
+        $('#message').hide()
+        
         $('#dashboard').show()
     }) // [ok]
 
@@ -51,6 +66,7 @@ $(document).ready(() => { // digunakan agar render dari HTML selesai
     $('#login').click((event)=> {
         event.preventDefault()
 
+        $('#edit_project_page').hide()
         $('#form_register').hide()
         $('.jumbotron').hide()
         $('#dashboard').hide()
@@ -58,7 +74,7 @@ $(document).ready(() => { // digunakan agar render dari HTML selesai
 
         $('#landing_page_nav').show()
         $('#form_login').show()
-    })
+    }) // [ok]
 
     $('#create_todo').click((event) => {
         $('#dashboard').hide()
@@ -76,6 +92,17 @@ $(document).ready(() => { // digunakan agar render dari HTML selesai
         $('#dashboard').hide()
 
         $('.jumbotron').show()
+    }) // [ok]
+
+    $('#project').click(event => {
+        event.preventDefault()
+
+        $('#project_dashboard').show()
+        $('#edit_page').hide()
+        $('#edit_project_page').hide()
+        $('#add_page').hide()
+        $('#dashboard').hide()
+        $('#add_project_page').hide()
     }) // [ok]
 
     $('#submit_register').submit((event) => {
@@ -107,6 +134,10 @@ $(document).ready(() => { // digunakan agar render dari HTML selesai
         .fail((err) => {
             $('#success').hide()
             $('#message').text(err.responseJSON.errors)
+
+            setTimeout(() => {
+                $('#message').hide()
+            }, 3000)
         })
     }) // [ok]
 
@@ -126,13 +157,19 @@ $(document).ready(() => { // digunakan agar render dari HTML selesai
         })
         .done((res) => {
             $('#landing_page_nav').hide()
+            $('#edit_project_page').hide()
             $('#form_register').hide()
             $('#form_login').hide()
             $('#jumbotron').hide()
+            $('#message').hide()
 
             $('#dashboard').show()
             $('#navigation').show()
 
+            $('#table_content').empty()
+            $('#project_content').empty()
+
+            get_all_projects(res.token)
             get_all_todos(res.token)
 
             $('#email_register').val('')
@@ -142,8 +179,56 @@ $(document).ready(() => { // digunakan agar render dari HTML selesai
         })
         .fail((err) => {
             $('#success').hide()
-            $('#message').text(err.responseJSON.errors)
+            $('#message').append(`<b>Warning!</b> email / password wrong`)
+
+            setTimeout(() => {
+                $('#message').hide()
+            }, 3000)
         })
+    }) // [ok]
+
+    $('#edit_project_page').submit((event) => {
+        event.preventDefault()
+
+        const id = $('#update_project_id').val()
+        const project_name = $('#update_project_name').val()
+        const description = $('#update_project_description').val()
+        const status = $('#update_project_status').val()
+        const due_date = $('#update_project_due_date').val()
+
+        $.ajax({
+            method: 'PUT',
+            url: LOCALHOST + `/projects/${id}`,
+            headers: {
+                token: localStorage.token
+            },
+            data: {
+                id,
+                project_name,
+                description,
+                status,
+                due_date
+            }
+        })
+        .done(res => {
+            $('#form_register').hide()
+            $('#form_login').hide()
+            $('#edit_project_page').hide()
+            $('.jumbotron').hide()
+            $('#add_project_page').hide()
+            
+            $('#project_dashboard').show()
+            $('#navigation').show()
+
+            $('#project_content').empty()
+
+            get_all_projects(localStorage.token)
+        })
+        .fail(err => {
+            $('#message').empty()
+            $('#message').append(`<b>Warning!</b> ${err.responseJSON.errors}`)
+        })
+
     }) // [ok]
 
     $('#edit_page').submit((event) => {
@@ -183,7 +268,12 @@ $(document).ready(() => { // digunakan agar render dari HTML selesai
                 get_all_todos(localStorage.token)
                 })
             .fail((err) => {
-                $('#message').append(err.errors)
+                $('#message').empty()
+                $('#message').append(`<b>Warning!</b> ${err.responseJSON.errors}`)
+
+                setTimeout(() => {
+                    $('#message').hide()
+                }, 3000)
             })
     }) // [ok]
 
@@ -194,6 +284,8 @@ $(document).ready(() => { // digunakan agar render dari HTML selesai
         const description = $('#new_description').val()
         const status = $("input[name='new_status']:checked").val();
         const due_date = $('#new_due_date').val()
+
+        console.log('success')
 
         $.ajax({
             method: 'POST',
@@ -222,6 +314,11 @@ $(document).ready(() => { // digunakan agar render dari HTML selesai
             $('#table_content').empty()
 
             get_all_todos(localStorage.token)
+
+            $('#success').append('<b>Success</b> list added, check your mail now')
+            setTimeout(() => {
+                $('#success').hide()
+            }, 3000) // add 3rd party to client
             
             $('#new_title').val('')
             $('#new_description').val('')
@@ -230,7 +327,84 @@ $(document).ready(() => { // digunakan agar render dari HTML selesai
         })
         .fail((err) => {
             $('#success').hide()
-            $('#message').append(`${err.responseJSON.errors}`)
+            $('#message').empty()
+            $('#message').append('<b>Warning!</b> invalid input, check again')
+
+            setTimeout(() => {
+                $('#message').hide()
+            }, 3000)
+        })
+    }) // [ok]
+
+    // rocket
+    $('#create_project').click((event) => {
+
+        $.ajax({
+            method: 'GET',
+            url: LOCALHOST + '/users',
+            headers: {
+                token: localStorage.token
+            }
+        })
+        .done((res) => {
+            let { data } = res
+
+            data.map(el => {
+                $('#new_project_member')
+                    .append(`
+                    <option value="${el.id}">${el.email}</option>`
+                    )
+                
+                $("#project_dashboard").hide()
+                $('#add_project_page').show()
+            })
+        })
+        .fail(err => {
+            $('#message').empty()
+            $('#message').append(`<b>Warning!</b> ${err.responseJSON.errors}`)
+
+            setTimeout(() => {
+                $('#message').hide()
+            }, 3000)
+        })
+    }) // [ok]
+
+    $('#add_project_page').submit((event) => {
+        event.preventDefault()
+        const project_name = $('#new_project_name').val()
+        const description = $('#new_project_description').val()
+        const status = $("input[name='new_project_status']:checked").val();
+        const due_date = $('#new_project_due_date').val()
+        const member = $('#new_project_member').val()
+
+        $.ajax({
+            method: 'POST',
+            url: LOCALHOST + '/projects',
+            headers: {
+                token: localStorage.token
+            },
+            data: {
+                project_name,
+                description,
+                status,
+                due_date,
+                member
+            }
+        })
+        .done(res => {
+            $('#project_dashboard').show()
+            $('#message').hide()
+            $('#project_content').empty()
+            $('#add_project_page').hide()
+            get_all_projects(localStorage.token)
+        })
+        .fail(err => {
+            $('#message').empty()
+            $('#message').append(`<b>Warning!</b> ${err.responseJSON.errors}`)
+
+            setTimeout(() => {
+                $('#message').hide()
+            }, 3000)
         })
     }) // [ok]
 })
@@ -260,7 +434,11 @@ function get_all_todos(token) {
     })
     .fail((err) => {
         $('#message').empty()
-        $('#message').append(`<b>Warning!</b> ${err.errors}`)
+        $('#message').append(`<b>Warning!</b> ${err.responseJSON.errors}`)
+
+        setTimeout(() => {
+            $('#message').hide()
+        }, 3000)
     })
 } // [ok]
 
@@ -287,7 +465,43 @@ function button_edit(id) {
     })
     .fail((err) => {
         $('#message').empty()
-        $('#message').append(`<b>Warning!</b> ${err.errors}`)
+        $('#message').append(`<b>Warning!</b> ${err.responseJSON.errors}`)
+
+        setTimeout(() => {
+            $('#message').hide()
+        }, 3000)
+    })
+} // [ok]
+
+function button_project_edit(id) {
+    $.ajax({
+        method: 'GET',
+        url: LOCALHOST + `/projects/${id}`,
+        headers: {
+            token: localStorage.token
+        }
+    })
+    .done((res) => {
+        $('#project_dashboard').hide()
+        $('#edit_project_page').show()
+        $('#update_project_id').attr('value', `${res.data.id}`)
+        $('#update_project_name').attr('value', `${res.data.project_name}`)
+        $('#update_project_description').attr('value', `${res.data.description}`)
+        
+        if (res.data.status == true) { $("input[name='update_project_status'][value=true]").attr('checked', true); }
+        else if (res.data.status == false) { $("input[name='update_project_status'][value=false]").attr('checked', true); }
+
+        $('#update_project_due_date').attr('value', `${getDate(res.data.due_date)}`)
+        $('#edit_project_page').show()
+    })
+    .fail((err) => {
+        console.log(err)
+        $('#message').empty()
+        $('#message').append(`<b>Warning!</b> ${err}`)
+
+        setTimeout(() => {
+            $('#message').hide()
+        }, 3000)
     })
 } // [ok]
 
@@ -307,7 +521,6 @@ function button_delete(id) {
         $('.jumbotron').hide()
         $('#add_page').hide()
         $('#message').hide()
-        $('#message').hide()
 
         $('#table_content').empty()
 
@@ -315,7 +528,42 @@ function button_delete(id) {
     })
     .fail((err) => {
         $('#message').empty()
-        $('#message').append(`<b>Warning!</b> ${err.errors}`)
+        $('#message').append(`<b>Warning!</b> ${err.responseJSON.errors}`)
+
+        setTimeout(() => {
+            $('#message').hide()
+        }, 3000)
+    })
+} // [ok]
+
+function button_project_delete(id) {
+    $.ajax({
+        method: 'DELETE',
+        url: LOCALHOST + `/projects/${id}`,
+        headers: {
+            token: localStorage.token
+        }
+    })
+    .done((res) => {
+        $('#form_register').hide()
+        $('#form_login').hide()
+        $('#edit_page').hide()
+        $('#edit_page').hide()
+        $('.jumbotron').hide()
+        $('#add_page').hide()
+        $('#message').hide()
+
+        $('#project_content').empty()
+
+        get_all_projects(localStorage.token)
+    })
+    .fail((err) => {
+        $('#message').empty()
+        $('#message').append(`<b>Warning!</b> ${err.responseJSON.errors}`)
+
+        setTimeout(() => {
+            $('#message').hide()
+        }, 3000)
     })
 } // [ok]
 
@@ -347,7 +595,11 @@ function onSignIn(googleUser) {
     })
     .fail((err) => {
         $('#message').empty()
-        $('#message').append(`<b>Warning!</b> ${err.errors}`)
+        $('#message').append(`<b>Warning!</b> ${err.responseJSON.errors}`)
+
+        setTimeout(() => {
+            $('#message').hide()
+        }, 3000)
     })
 } // [ok]
 
@@ -360,7 +612,42 @@ function signOut() {
       $('#landing_page_nav').hide()
       $('#navigation').hide()
       $('#dashboard').hide()
+      $('#add_project_page').hide()
+      $('#project_dashboard').hide()
+      $('#edit_project_page').hide()
 
       $('.jumbotron').show()
     });
+} // [ok]
+
+function get_all_projects(token) {
+    $.ajax({
+        method: 'GET',
+        url: LOCALHOST + '/projects',
+        headers: {
+            token
+        }
+    })
+    .done(res => {
+        let {data} = res
+        data.map(el => {
+            $('#project_content')
+                .append(`<tr>
+                <td class="table-light">${el.id}</td>
+                <td class="table-light">${el.project_name}</td>
+                <td class="table-light">${el.status}</td>
+                <td class="table-light">${getDate(el.due_date)}</td>
+                <td class="table-light">${el.member}</td>
+                <td class="table-light"><a onclick="button_project_edit(${el.id})"><button type="button" class="btn btn-outline-warning">UPDATE</button></a> <a onclick="button_project_delete(${el.id})"><button type="button" class="btn btn-outline-danger">DELETE</button></a></td>
+                </tr>`);
+        })
+    })
+    .fail(err => {
+        $('#message').empty()
+        $('#message').append(`<b>Warning!</b> ${err.responseJSON.errors}`)
+
+        setTimeout(() => {
+            $('#message').hide()
+        }, 3000)
+    })
 } // [ok]

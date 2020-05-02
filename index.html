@@ -5,20 +5,22 @@
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <meta name="google-signin-client_id" content="779296103208-phqt3uq2e5hr62n3kia64tgvb69nhseb.apps.googleusercontent.com">
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-      <link rel="icon" href="favicon_logo.png">
-      <link rel="stylesheet" href="css/bootstrap-responsive.css">
+      <link rel="icon" href="favicon_logo.png.png">
       <title>FancyTodo</title>
   </head>
   <body class="p-3 mb-2 bg-light ">
     <!-- NAV -->
     <div id="navigation">
       <ul class="nav justify-content-end justify-content-center">
-          <li class="nav-item">
-            <a class="nav-link" id="home" href="">Dashboard</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#" onclick="signOut()">Sign Out</a>
-          </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" id="project">Projects</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="home" href="">Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" onclick="signOut()">Sign Out</a>
+        </li>
       </ul>
     </div>
 
@@ -105,12 +107,36 @@
           <table border>
             <thead>
               <th class="table-dark">ID</th>
-              <th class="table-dark">Todo</th>
+              <th class="table-dark">Title</th>
               <th class="table-dark">Status</th>
               <th class="table-dark">Due Date</th>
               <th class="table-dark">Action</th>
             </thead>
             <tbody id="table_content"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Project Dashboard -->
+    <div id="project_dashboard" class="text-center">
+      <p class="font-weight-lighter"></p></p>
+      <br><br>
+      <button type="button" class="btn btn-success" id="create_project">Create Project</button>
+      <br><br><br>
+      <div class="text-center d-flex justify-content-center align-items-center container">
+        <div class="row">
+          <table border>
+            <thead>
+              <th class="table-dark">ID</th>
+              <th class="table-dark">Project Name</th>
+              <th class="table-dark">Status</th>
+              <th class="table-dark">Due Date</th>
+              <!-- define id who as member in project -->
+              <th class="table-dark">Member ID</th>
+              <th class="table-dark">Action</th>
+            </thead>
+            <tbody id="project_content"></tbody>
           </table>
         </div>
       </div>
@@ -175,6 +201,72 @@
       </div>
     </div>
 
+    <!-- render add project page -->
+    <div class="text-center d-flex justify-content-center align-items-center container">
+      <div class="row">
+        <form id="add_project_page">
+          <div class="form-group">
+            <h4 class="font-weight-normal">Create Project</h4>
+            <br>
+            <label class="font-weight-light">Project Name :</label>
+            <br><br>
+            <input type="text" id="new_project_name" class="border border-primary rounded-pill" required>
+            <br><br>
+            <label class="font-weight-light">Description :</label>
+            <br><br>
+            <input type="text" id="new_project_description" class="border border-primary rounded-pill" required>
+            <br><br>
+            <label class="font-weight-light" for="project_status">Status :</label>
+            <br><br>
+            <label><input type="radio" name="new_project_status" value=true >True</label> 
+            <label><input type="radio" name="new_project_status" value=false >False</label> 
+            <br><br>
+            <label class="font-weight-light">Due Date :</label>
+            <br><br>
+            <input type="date" id="new_project_due_date" class="border border-primary rounded-pill" required>
+            <br><br>
+            <label class="font-weight-light">Colab With :</label>
+            <br><br>
+            <select id="new_project_member"></select>
+          </div>
+          <br><br>
+        <button type="submit" class="btn btn-outline-primary rounded-pill w-100">Submit</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- render edit project page -->
+    <div class="text-center d-flex justify-content-center align-items-center container">
+      <div class="row">
+        <form id="edit_project_page">
+          <div class="form-group">
+            <h4 class="font-weight-normal">Edit Project</h4>
+            <br>
+            <input type="hidden" name="" id="update_project_id">
+            <label class="font-weight-light">Project Name :</label>
+            <br><br>
+            <input type="text" id="update_project_name" class="text-center border border-primary rounded-pill" required>
+            <br><br>
+            <label class="font-weight-light">Description :</label>
+            <br><br>
+            <input type="text" id="update_project_description" class="text-center border border-primary rounded-pill" required>
+            <br><br>
+            <label class="font-weight-light" for="project_status">Status :</label>
+            <br><br>
+            <label><input type="radio" name="update_project_status" value=true >True</label> 
+            <label><input type="radio" name="update_project_status" value=false >False</label> 
+            <br><br>
+            <label class="font-weight-light">Due Date :</label>
+            <br><br>
+            <input type="date" id="update_project_due_date" class="text-center border border-primary rounded-pill" required>
+            <br><br>
+          </div>
+          <br><br>
+        <button type="submit" class="btn btn-outline-primary rounded-pill w-100">Submit</button>
+        </form>
+      </div>
+    </div>
+    
     <!-- script -->
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
