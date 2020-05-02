@@ -1,4 +1,5 @@
-let baseUrl = "http://localhost:3000"
+// let baseUrl = "http://localhost:3000"
+let baseUrl = "https://server-fancytodo-yudhaaw96.herokuapp.com"
 
 $(document).ready(function () {
     auth()
@@ -138,6 +139,8 @@ const auth = () => {
         $("#login-page").hide()
         $("#main-page").show()
         $("#create-todo-form").hide()
+        $("#create-todo-status").empty()
+        $("#edit-todo-status").empty()
         fetchToDos()
         checkIp()
     } else {
@@ -178,6 +181,8 @@ const create = () => {
 
 const logout = () => {
 
+    $("#quote-author").empty()
+    $("#quote-text").empty()
     localStorage.clear()
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {});
