@@ -1,5 +1,5 @@
-// let baseUrl = "http://localhost:3000"
-let baseUrl = "https://server-fancytodo-yudhaaw96.herokuapp.com" // heroku deploy
+let baseUrl = "http://localhost:3000"
+// let baseUrl = "https://server-fancytodo-yudhaaw96.herokuapp.com"
 
 $(document).ready(function () {
     auth()
