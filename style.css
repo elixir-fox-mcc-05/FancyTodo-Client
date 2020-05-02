@@ -1,0 +1,50 @@
+body {
+    font-family: 'Roboto';
+    font-weight: 400;
+}
+
+#form-register.container {
+    width: 500px;
+}
+
+#form-login.container {
+    width: 500px;
+}
+
+#main-section {
+    width: 500px;
+}
+
+.add-btn {
+	position: fixed;
+	bottom: 15px;
+	right: 15px;
+	/* background-color: #05d595; */
+	border-radius: 100%;
+	width: 50px;
+	height: 50px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	transition: .5s;
+	cursor: pointer;
+}
+
+.add-btn i {
+	font-size: 30px;
+	color: white;
+}
+
+.add-btn:hover {
+	transform: scale(1.2);
+	font-weight: bold;
+}
+
+.edit-delete {
+    right: 10px;
+    border-color: white;
+}
+
+#running-text {
+	font-family: 'Open Sans Condensed', sans-serif;
+}

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-client_id" content="850916978186-9a8h3aj8enjt7e014ut5l65rmda24ccb.apps.googleusercontent.com">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <title>Todo Apps</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm navbar-dark bg-success mb-3">
+        <div class="container">
+          <a class="navbar-brand" href="">My Todo</a>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" id="register" href="">Register</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="login" href="" id="login">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="logout(event)" href="" id="logout">Logout</a>
+                </li class="nav-item">
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Registration Form -->
+    <div id="form-register" class="container">
+        <h2 class="text-center mt-4">Register</h2>
+        <form action="http://localhost:3000/users/signup" method="POST" class="mt-4">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" name="name" id="name-register" placeholder="e.g: John Doe" class="form-control is-valid">
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="text" name="email" id="email-register" placeholder="e.g: john@gmail.com" class="form-control is-valid">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password-register" placeholder="Your Password" class="form-control is-valid">
+                <div class="invalid-feedback" id="feedback-register"></div>
+            </div>
+            <button type="submit" class="btn btn-success">Submit</button>
+        </form>
+    </div>
+
+    <!-- Registration Success Notification -->
+    <div class="text-center" id="register-success"></div>
+
+    <!-- Login Form -->
+    <div id="form-login" class="container">
+        <h2 class="text-center mt-4">Login</h2>
+        <form action="http://localhost:3000/users/signup" method="POST" class="mt-4">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="text" name="email" placeholder="Your Email" id="email" class="form-control is-valid">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" name="password" placeholder="Your Password" id="password" class="form-control is-valid">
+                <div class="invalid-feedback" id="feedback-login"></div>
+            </div>
+            <p>
+                or sign in with 
+                <div class="g-signin2" data-onsuccess="onSignIn" id="google-signin"></div>
+            </p>
+            <button type="submit" class="btn btn-success">Submit</button>
+        </form>
+    </div>
+
+    <!-- Main Section -->
+    <div id="main-section" class="container">
+
+    </div>
+
+    <!-- Add Button -->
+    <div id="add-button" onclick="showTodoForm()" class="add-btn bg-success">
+        <i class="fas fa-plus"></i>
+    </div>
+
+    <!-- Add New Todo -->
+    <div id="form-todo" class="container">
+        <h2 class="text-center mt-4">Add New Todo</h2>
+        <form action="http://localhost:3000/todos" method="POST">
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" name="title" id="title" placeholder="e.g: Running" class="form-control is-valid">
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <input type="text" name="description" id="description" placeholder="e.g: running routine (5km)" class="form-control is-valid">
+                <select name="" id="anime""></select>
+            </div>
+            <div class="form-group">
+                <label for="due_date">Due Date</label>
+                <input type="date" name="due_date" id="due_date" class="form-control is-valid">
+                <div class="invalid-feedback" id="feedback-todo"></div>
+            </div>
+            <button type="submit" class="btn btn-success">Submit</button>
+            <button type="" onclick="showMainContent(event)" class="btn btn-success">Cancel</button>
+        </form>
+    </div>
+
+    <!-- Edit Todo -->
+    <div id="edit-todo" class="container">
+        
+    </div>
+
+    <!-- Running text -->
+    <br>
+    <marquee id="running-text" behavior="scroll" direction="left"></marquee>
+
+    <!-- Footer -->
+    <footer class="page-footer font-small blue pt-4">
+        <div class="text-success text-center">© 2020 Copyright: My Todo
+        </div>  
+    </footer>
+    <!-- Google Sign In API -->
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <!-- Jquery -->
+    <script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
+    <script src="main.js"></script>
+</body>
+</html>
+
