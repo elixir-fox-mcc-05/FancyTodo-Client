@@ -107,7 +107,7 @@
 
         <!-- LoginPage -->
         <section id="login" class="container center text-light mt-5">
-            <form>
+            <form id="loginForm">
                 <h2 class="text-center text-light mb-3">Login</h2>
                 <div class="form-group">
                     <label for="inputEmail">Email address</label>
@@ -117,7 +117,7 @@
                     <label for="inputPassword">Password</label>
                     <input type="password" class="form-control" id="inputPassword">
                 </div>
-                <button type="submit" class="btn btn-primary" onclick="loginUser()">Login</button>
+                <button type="submit" class="btn btn-primary">Login</button>
             </form>
         </section>
 
@@ -151,7 +151,7 @@
         <!-- Add Todo -->
         <section id="addTodo" class="container center text-light mt-5">
             <h2 class="text-center mb-3">Add New Todo</h2>
-            <form>
+            <form id="addTodoForm">
                 <div class="form-group">
                     <label for="newTitle">Title</label>
                     <input type="text" class="form-control" id="newTitle">
@@ -164,7 +164,7 @@
                     <label for="newDueDate">Due Date</label>
                     <input type="date" class="form-control" id="newDueDate">
                 </div>
-                <button type="submit" class="btn btn-primary" onclick="addTodo()">Add</button>
+                <button type="submit" class="btn btn-primary">Add</button>
             </form>
         </section>
 
@@ -210,7 +210,7 @@
 
     <!-- SCRIPTS -->
     <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <script src="http://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <script src="script.js"></script>
 </body>

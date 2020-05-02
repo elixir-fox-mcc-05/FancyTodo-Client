@@ -55,6 +55,7 @@ function showRegister() {
         const email = $('#newEmail').val()
         const password = $('#newPassword').val()
         registerUser(name, email, password)
+        event.preventDefault();
     })
 }
 
@@ -91,11 +92,12 @@ function showLogin() {
     $('#login').show()
     $( "#errorSection" ).hide()
     $( "#notifSection" ).hide()
-    $('#login').on('submit', function (event) {
+    $('#loginForm').on('submit', function (event) {
         event.preventDefault()
         const email = $('#inputEmail').val()
         const password = $('#inputPassword').val()
         loginUser(email, password)
+        event.preventDefault();
     })
 
 }
@@ -178,11 +180,14 @@ function showAddTodo() {
     $('#publicHolidays').hide()
     $('#editTodo').hide()
     $('#addTodo').show()
-    $('#addTodo').on('submit', function (event) {
+    $('#addTodoForm').on('submit', function (event) {
         event.preventDefault()
         const title = $('#newTitle').val()
         const description = $('#newDescription').val()
         const due_date = $('#newDueDate').val()
+        $('#newTitle').val('')
+        $('#newDescription').val('')
+        $('#newDueDate').val('')
         addTodo(title, description, due_date)
     })
 }
@@ -201,8 +206,9 @@ function addTodo(title, description, due_date) {
         }
     })
         .done(data => {
-            console.log(data)
+            $( "#errorSection" ).hide()
             authentication()
+            console.log(data)
             showNotif(data)
         })
         .fail(err => {
@@ -214,6 +220,7 @@ function addTodo(title, description, due_date) {
             $('#newDescription').val('')
             $('#newDueDate').val('')
         })
+    event.preventDefault();
 }
 
 function deleteTodo(id) {
@@ -273,6 +280,7 @@ function showEditTodo(id) {
                 const description = $('#editedDescription').val()
                 const due_date = $('#editedDueDate').val()
                 editTodo(todo.id, title, description, due_date)
+                event.preventDefault();
             })
         
         })
