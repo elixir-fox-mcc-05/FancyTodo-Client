@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Fancy Fancy ToDo's</title>
+        <meta charset="UTF8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="google-signin-client_id" content="246885911164-umh1fvisuio8qungfnve1prnb3lhl5ep.apps.googleusercontent.com">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="css/style.css">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    </head>
+    <body>
+
+        <!-- Login and Register Navbar -->
+        <nav class="mb-1 navbar navbar-expand-lg navbar-dark unique-color" style="background-color: turquoise;" id="front-navbar">
+            <a class="navbar-brand">Fancy-Todo</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-3" aria-controls="navbarSupportedContent-3" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent-3">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link waves-effect waves-light" href="#">Home
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link waves-effect waves-light" onclick="login()">Login</a>
+                    <li class="nav-item">
+                        <a class="nav-link waves-effect waves-light" onclick="register()">Register</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- End of Login and Register Navbar -->
+
+        <!-- User Navbar -->
+        <nav class="mb-1 navbar navbar-expand-lg navbar-dark unique-color" style="background-color: turquoise;" id="navbar-user">
+            <a class="navbar-brand" style="color: white;">Fancy Todo</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-3" aria-controls="navbarSupportedContent-3" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent-3">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link waves-effect waves-light" onclick="homeUser()" href="#">Home
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link waves-effect waves-light" onclick="create()" href="#">Create Todo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link waves-effect waves-light" onclick="logout()" href="#">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- End of User Navbar --
+
+        <!-- Login -->
+        <div id="login-page">
+            <div class="container">
+                <h1>Welcome to Fancy Todos App</h1>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" placeholder="Enter email">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" placeholder="Enter password">
+                    </div>
+                    <button type="submit" class="btn btn-info">Login</button>
+                </form><br>
+                <div class="g-signin2" data-onsuccess="onSignIn"></div>
+            </div>
+        </div>
+        <!-- End of Login -->
+
+        <!-- Register -->
+            <div id="register-page">
+                <div class="container">
+                    <h1>Welcome to Fancy Todos App</h1>
+                    <form id="register-form">
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" class="form-control" id="username" placeholder="Enter username">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" id="email" placeholder="Enter email">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" id="password" placeholder="Enter password">
+                        </div>
+                        <button type="submit" class="btn btn-info">Register</button>
+                    </form>
+                </div>
+            </div>
+        <!-- End of Register -->
+
+        <!-- Home Page -->
+        <div id="home-page">
+            <div class="container">
+                    <h2>ToDos List </h2>
+                    <table class="table-bordered" style="text-align: center; justify-content: center;">
+                        <thead>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Action</th>
+                        </thead>
+                        <tbody id="todo-table">
+                    </table><br>
+                    <table class="table-bordered">
+                        <thead>
+                            <th>Weather</th>
+                            <th>Min Temperature</th>
+                            <th>Temperature</th>
+                            <th>Visibility</th>
+                        </thead>
+                        </tbody>
+                        <tbody id="weather-table">
+                        </tbody>
+                    </table>
+            </div>
+        </div>
+        <!-- End of Home Page -->
+
+        <!-- Create Todo -->
+        <div class="container">
+            <div class="create-todo">
+                <form id="inputCreate" onsubmit="createTodo(event)">
+                    <input type="text" id="title-create" placeholder="Todo Title"><br>
+                    <input type="text" id="description-create" placeholder="Todo Description"><br>
+                    <input type="date" id="due_date-create" placeholder="Todo Due Date"><br>
+                    <button type="submit">Create Todo</button>
+                </form>
+            </div>
+        </div>
+        <!-- End of Create Todo -->
+
+        <!-- Edit Todo -->
+        <br><br>
+        <div class="container">
+            <div class="edit-todo">
+                <form id="inputEdit" onsubmit="editTodo(event)">
+                    <input type="text" id="title-edit" placeholder="Todo Title">
+                    <input type="text" id="description-edit" placeholder="Todo Description"><br>
+                    <select type="radio" id="status-edit" >
+                        <option value="true" ${Todos.status ? "selected" : ""}>Completed</option>
+                        <option value="false" ${!Todos.status ? "selected" : ""}>Uncompleted</option>
+                    </select><br>
+                    <input type="date" id="due_date-edit" placeholder="Todo Due Date"><br>
+                    <button type="submit">Update</button>
+                </form>
+            </div>
+        </div>
+        <!-- End of Edit Todo -->
+        
+        <!-- Google Sign In API -->
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+        <!-- <script -->
+        <script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script src="script.js"></script>
+    </body>
+</html>
