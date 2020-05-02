@@ -1,17 +1,254 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fancy Todo</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-signin-client_id" content="758731203563-0ben8ai532ehsvmlsq8271ks7u7hg20u.apps.googleusercontent.com">
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <title>Todo Apps</title>
 </head>
+
 <body>
-    <script
-    src="https://code.jquery.com/jquery-3.5.0.js"
-    integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc="
-    crossorigin="anonymous"></script>
-    <script src ="script.js"></script>
-    <script src ="animation.js"></script>
+
+    <div id="login" class="login">
+        <div class="d-flex justify-content-center align-items-center login-container">
+            <form id="login-form" onsubmit="login(event)" class="login-form text-center">
+                <h1 class="mb-2 font-weight-light text-uppercase">TODO LIST APP</h1>
+                <h1 class="mb-5 font-weight-light text-uppercase">Login</h1>
+                <div id="alert-login">
+                </div>
+                <div class="form-group">
+                    <input id="email-login" type="text" class="form-control rounded-pill form-control-lg" placeholder="Email">
+                </div>
+                <div class="form-group">
+                    <input id="password-login" type="password" class="form-control rounded-pill form-control-lg" placeholder="Password">
+                </div>
+                <button type="submit" class="btn mt-5 rounded-pill btn-lg btn-custom btn-block text-uppercase">Log in</button><br>
+                <div class="g-signin2 btn rounded-pill btn-lg " data-onsuccess="onSignIn"></div>
+                <p class="mt-3 font-weight-normal">Don't have an account? <a onclick="toRegister(event)" href=""><strong>Register Now</strong></a></p>
+            </form>
+        </div>
+    </div>
+
+    <div id="register" class="register">
+        <div class="d-flex justify-content-center align-items-center login-container">
+            <form id="register-form" onsubmit="register(event)" class="login-form text-center">
+                <h1 class="mb-2 font-weight-light text-uppercase">TODO LIST APP</h1>
+                <h1 class="mb-5 font-weight-light text-uppercase">Register</h1>
+                <div class="form-group">
+                    <input id="email-register" type="text" class="form-control rounded-pill form-control-lg" placeholder="Email">
+                </div>
+                <div class="form-group">
+                    <input id="password-register" type="password" class="form-control rounded-pill form-control-lg" placeholder="Password">
+                </div>
+                <button type="submit" class="btn mt-5 rounded-pill btn-lg btn-custom btn-block text-uppercase">Register</button>
+                <p class="mt-3 font-weight-normal">Already have an account? <a onclick="toLogin(event)" href=""><strong>Login Here</strong></a></p>
+            </form>
+        </div>
+    </div>
+
+
+    <div class="main-page">
+        <div class="d-flex" id="wrapper">
+
+            <!-- Sidebar -->
+            <div class="bg-light border-right" id="sidebar-wrapper">
+              <div class="sidebar-heading text-center">Todo App</div>
+              <div id="nav-dspl" class="d-flex align-items-center justify-content-lg-between list-group">
+                  <div id="tools" class="btn-sdb">
+                      <button class="btn btn-outline-info btn-block m-1" onclick="showModalHoliday()">Holidays</button>
+                      <button class="btn btn-outline-primary btn-block m-1" onclick="readTask()">Tasks</button>
+                      <button class="btn btn-outline-success btn-block m-1" onclick="readCompleted()">Completed</button>
+                  </div>
+
+                  <div id="logout" class="btn-sdb">
+                    <button class="btn btn-danger btn-block m-1" onclick="logout(event)">Logout</button>
+                  </div>
+              </div>
+            </div>
+
+            <!-- modal dialog add-->
+            <div class="modal fade" id="myModal">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+
+                  <!-- Modal Header -->
+                  <div class="modal-header">
+                    <h4 class="modal-title">Add Task</h4>
+                    <button type="button" class="close" data-dismiss="modal" onclick="resetModal()">&times;</button>
+                  </div>
+
+                  <!-- Modal body -->
+                  <div class="modal-body">
+                    <form>
+                      <label for="title-modal">Title</label><br>
+                      <input type="text" name="title-modal" id="title-modal" class="form-control">
+                      <p id="title-error" style="color: red;"></p> <br>
+
+                      <label for="description-modal">Description</label>
+                      <textarea name="description-modal" id="description-modal" class="form-control textarea-autosize" cols="30" rows="5"></textarea><br>
+
+                      <label for="date-modal">Due Date</label><br>
+                      <input type="date" name="date-modal" id="date-modal" class="form-control">
+                      <p id="dueDate-error" style="color: red;"></p> <br>
+                    </form>
+                  </div>
+
+                  <!-- Modal footer -->
+                  <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary"  id="save-modal" onclick="addTask(event)">Save</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="resetModal()">Close</button>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+
+             <!-- modal dialog Holiday-->
+             <div class="modal fade" id="holidayModal">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+
+                  <!-- Modal Header -->
+                  <div class="modal-header">
+                    <h4 class="modal-title">Please Input Year</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  </div>
+
+                  <!-- Modal body -->
+                  <div class="modal-body">
+                    <form>
+                      <label for="year-modal">Year</label><br>
+                      <input type="text" name="year-modal" id="year-modal" class="form-control">
+                    </form>
+                  </div>
+
+                  <!-- Modal footer -->
+                  <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" data-dismiss="modal" id="save-modal" onclick="readHoliday()">Search</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+
+            <!-- modal success -->
+            <div class="modal fade" id="success-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+
+                  <!-- Modal Header -->
+                  <div class="modal-header">
+                    <h4 class="modal-title">Success</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  </div>
+
+                  <!-- Modal body -->
+                  <div class="modal-body">
+                    <p>New Task has been created</p>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <!-- modal dialog delete-->
+            <div class="modal fade" id="delete-modal-task">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+
+                  <!-- Modal Header -->
+                  <div class="modal-header">
+                    <h4 class="modal-title">Are you sure?</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  </div>
+
+                  <!-- Modal body -->
+                  <div class="modal-body">
+                    <p>Do you really want to delete these records? This process cannot be undone.</p>
+                  </div>
+
+                  <!-- Modal footer -->
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" id="delete-modal"  data-dismiss="modal" onclick="">Delete</button>
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+
+
+
+            <div id="page-content-wrapper">
+                <nav id="pcw-nav" class="d-flex align-items-center justify-content-lg-between navbar navbar-expand-lg navbar-light bg-light border-bottom m-1">
+                    <button class="btn btn-primary" id="menu-toggle">Menu</button>
+                    <button class="btn btn-warning btn-md" id="add-task" data-toggle="modal" data-target="#myModal"><i class="fas fa-plus"></i></button>
+                    <h2>Tasks</h2>
+                </nav>
+
+                <div class="container-fluid d-flex flex-column align-items-center" id="task-container">
+
+                </div>
+            </div>
+
+            <div id="page-content-wrapper-detail">
+
+                <div class="container-fluid">
+
+                    <div id="header-edit">
+                        <nav class="d-flex align-items-center justify-content-lg-between navbar navbar-expand-lg navbar-light bg-light border-bottom m-1">
+                          <h2>Edit</h2>
+                        <input class="form-control-sm ml-0" type="date" name="date" id="date">
+                    </div>
+                    <div id="detail-edit" class="bg-light border-bottom m-1 p-3">
+                      <label for="title">Title</label><br>
+                        <input class="form-control input-sm" id="title" name="title" type="text"><br>
+                        <label for="description">Description</label><br>
+                        <textarea class="form-control" name="description" id="description" cols="30" rows="10"></textarea><br>
+                        <button type="button" id="edit-task" class="btn btn-primary" onclick="">Update</button>
+
+                      </div>
+                        </div>
+                      </div> 
+
+                      </div>                    
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>   
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"></script> -->
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"></script>
+    </script>
+            <script>
+              $("#menu-toggle").click(function(e) {
+                e.preventDefault();
+                $("#wrapper").toggleClass("toggled");
+              });
+            </script>
+    <script src="main.js"></script>
 </body>
+
 </html>
