@@ -9,123 +9,19 @@
     href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" 
     integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" 
     crossorigin="anonymous">
+    <link rel="stylesheet" href="./style/style.css">
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/073dbb8811.js" crossorigin="anonymous"></script>
     <title>Document</title>
-    <style>
-        #homePage {
-            background-color: #c97c5d;
-            height: 100%;
-            min-height: 100vh;
-            overflow: hidden;
-        }
-
-        .username {
-            color: #3a2b2a;
-            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-            font-size: 35px;
-        }
-
-        i.fa-times-circle {
-            /* float: right; */
-            color: rgb(241, 41, 41);
-            font-weight: 900;
-            opacity: 0.5;
-        }
-
-        i.fa-times-circle:hover, .list-group-item:hover {
-            opacity: 1;
-            cursor: pointer;
-        }
-
-        .list-group-item {
-            margin-top: 1px;
-            border-radius: 10px;
-            background-color: #f0f0fe;
-            color: #323a38;
-        }
-
-        .complete {
-            text-decoration: line-through;
-            color: grey;
-        }
-
-        .btn-custom {
-            background-color: rgb(102, 231, 171);
-            border-radius: 10px;
-        }
-
-        .modal-body-landing {
-        min-height: 30rem;
-        position: static;
-        display: table;
-        width: 100%;
-        height: 100vh;
-        padding-top: 8rem;
-        padding-bottom: 8.5rem;
-        background-image: url('./notebook.jpg');
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-        }
-
-        .modal-body-landing h1 {
-        font-size: 4rem;
-        margin: 0;
-        padding: 0;
-        }
-
-        .modal-body-landing h1, .modal-body-landing h3 {
-            color: #B38F7D;
-            text-shadow:2px 2px 2px rgba(126, 116, 113, 0);
-        }
-
-        .bg-custom {
-            background-color: rgb(80, 39, 28);
-        }
-
-        .custom_padding {
-            padding-right: 0;
-            padding-left: 0;
-            height: 100vh;
-            position: fixed;
-        }
-
-        #modal-body, #modal-body-home, #modal-covid {
-            position: fixed;
-            width: 100%;
-            height: 100vh;
-            top: 0;
-            left: 0;
-            background-color: rgba(0, 0, 0, 0.7);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-        }
-
-        .edit-task, .display-task {
-            padding: 3px;
-            margin-right: 1rem;
-        }
-        
-        .title-btn-group {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        #covid {
-            width: 65%;
-            height: 40px;
-        }
-    </style>
 </head>
 <body>
     <div class="custom-padding">
         <nav class="navbar navbar-dark-lg navbar-light bg-custom fixed-top">
-            <a href="#" class="navbar-brand"><img src="./fancytodo2.png" alt="logo fancytodo" height="30"></a>
-            <button type="button" class="btn btn-custom mb-1 mt-1" id="btn-login" >Login</button>
-            <button type="button" class="btn btn-danger mb-1 mt-1" id="logout">Logout</button>
+            <a href="#" class="navbar-brand"><img src="./assets/fancytodo2.png" alt="logo fancytodo" height="30"></a>
+            <div>
+                <button type="button" class="btn btn-custom mb-1 mt-1" id="btn-login" >Login</button>
+                <button type="button" class="btn btn-danger mb-1 mt-1" id="logout">Logout</button>
+            </div>
         </nav>
 
         <!-- Landing Page -->
@@ -157,7 +53,7 @@
                     <div class="form-group">
                         <button type="submit" id="submitRegistrtation" class="btn btn-primary btn-block btn-lg">Register</button>
                         <button type="button" class="btn btn-danger btn-block btn-sm cancel">Cancel</button>
-                        <small id="alreadyRegister" class="form-text text-muted text-center">Already register? <a href="" id="alreadyRegister">login here</a></small>
+                        <small  class="form-text text-muted text-center">Already register? <a href="" id="alreadyRegister">login here</a></small>
                     </div>
                     <div class="form-group">
                         <p style="text-align: center;" class="font-weight-bold mt-3">Or, login with your google account</p>
@@ -195,11 +91,14 @@
         <!-- Home Page -->
         <div id="homePage" class="custom-padding">
             <div class="listtask container">
-                <h2 class="text-center username">Hey, <span id="user_name"></span> this is list of your task</h2>
+                <h2 class="text-center username">Hey, <span id="user_name"></span> this is list of your personal task</h2>
                 <button id="addFormToggle" class="btn btn-success btn-xl mb-3">Add New Task</button>
                 <ul id="tasklist" class="list-group">
-
                 </ul>
+            </div>
+
+            <div class="alert alert-global alert-danger">
+                <p class="text-center" id="global-error"></p>
             </div>
 
 
@@ -247,8 +146,86 @@
                             <input type="submit" value="Edit Task" id="editCurrentTask" class="btn btn-primary btn-block btn-lg">
                             <input type="button" value="cancel "class="btn btn-danger btn-block btn-sm cancel-edit">
                         </div>
-                        <div class="alert alert-danger">
+                        <div class="alert alert-edit alert-danger">
                             <p style="text-align: center;" id="edit-error"></p> 
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <hr style="border-top: 5px dashed rgb(107, 88, 88);">
+            <div class="listProject container" id="project">
+                <h1 class="text-center username project-side">This is Your Project</h1>
+                <div id="addProject" class="container border rounded shadow-sm p-2 mb-5 bg-white w-75">
+                    <form class="form-group" id="addProjectForm">
+                        <div class="form-group">
+                            <input type="text" name="title" id="newProjectName" placeholder="Project Name" class="form-control-lg form-control">
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Add Project" id="addNewProject" class="btn btn-primary btn-block btn-lg">
+                        </div>
+                        <div class="alert alert-danger">
+                            <p style="text-align: center;" id="project-error"></p> 
+                        </div>
+                    </form>
+                </div>
+                <select name="project" id="project-select" class="custom-select">
+                    <option value="" id="default-select" selected disabled>Choose Project</option>
+                </select>
+                <div class="container d-flex justify-content-around">
+                    <button type="button" class="btn btn-warning mt-3 mb-3" id="edit-project">Edit Project</button>
+                    <button type="button" class="btn btn-danger mt-3 mb-3" id="delete-project">Delete Project</button>
+                </div>
+                <h3 class="text-center mb-3">Project <span id="project-title"></span></h3>
+            </div>
+
+
+            <div class="listproject container mb-5" style="display: none;">
+                <h2 id="project-task-list" class="text-center">List of task from <span id="project-task"></span> project</h2>
+                <button id="addFormToggleProject" class="btn btn-success btn-xl mb-3">Add New Task</button>
+                <ul id="projectlist" class="list-group">
+                </ul>
+            </div>
+
+            <div id="addProjectTask" class="container border rounded shadow-sm p-3 mb-5 bg-white mt-5 w-75" style="display: none;">
+                <form class="form-group" id="addProjectTaskForm">
+                    <h1>Add Project Task</h1>
+                    <div class="form-group">
+                        <label for="title" class="font-weight-bold h5">Title</label>
+                        <input type="text" name="title" id="newProjectTaskTitle" placeholder="e.g: eat" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="description" class="font-weight-bold h5">Description</label>
+                        <textarea name="description" id="newProjectTaskDescription" rows="4" class="form-control" placeholder="e.g: eat pizza at dominos"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="due_date" class="font-weight-bold h5">Due Date</label>
+                        <input type="date" name="due_date" id="newProjectTaskDue_Date" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Add Task" id="addNewProjectTask" class="btn btn-primary btn-block btn-lg">
+                    </div>
+                    <div class="alert alert-danger">
+                        <p style="text-align: center;" id="add-error"></p> 
+                    </div>
+                </form>
+            </div>
+
+            <div class="listmember container mb-5" >
+                <h2 id="project-task-list" class="text-center">List of member of <span id="member-list"></span> project</h2>
+                <ul id="memberlist" class="list-group">
+                </ul>
+                <div id="addMember" class="container border rounded shadow-sm p-2 mb-5 mt-5 bg-white w-75">
+                    <h4 class="text-center">Add New Member</h4>
+                    <form class="form-group" id="addMemberForm">
+                        <div class="form-group">
+                            <input type="text" name="title" id="newMemberEmail" placeholder="Invitee Email" class=" form-control">
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Add New Member" id="addNewMember" class="btn btn-primary btn-block">
+                        </div>
+                        <div class="alert alert-danger">
+                            <p style="text-align: center;" id="member-error"></p> 
                         </div>
                     </form>
                 </div>

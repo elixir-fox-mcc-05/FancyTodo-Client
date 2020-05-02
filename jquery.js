@@ -10,10 +10,12 @@ function checkToken() {
         $('#modal-body').css('display', 'none');
         $('#modal-covid').css('display', 'none');
         $('#modal-body-home').css('display', 'none');
+        $('#modal-body-edit').css('display', 'none');
         $('#addTask').slideUp();
         $('nav').removeClass('fixed-top');
         $('.bg-custom').css('background-color','rgba(80, 39, 28, 0.8)')
         showAllTask();
+        showAllProject();
     } else {
         $('#homePage').hide();
         $('#landingPage').show();
@@ -21,6 +23,7 @@ function checkToken() {
         $('#logout').hide();
         $('#modal-body').css('display', 'none');
         $('#modal-body-home').css('display', 'none');
+        $('#modal-body-edit').css('display', 'none');
         $('nav').addClass('fixed-top');
         $('.bg-custom').css('background-color','rgba(94, 94, 92, 0.5)')
     }
@@ -46,14 +49,23 @@ function register(name, email, password) {
             showLogin();
         })
         .fail(err => {
+            if (Array.isArray(err.responseJSON.error)) {
+                let textError = '';
+                err.responseJSON.error.forEach(msg => {
+                    textError += `${msg}, `
+                })
+                $('#register-error').text(textError.substring(0, textError.length-2));
+            } else {
+                $('#register-error').text(err.responseJSON.error);
+            }
             $('.alert').show();
-            $('#register-error').text(err.responseJSON.error[0]);
         })
 }
 
 function showLogin() {
     $('#register').hide();
     $('#login').show();
+    $('.alert').hide();
 }
 
 function login(email, password) {
@@ -74,9 +86,16 @@ function login(email, password) {
             checkToken();
         })
         .fail(err => {
-            console.log(err);
+            if (Array.isArray(err.responseJSON.error)) {
+                let textError = '';
+                err.responseJSON.error.forEach(msg => {
+                    textError += `${msg}, `
+                })
+                $('#login-error').text(textError.substring(0, textError.length-2));
+            } else {
+                $('#login-error').text(err.responseJSON.error);
+            }
             $('.alert').show();
-            $('#login-error').text(err.responseJSON.error[0]);
         })
 }
 
@@ -91,13 +110,24 @@ function showAllTask() {
     })
         .done(res => {
             $('#tasklist').empty();
-            $('#user_name').text(res.Todos.name)
+            $('#user_name').text(res.Todos.name);
             res.Todos.Todos.forEach(todo => {
-                appendTodo(todo);
+                if (!todo.ProjectId) {
+                    appendTodo(todo, $('#tasklist'));
+                }
             })
         })
         .fail(err => {
-            console.log(err);
+            if (Array.isArray(err.responseJSON.error)) {
+                let textError = '';
+                err.responseJSON.error.forEach(msg => {
+                    textError += `${msg}, `
+                })
+                $('#global-error').text(textError.substring(0, textError.length-2));
+            } else {
+                $('#global-error').text(err.responseJSON.error);
+            }
+            $('.alert-global').show();
         })
 }
 
@@ -119,15 +149,23 @@ function addNewTask(title, description, due_date) {
             $('#newTaskTitle').val('');
             $('#newTaskDescription').val('');
             $('#newTaskDue_Date').val('');
-            appendTodo(res.Todo);
+            appendTodo(res.Todo, $('#tasklist'));
             showCountry();
             showPopUp('Global');
             $('.alert').hide();
             $('#modal-covid').css('display', 'flex');
         })
         .fail(err => {
+            if (Array.isArray(err.responseJSON.error)) {
+                let textError = '';
+                err.responseJSON.error.forEach(msg => {
+                    textError += `${msg}, `
+                })
+                $('#add-error').text(textError.substring(0, textError.length-2));
+            } else {
+                $('#add-error').text(err.responseJSON.error);
+            }
             $('.alert').show();
-            $('#add-error').text(err.responseJSON.error[0]);
         })
 }
 
@@ -202,7 +240,7 @@ function showPopUp(country) {
         })
 }
 
-function appendTodo(todo) {
+function appendTodo(todo, parent) {
     let newTodo = $(`<li class="list-group-item" style="overflow: hidden;">
                     <div class="title-btn-group">
                     <h5>${todo.title}</h5>
@@ -220,13 +258,16 @@ function appendTodo(todo) {
                     </li>`);
     newTodo.data('id', todo.id);
     newTodo.data('status', todo.status);
+    if (todo.ProjectId) {
+        newTodo.data('projectId', todo.ProjectId);
+    }
     if (todo.status) {
         $(newTodo).addClass('complete')
     }
-    $('#tasklist').append(newTodo);
+    $(parent).append(newTodo);
 }
 
-function deleteTask(id) {
+function deleteTask(id, projectId) {
     const { token } = localStorage;
     $.ajax({
         method: 'DELETE',
@@ -237,10 +278,24 @@ function deleteTask(id) {
     })
         .done(res => {
             $('#tasklist').empty();
+            $('#projectlist').empty();
+            $('#project-select').empty();
+            if (projectId) {
+                showAllProjectTodos(projectId);
+            }
             checkToken();
         })
         .fail(err => {
-            console.log(err);
+            if (Array.isArray(err.responseJSON.error)) {
+                let textError = '';
+                err.responseJSON.error.forEach(msg => {
+                    textError += `${msg}, `
+                })
+                $('#global-error').text(textError.substring(0, textError.length-2));
+            } else {
+                $('#global-error').text(err.responseJSON.error);
+            }
+            $('.alert-global').show();
         })
 }
 
@@ -258,10 +313,20 @@ function readTaskById(id) {
             $('#editTitle').val(res.Todo.title);
             $('#editDescription').val(res.Todo.description);
             $('#editDue_Date').val(res.Todo.due_date.slice(0,10));
-            $('#editTask').data('id', res.Todo.id)
+            $('#editTask').data('id', res.Todo.id);
+            $('#editTask').data('projectId', res.Todo.ProjectId);
         })
         .fail(err => {
-            console.log(err);
+            if (Array.isArray(err.responseJSON.error)) {
+                let textError = '';
+                err.responseJSON.error.forEach(msg => {
+                    textError += `${msg}, `
+                })
+                $('#edit-error').text(textError.substring(0, textError.length-2));
+            } else {
+                $('#edit-error').text(err.responseJSON.error);
+            }
+            $('.alert-edit').show();
         })
 }
 
@@ -285,10 +350,20 @@ function updateTask(id, title, description, due_date) {
             $('#editDue_Date').val('');
             $('#modal-body-home').css('display', 'none');
             $('#tasklist').empty();
+            $('.alert-edit').show();
             showAllTask();
         })
         .fail(err => {
-            console.log(err);
+            if (Array.isArray(err.responseJSON.error)) {
+                let textError = '';
+                err.responseJSON.error.forEach(msg => {
+                    textError += `${msg}, `
+                })
+                $('#edit-error').text(textError.substring(0, textError.length-2));
+            } else {
+                $('#edit-error').text(err.responseJSON.error);
+            }
+            $('.alert-edit').show();
         })
 }
 
@@ -309,13 +384,208 @@ function checkedTodo(todo) {
         }
     })
         .done(res => {
-            console.log(res.Todo.status);
             todo.data('status', res.Todo.status);
             todo.toggleClass('complete');
         })
         .fail(err => {
             console.log(err);
         })
+}
+
+function showAllProject() {
+    const { token } = localStorage;
+    $.ajax({
+        method: "GET",
+        url: `${baseURl}/projects`,
+        headers: {
+            token
+        }
+    })
+        .done(res => {
+            res.projects.forEach(project => {
+                let newProject = $(`<option value="${project.name}">${project.name}</option>`);
+                newProject.data('id', project.id);
+                $('#project-select').append(newProject);
+            });
+            
+        })
+        .fail(err => {
+            console.log(err);
+        })
+}
+
+function createNewProject(name) {
+    const { token } = localStorage;
+    $.ajax({
+        method: 'POST',
+        url: `${baseURl}/projects`,
+        data: {
+            name
+        },
+        headers: {
+            token
+        }
+    })
+        .done(res=> {
+            $('#newProjectName').val('');
+            $('#project-select').empty();
+            showAllProject();
+        })
+        .fail(err => {
+            console.log(err);
+        })
+}
+
+function showAllProjectTodos(id) {
+    const { token } = localStorage;
+    $.ajax({
+        method: "GET",
+        url: `${baseURl}/projects/${id}/todos`,
+        headers: {
+            token
+        }
+    })
+        .done(res => {
+            res.todos.forEach(todo => {
+                appendTodo(todo, $('#projectlist'))
+            })
+        })
+        .fail(err => {
+            console.log(err);
+        })
+}
+
+function addNewProjectTask(ProjectId, title, description, due_date) {
+    const { token } = localStorage;
+    $.ajax({
+        method: 'POST',
+        url: `${baseURl}/projects/${ProjectId}/todos`,
+        data: {
+            title,
+            description,
+            due_date
+        },
+        headers: {
+            token
+        }
+    })
+        .done(res=> {
+            $('#newProjectTaskTitle').val('');
+            $('#newProjectTaskDescription').val('');
+            $('#newProjectTaskDue_Date').val('');
+            appendTodo(res.todo, $('#tasklist'));
+            appendTodo(res.todo, $('#projectlist'));
+            showCountry();
+            showPopUp('Global');
+            $('.alert').hide();
+            $('#modal-covid').css('display', 'flex');
+        })
+        .fail(err => {
+            console.log(err);
+        })
+}
+
+function updateProjectTask(ProjectId, id, title, description, due_date) {
+    const { token } = localStorage;
+    console.log(ProjectId);
+    $.ajax({
+        method: "PUT",
+        url: `${baseURl}/projects/${ProjectId}/todos/${id}`,
+        headers: {
+            token
+        },
+        data: {
+            title,
+            description,
+            due_date
+        }
+    })
+        .done(res => {
+            $('#editTitle').val('');
+            $('#editDescription').val('');
+            $('#editDue_Date').val('');
+            $('#modal-body-home').css('display', 'none');
+            $('#tasklist').empty();
+            $('#projectlist').empty();
+            showAllTask();
+            showAllProjectTodos(ProjectId);
+        })
+        .fail(err => {
+            console.log(err);
+        })
+}
+
+function deleteProjectTask(id, ProjectId) {
+    const { token } = localStorage;
+    $.ajax({
+        method: "DELETE",
+        url: `${baseURl}/projects/${ProjectId}/todos/${id}`,
+        headers: {
+            token
+        }
+    })
+        .done(res => {
+            $('#tasklist').empty();
+            $('#projectlist').empty();
+            $('#default-select').nextAll().remove();
+            checkToken();
+            showAllProjectTodos('ProjectId');
+        })
+        .fail(err =>{
+            console.log(err);
+        })
+}
+
+function showAllMembers(id) {
+    const { token } = localStorage;
+    $.ajax({
+        method: "GET",
+        url: `${baseURl}/projects/members/${id}`,
+        headers: {
+            token
+        }
+    })
+        .done(res => {
+            $('#memberlist').empty();
+            res.members.forEach(member => {
+                appendMember(member, id);
+            })
+        })
+        .fail(err => {
+            console.log(err);
+        })
+}
+
+function addMember(id, email) {
+    const { token } = localStorage;
+    $.ajax({
+        method: "POST",
+        url: `${baseURl}/projects/members/${id}`,
+        headers: {
+            token
+        },
+        data: {
+            email
+        }
+    })
+        .done(res => {
+            $('#newMemberEmail').val('');
+            appendMember(res.newMember);
+        })
+        .fail(err =>{
+            console.log(err);
+        })
+}
+
+function appendMember(member, projectId) {
+    let newMember = $(`<li class="list-group-item" style="overflow: hidden;">
+                    <h5>${member.name}</h5>
+                    </li>`)
+    newMember.data('id', member.id);
+    if (projectId) {
+        $('#memberlist').data('projectId', projectId);
+    }
+    $('#memberlist').append(newMember);
 }
 
 // google signin
@@ -362,6 +632,7 @@ $(document).ready(function() {
     //hide register-login modal
     $('.cancel').click(function(event) {
         event.preventDefault();
+        $('.alert').hide();
         $('#modal-body').css('display', 'none');
     })
 
@@ -388,9 +659,23 @@ $(document).ready(function() {
         showLogin();
     })
 
+    //Add new project
+    $('#addProjectForm').on('submit', function(ecent) {
+        event.preventDefault();
+        const newProject = $('#newProjectName').val();
+        createNewProject(newProject);
+    })
+
     //Toggle Add Task Form
     $('#addFormToggle').click(function() {
         $('#addTask').slideToggle();
+    })
+
+    //Toggle Add Project Task Form
+    $('#addFormToggleProject').click(function() {
+        const projectId = $(this).next().find('.list-group-item').data('projectId');
+        $('#addProjectTask').data('projectId', projectId);
+        $('#addProjectTask').slideToggle();
     })
 
     //Add new task
@@ -402,11 +687,31 @@ $(document).ready(function() {
         addNewTask(title, description, due_date)
     })
 
+    //add new project task
+    $('#addProjectTaskForm').on('submit', function(event) {
+        event.preventDefault();
+        const ProjectId = $(this).parent().data('projectId');
+        console.log(ProjectId);
+        const title = $('#newProjectTaskTitle').val();
+        const description = $('#newProjectTaskDescription').val();
+        const due_date = $('#newProjectTaskDue_Date').val();
+        addNewProjectTask(ProjectId, title, description, due_date);
+    })
+
     //Delete
     $('#tasklist').on('click', 'i', function(event) {
         event.stopPropagation();
         const id = $(this).parent().parent().parent().data('id');
-        deleteTask(id);
+        const projectId = $(this).parent().parent().parent().data('projectId');
+        deleteTask(id, projectId);
+    })
+
+    //Delete project task
+    $('#projectlist').on('click', 'i', function(event) {
+        event.stopPropagation();
+        const id = $(this).parent().parent().parent().data('id');
+        const ProjectId = $(this).parent().parent().parent().data('projectId');
+        deleteProjectTask(id, ProjectId)
     })
 
     //Show edit form
@@ -416,14 +721,26 @@ $(document).ready(function() {
         readTaskById(id);
     })
 
+    //Show edit form project task
+    $('#projectlist').on('click', '.edit-task', function(event) {
+        event.stopPropagation();
+        const id = $(this).parent().parent().parent().data('id');
+        readTaskById(id);
+    })
+
     //Edit task
     $('#editTask').on('submit', function(event) {
         event.preventDefault();
         const id = $('#editTask').data('id');
+        const ProjectId = $('#editTask').data('projectId')
         const title = $('#editTitle').val();
         const description = $('#editDescription').val();
         const due_date = $('#editDue_Date').val();
-        updateTask(id, title, description, due_date);
+        if (ProjectId) {
+            updateProjectTask(ProjectId, id, title, description, due_date)
+        } else {
+            updateTask(id, title, description, due_date);
+        }
     })
 
     //hide edit form
@@ -437,8 +754,25 @@ $(document).ready(function() {
         checkedTodo($(this));
     })
 
+    //Toggle completion project
+    $('#projectlist').on('click', '.list-group-item', function() {
+        checkedTodo($(this));
+    })
+
     //Toggle detail
     $('#tasklist').on('click', '.display-task', function(event){
+        event.stopPropagation();
+        $(this).parent().parent().parent().find('.collapse-detail').slideToggle(function(){
+            if($(this).parent().find('.display-task').val() === "Show Detail") {
+                $(this).parent().find('.display-task').val('Hide Detail');
+            } else {
+                $(this).parent().find('.display-task').val('Show Detail');
+            }
+        });
+    })
+
+    //Toggle detail project task
+    $('#projectlist').on('click', '.display-task', function(event){
         event.stopPropagation();
         $(this).parent().parent().parent().find('.collapse-detail').slideToggle(function(){
             if($(this).parent().find('.display-task').val() === "Show Detail") {
@@ -463,6 +797,25 @@ $(document).ready(function() {
         $('#modal-covid').css('display', 'none');
     })
 
+    //Show Project
+    $('#project-select').change(function() {
+        let project = $(this).val();
+        $('.listproject').show();
+        $('#project-title').text(project);
+        $('#project-task').text(project);
+        $('#member-list').text(project);
+        const projectId = $('option:selected').data('id');
+        showAllMembers(projectId)
+        showAllProjectTodos(projectId);
+    })
+
+    //add new member
+    $('#addMemberForm').on('submit', function(event) {
+        event.preventDefault();
+        const email = $('#newMemberEmail').val();
+        const id = $(this).parent().prev().data('projectId');
+        addMember(id, email);
+    })
 
     //Logout
     $('#logout').click(function(event) {
