@@ -2,7 +2,7 @@ $(document).ready(function () {
   //    $('#edit').hide()
   //    $('#list').hide()
   //    $('#add').hide()
-  checkStorage()
+  
   $('#login').on('submit', function (event) {
     event.preventDefault()
     const email = $('#loginEmail').val()
@@ -19,9 +19,11 @@ $(document).ready(function () {
     data.password = $('#regPassword').val()
     register(data)
   })
-    $('#login').hide()
+//    $('#login').hide()
 //    $('#home').show()
+    
     home() 
+    checkStorage()
 })
 
 function home(){
@@ -49,8 +51,8 @@ function home(){
 //                console.log(response.data[0])
                 for(let x = 0; x < response.data.length; x++){
 //                    console.log(response.data[x])
-                    console.log(i+1,response.data[x].date.datetime.day)
-                    if(today.getMonth() == response.data[x].date.datetime.month){
+//                    console.log(i+1,response.data[x].date.datetime.day)
+                    if(today.getMonth()+1 == response.data[x].date.datetime.month){
                         if(`${i+1}` == `${response.data[x].date.datetime.day}`){
                              temp += `<div class="column has-text-centered" style="background-color:red;border-radius:50%;height:60px;">${i+1}</div>`
                              $('#holidayList').append(`<p>${response.data[x].date.datetime.day} : ${response.data[x].name}</p>`)
@@ -116,10 +118,10 @@ function checkStorage() {
     $('#landingPage').show()
     $('#dashboardPage').hide()
     hideAll()
-    $('#login').show()
+    $('#login').hide()
     $('#loggedin').hide()
     $('#loggedout').show()
-    
+    $('#home').show()
   }
 }
 
@@ -134,6 +136,7 @@ function hideAll() {
 }
 
 function fetchToDo() {
+    console.log('f1')
   const token = localStorage.getItem('token')
   $.ajax({
     method: 'GET',
@@ -143,6 +146,7 @@ function fetchToDo() {
     }
   })
     .done(function (response) {
+      console.log('f')
       $('#toDoTable').empty()
       $('#toDoTable').append(`
                 <tr>
@@ -163,7 +167,7 @@ function fetchToDo() {
             <td>${temp.title}</td>
             <td>${temp.description}</td>
             <td>${temp.status ? 'completed' : 'incompleted'}</td>
-            <td>${date.getDate()}-${date.getMonth()}-${date.getFullYear()}</td>
+            <td>${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}</td>
             <td><button class="button is-small is-primary has-background-info" onclick="showEditPage(${temp.id},'${temp.title}','${temp.description}','${temp.due_date}',${temp.status},${temp.UserId})">edit</button>
             <button  class="button is-small is-primary has-background-danger" onclick="showRemoveConfirm('${temp.id}','${temp.title}')">delete</button></td>
         </tr><br>
@@ -269,9 +273,9 @@ function showRemoveConfirm(id,name){
      $('#delete').html(`<div class="box">
                     <h1 class="title">Delete?</h1>
                     <h3 style="margin-bottom:15px;">are you sure want to delete ${name} ?</h3>
-                    <button class="button is-block is-info is-large is-fullwidth" onclick="remove(${id})">Delete</button>
+                    <button class="button is-block is-danger is-large is-fullwidth" onclick="remove(${id})">Delete</button>
                     <section class="column is-small"></section>
-                    <button class="button is-block is-info is-yellow is-small is-fullwidth" onclick="$('#delete').hide()">Cancel</button>
+                    <button class="button is-block is-info is-yellow is-small is-half" onclick="$('#delete').hide()">Cancel</button>
                     <div>
     `)
 }
