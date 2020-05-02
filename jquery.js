@@ -11,6 +11,7 @@ function checkToken() {
         $('#modal-covid').css('display', 'none');
         $('#modal-body-home').css('display', 'none');
         $('#modal-body-edit').css('display', 'none');
+        $('#default-select').nextAll().remove();
         $('#addTask').slideUp();
         $('nav').removeClass('fixed-top');
         $('.bg-custom').css('background-color','rgba(80, 39, 28, 0.8)')
@@ -570,7 +571,8 @@ function addMember(id, email) {
     })
         .done(res => {
             $('#newMemberEmail').val('');
-            appendMember(res.newMember);
+            console.log(res);
+            // appendMember(res.newMember);
         })
         .fail(err =>{
             console.log(err);
