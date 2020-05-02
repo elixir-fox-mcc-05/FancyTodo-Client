@@ -70,15 +70,15 @@ function auth() {
 }
 
 function signout() {
-  // const auth2 = gapi.auth2.getAuthInstance();
-  // auth2.signOut().then(function () {
+  const auth2 = gapi.auth2.getAuthInstance();
+  auth2.signOut().then(function () {
     localStorage.clear();
     $("#signinPage").show();
     $("#mainPage").hide();
     $("#formAddTodo").hide();
     $("#formEditTodo").hide();
     auth();
-  // });
+  });
 
 }
 
@@ -269,26 +269,26 @@ function editTodo(event) {
     });
 }
 
-// function onSignIn(googleUser) {
-//   const id_token = googleUser.getAuthResponse().id_token;
-
-//   $.ajax({
-//     url: `${baseUrl}/users/google-login`,
-//     method: 'post',
-//     headers:{
-//       google_token = id_token
-//     }
-//   })
-//   .done(data=>{
-//     localStorage.setItem("token", data.token);
-//     $("#mainPage").show();
-//       $("#formAddTodo").hide();
-//       $("#formEditTodo").hide();
-//     auth()
+function onSignIn(googleUser) {
+  const id_token = googleUser.getAuthResponse().id_token;
+  
+  $.ajax({
+    url: `${baseUrl}/users/google-login`,
+    method: 'post',
+    headers:{
+      google_token : id_token
+    }
+  })
+  .done(data=>{
+    localStorage.setItem("token", data.token);
+    $("#mainPage").show();
+      $("#formAddTodo").hide();
+      $("#formEditTodo").hide();
+    auth()
+    console.log(data)
+  })
+  .fail(err=>{
+    console.log(err);
     
-//   })
-//   .fail(err=>{
-//     console.log(err);
-    
-//   })
-// }
+  })
+}

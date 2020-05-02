@@ -42,7 +42,7 @@ body {
 }
 
 .form-signin {
-  margin-top: 60px;
+  margin-top: 90px;
 }
 
 .sub-cont {
@@ -219,6 +219,11 @@ body {
   text-align: center;
 }
 
+.g-signin2{
+  display: flex;
+  justify-content: center;
+}
+
 .submitForm {
   display: flex;
   justify-content: center;
@@ -286,6 +291,7 @@ body {
   left: auto;
   right: 5px;
 }
+
 
 /* ========== sign in and sign up page end ==========*/
 
