@@ -20,6 +20,7 @@ function checkStorage() {
     if (localStorage.access_token) {
         $( '.sign-in-page' ).hide()
         $( '.main-dashboard-page' ).show()
+        $( '.nav-bar' ).show()
         $( '.register-page' ).hide()
         $( '.addNewTask-page' ).hide()
         $( '.editOneTask-page' ).hide()
@@ -33,11 +34,11 @@ function checkStorage() {
         $( '.addNewTask-page' ).hide()
         $( '.editOneTask-page' ).hide()
         $( '.productivity-article-page' ).hide()
+        $( '.nav-bar' ).hide()
     }
 }
 
 function getAllTasks(){
-
     $.ajax({
         method: 'GET',
         url: baseUrl + "/tasks",
@@ -46,41 +47,85 @@ function getAllTasks(){
         }
     })
     .done(result => {
-        $('.all-task-list').empty() 
+        $('.all-task-list-box').empty()
+        let totalTasks = result.tasks.length
+        let completedTasks = 0
+        let uncompletedTasks = 0
         for (let i = 0; i < result.tasks.length; i++) {
             let id = result.tasks[i].id
             let title = result.tasks[i].title
             let description = result.tasks[i].description
+            let imgSource =""
             if(result.tasks[i].status == true){
-                status = "Completed!"
+                imgSource="./src/img/Recall-Logo-Task-Finished.png"
+                completedTasks += 1
             } else {
-                status = "In-progress"
+                imgSource="./src/img/Recall-Logo-Task-Ongoing.png"
+                uncompletedTasks +=1
             }
             let StringDate = new Date(result.tasks[i].due_date)
             let displayDate = StringDate.toISOString().substring(0, 10)
-            let due_date = displayDate 
+            // let due_date = displayDate 
             // console.log("Ready for append: ", title, description,status, due_date)
-            $('.all-task-list').append(`
-            <div class="task-card">
-                <div class="task-card-header">
-                <h2>${title}</h2>
-                <div class="task-card-header-details">
-                    <p>Status: ${status}</p>  |  
-                    <p>Due date: ${due_date}</p>
+            
+            $('.all-task-list-box').append(`
+                <div class="new-task-card">
+                    <div class="task-card-bar"></div>
+                    <div class="task-card-content">
+                        <div class="task-card-details">
+                            <div class="task-card-status-image-container">
+                              <img class="task-card-image" src=${imgSource}>
+                            </div>
+                            <div class="task-card-notes">
+                                <h2>${title}</h2>
+                                <p>${description}</p><br><br>
+                                <p>Due by: ${displayDate}</p>
+                            </div>
+                        </div>
+                        <div class="task-card-action-buttons">
+                            <div class="task-card-action-buttons-completion">
+                                <button class="card-button-completeTask" onclick="completeTaskStatus(${id})"><i class="fas fa-check"></i></button>    
+                                <button class="card-button-uncompleteTask" onclick="uncompleteTaskStatus(${id})"><i class="fas fa-spinner"></i></button>
+                            </div>
+                            <button class="card-button-editTask" onclick="showEditPage(${id})"><i class="fas fa-edit"></i></button>
+                            <button class="card-button-deleteTask" onclick="deleteTask(${id})"><i class="fas fa-trash-alt"></i></button>
+                        </div>
+                    </div>
                 </div>
-                </div>
-                <div class="task-card-details">
-                    <p>${description}</p>
-                </div>
-                <div class="task-card-actions">
-                    <button class="button-card-actions" onclick="completeTaskStatus(${id})">Complete</button>
-                    <button class="button-card-actions" onclick="uncompleteTaskStatus(${id})">Uncomplete</button>
-                    <button class="button-card-actions" onclick="showEditPage(${id})">Edit</button>
-                    <button class="button-card-actions" onclick="deleteTask(${id})">Delete</button>
-                </div>
-            </div>
             `)
+            $('.card-button-completeTask').toggle(result.tasks[i].status == false)
+            $('.card-button-uncompleteTask').toggle(result.tasks[i].status == true)
+            // $('.task-card-action-buttons-completion').empty()           
+            if(result.tasks[i].status == true){
+                $('.card-button-completeTask').hide()
+                $('.card-button-uncompleteTask').show()
+                // $('.task-card-action-buttons-completion').append(`
+                // <button class="card-button-uncompleteTask" onclick="uncompleteTaskStatus(${id})"><i class="fas fa-spinner"></i></button>
+                // `)
+            } else {
+                $('.card-button-completeTask').show()
+                $('.card-button-uncompleteTask').hide()
+                // $('.task-card-action-buttons-completion').append(`
+                // <button class="card-button-completeTask" onclick="completeTaskStatus(${id})"><i class="fas fa-check"></i></button>
+                // `)
+            }
         }
+        
+
+        $('.summary-box-total-tasks-box').empty()
+        $('.summary-box-completed-tasks-box').empty()
+        $('.summary-box-uncompleted-tasks-box').empty()
+        $('.summary-box-total-tasks-box').append(`
+            <p><b>${totalTasks} listed tasks</b></p>
+        `)
+        $('.summary-box-completed-tasks-box').append(`
+            <p><b>${completedTasks} completed</b></p>
+        `)
+        $('.summary-box-uncompleted-tasks-box').append(`
+            <p><b>${uncompletedTasks} in progress</b></p>
+        `)
+
+        
         // $('.all-task-list').empty() //Untuk kosongkan ulang semua task sebelumnya, hindari penumpukan
     })
     .catch(error => {
@@ -103,23 +148,26 @@ function getAllArticles(){
             let source = result.selectedArticles[i].source.name
             let author = result.selectedArticles[i].author
             let imageUrl = result.selectedArticles[i].urlToImage
-            let publishDate = result.selectedArticles[i].publishedAt
+            let url = result.selectedArticles[i].url
+            let publishDate = (new Date(result.selectedArticles[i].publishedAt)).toDateString()
             $('.all-articles-list').append(`
-                <div class="article-card">
-                  <div class="article-card-image">
-                    <img src="${imageUrl}">
-                  </div>
-                  <h3>${title}</h3><br>
-                  <p>${description}</p><br>
-                  <p>${source}</p><br>
-                  <p>${author}</p><br>
-                  <p>${publishDate}</p><br>
-                </div>
+                <a href="${url}" class="article-card" target="_blank">
+                    <div class="article-card-bar"></div>
+                    <div class="article-card-content">
+                        <div class="article-card-image-container">
+                            <img class="article-card-image" src="${imageUrl}">
+                        </div>
+                        <div class="article-card-details">
+                            <h1>${title}</h1><br>
+                            <p>${description}</p><br>
+                            <div class="article-card-details-writer" >
+                                <p>${author} <b>·</b> ${publishDate} <b>·</b> ${source}</p><br>
+                            </div>
+                        </div>
+                    </div>
+                </a>
             `)
         }
-
-        // append terjadi di dalam loop
-        // $('.all-articles-list').append(``)
       })
       .fail(error => {
           console.log(error)
@@ -189,6 +237,7 @@ function showProductivityTipsPage() {
     $('.register-page').hide()
     $( '.addNewTask-page' ).hide()
     $( '.editOneTask-page' ).hide()
+    // checkStorage()
 }
 
 function showLogInPage(){
@@ -268,12 +317,11 @@ function showEditPage( id ){
         }
     })
       .done(result =>{
-          console.log(result.task.title)
+        //   console.log(result.task.title)
           let currentTitle = result.task.title
           let currentDescription = result.task.description
           let StringDate = new Date(result.task.due_date)
           let displayCurrentDate = StringDate.toISOString().substring(0, 10)
-
           $( '#editTask-title' ).val(currentTitle)
           $( '#editTask-description' ).val(currentDescription)
           $( '#editTask-due_date' ).val(displayCurrentDate)
@@ -290,7 +338,7 @@ function editOneTask( event ){
     let newTaskTitle = $( '#editTask-title' ).val()
     let newTaskDescription = $( '#editTask-description' ).val()
     let newTaskDueDate = $( '#editTask-due_date' ).val()
-    console.log(newTaskTitle, newTaskDescription, newTaskDueDate, tempId)
+    // console.log(newTaskTitle, newTaskDescription, newTaskDueDate, tempId)
     $.ajax({
         method:'PUT',
         url: baseUrl + `/tasks/` + idTemp,

@@ -9,6 +9,18 @@
     <title>Recall | Your personal to-do-list application</title>
 </head>
 <body>
+
+    <div class="nav-bar">
+        <div class="nav-bar-logo-container">
+            <img class="nav-bar-logo" src="src/img/Recall-Logo-2.png">
+        </div>
+        <div class="nav-bar-links-container">
+            <a class="nav-bar-links" onclick="showLogInPage()" >Tasks</a>
+            <a class="nav-bar-links" onclick="showProductivityTipsPage()">Productivity tips</a>
+            <a class="logout">Log out</a>
+        </div>
+    </div>
+
     <div class="sign-in-page">
         <div class="sign-in-full-page">
             <div class="sign-in-box">
@@ -55,20 +67,62 @@
     <div class="main-dashboard-page">
         <div class="dashboard-full-page">
             <div class="dashboard-box">
-                <h2>Hello there! Here's your task of the day</h2>
-                <div class="dashboard-box-action-buttons">
+                <div class="dashboard-box-content">
+                    <!-- <h2>Welcome back! You currently have...</h2> -->
+                    <div class="dashboard-box-summary-box">
+                        <div class="summary-box-total-tasks-box">
+                        </div>
+                        <div class="summary-box-completed-tasks-box">
+                        </div>
+                        <div class="summary-box-uncompleted-tasks-box">
+                        </div>
+                    </div>
+                    <div class="dashboard-box-tasks-box">
+                        <button class="add-new-task-button" onclick="showAddTaskPage()"><i class="fas fa-plus"></i> Add a new task</button>
+                        <div class="all-task-list-box">
+                        </div>
+                    </div>
+
+                </div>
+                <!-- <h2>Hello there! Here's your task of the day</h2> -->
+                <!-- <div class="dashboard-box-action-buttons">
                     <button class="positive-button" onclick="showAddTaskPage()">Add new task</button>
                     <button class="positive-button" onclick="showProductivityTipsPage()">Productivity tips</button>
                     <button class="logout" style="width: 50%;">Log out</button>
-                </div>
-                <div class="border-line"></div>
-                <div class="border-line"></div>
-                <div class="dashboard-box-all-task-list">
-                    <div class="all-task-list">
-                    </div>
-                </div>
-            </div>
+                </div> -->
+                <!-- <div class="border-line"></div> -->
+                <!-- <div class="all-task-list"> 
 
+
+
+                    <div class="task-card">
+                        <div class="task-card-bar"></div>
+                        <H2>TKTKTK</H2>
+    
+    
+    
+                        <div class="task-card-header">
+                            <h1>${title}</h1>
+                                <div class="task-card-header-details">
+                                    <p>Status: ${status}</p>  |  
+                                    <p>Due date: ${due_date}</p>
+                                </div>
+                            </div>
+                            <div class="task-card-details">
+                                <p>${description}</p>
+                            </div>
+                            <div class="task-card-actions">
+                                <button class="button-card-actions" onclick="completeTaskStatus(${id})">Complete</button>
+                                <button class="button-card-actions" onclick="uncompleteTaskStatus(${id})">Uncomplete</button>
+                                <button class="button-card-actions" onclick="showEditPage(${id})">Edit</button>
+                                <button class="button-card-actions" onclick="deleteTask(${id})">Delete</button>
+                            <div>
+                        </div>
+                    </div>
+
+
+                </div> -->
+            </div>
         </div>
     </div>
 
@@ -151,16 +205,14 @@
     <div class="productivity-article-page">
         <div class="productivity-article-full-page">
             <div class="article-box">
-                <button class="positive-button" onclick="showLogInPage()">Tasks</button>
-                <h2>Your productivity articles here</h2>
+                <!-- <button class="positive-button" onclick="showLogInPage()">Tasks</button> -->
                 <div class="all-articles-list">
                 </div>
+
             </div>
         </div>
     </div>
-
-
-
+    <script src="https://kit.fontawesome.com/61294d9e71.js" crossorigin="anonymous"></script>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script
         src="https://code.jquery.com/jquery-3.5.0.js"
