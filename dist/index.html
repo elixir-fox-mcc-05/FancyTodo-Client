@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <meta name="google-signin-client_id" content="712002227136-o324sr56loenis5pkne32jbnuj8jd9n8.apps.googleusercontent.com">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat|Oswald&display=swap" rel="stylesheet">
+    <title>Recall | Your personal to-do-list application</title>
+</head>
+<body>
+
+    <div class="nav-bar">
+        <div class="nav-bar-logo-container">
+            <img class="nav-bar-logo" src="src/img/Recall-Logo-2.png">
+        </div>
+        <div class="nav-bar-links-container">
+            <a class="nav-bar-links" onclick="showLogInPage()" >Tasks</a>
+            <a class="nav-bar-links" onclick="showProductivityTipsPage()">Productivity tips</a>
+            <a class="logout">Log out</a>
+        </div>
+    </div>
+
+    <div class="sign-in-page">
+        <div class="sign-in-full-page">
+            <div class="sign-in-box">
+                <div class="sign-in-box-content">
+                    <img src="./src/img/Recall-Logo.png">
+                    <div class="error-message-display"></div>
+                    <div class="success-registered-display"></div>
+                    <form onsubmit="signIn(event)">
+                        <input type="text" id="sign-in-email" placeholder="Your email here"><br>
+                        <input type="password" id="sign-in-password" placeholder="Your password here"><br>
+                        <input class="positive-button" type="submit" value="Log in">
+                        <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                    </form><br>
+                    <div class="border-line"></div><br>
+                    <div class="sign-in-box-register-info">
+                        <p>Don't have an account yet? You can register <a href="#" onclick="showRegisterPage(event)"><b>here!</b></a></p>
+                    </div>
+                </div>
+            </div>
+        </div>    
+    </div>
+
+
+    <div class="register-page">
+        <div class="register-full-page">
+            <div class="register-box">
+                <div class="register-box-content">
+                    <img src="./src/img/Recall-Logo.png">
+                    <p>New to Recall? Please register here :)</p>
+                    <form onsubmit="register(event)">
+                        <input type="text" id="register-email" placeholder="Your email here"><br>
+                        <input type="password" id="register-password" placeholder="Your password here"><br>
+                        <input class="positive-button" type="submit" value="Register">
+                    </form>
+                    <!-- add notice if successfully registered here -->
+                    <div class="border-line"></div>
+                    <div style="display: flex; align-items: center; justify-content: center; margin:10px">
+                        <button class="positive-button" onclick="showLogInPage()">Log in page</button>
+                    </div>
+                </div>
+            </div>
+        </div>    
+    </div>
+
+
+    <!-- PAGE 3 | Dashboard Page -->
+
+    <div class="main-dashboard-page">
+        <div class="dashboard-full-page">
+            <div class="dashboard-box">
+                <div class="dashboard-box-content">
+                    <!-- <h2>Welcome back! You currently have...</h2> -->
+                    <div class="dashboard-box-summary-box">
+                        <div class="summary-box-total-tasks-box">
+                        </div>
+                        <div class="summary-box-completed-tasks-box">
+                        </div>
+                        <div class="summary-box-uncompleted-tasks-box">
+                        </div>
+                    </div>
+                    <div class="dashboard-box-tasks-box">
+                        <button class="add-new-task-button" onclick="showAddTaskPage()"><i class="fas fa-plus"></i> Add a new task</button>
+                        <div class="all-task-list-box">
+                        </div>
+                    </div>
+
+                </div>
+                <!-- <h2>Hello there! Here's your task of the day</h2> -->
+                <!-- <div class="dashboard-box-action-buttons">
+                    <button class="positive-button" onclick="showAddTaskPage()">Add new task</button>
+                    <button class="positive-button" onclick="showProductivityTipsPage()">Productivity tips</button>
+                    <button class="logout" style="width: 50%;">Log out</button>
+                </div> -->
+                <!-- <div class="border-line"></div> -->
+                <!-- <div class="all-task-list"> 
+
+
+
+                    <div class="task-card">
+                        <div class="task-card-bar"></div>
+                        <H2>TKTKTK</H2>
+    
+    
+    
+                        <div class="task-card-header">
+                            <h1>${title}</h1>
+                                <div class="task-card-header-details">
+                                    <p>Status: ${status}</p>  |  
+                                    <p>Due date: ${due_date}</p>
+                                </div>
+                            </div>
+                            <div class="task-card-details">
+                                <p>${description}</p>
+                            </div>
+                            <div class="task-card-actions">
+                                <button class="button-card-actions" onclick="completeTaskStatus(${id})">Complete</button>
+                                <button class="button-card-actions" onclick="uncompleteTaskStatus(${id})">Uncomplete</button>
+                                <button class="button-card-actions" onclick="showEditPage(${id})">Edit</button>
+                                <button class="button-card-actions" onclick="deleteTask(${id})">Delete</button>
+                            <div>
+                        </div>
+                    </div>
+
+
+                </div> -->
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 4 | Add A New Task Page -->
+
+    <div class="addNewTask-page">
+        <div class="addNewTask-full-page">
+            <div class="addNewTask-box">
+                <div class="addNewTask-box-content">
+                    <h2>ADD YOUR TASK HERE</h2><br>
+                    <form class="add-task-form" onsubmit="addNewTask( event )">
+                        <label class="add-form-text" for="newTask-title">Title:</label><br>
+                        <input id="newTask-title" type="text" placeholder="(Your task title here)"><br><br>
+                        <label class="add-form-text" for="newTask-description">Description:</label><br>
+                        <input id="newTask-description" type="text" placeholder="(Your task description here)"><br><br>
+                        <label class="add-form-text" for="newTask-due_date">Due date:</label><br>
+                        <input id="newTask-due_date" type="date"><br><br>
+
+                        <!-- <label class="add-form-text" for="ProjectId">Project:</label><br>
+                        <input id="ProjectId" type="text"><br><br>
+                        
+                        <label for="cars">Choose a car:</label>
+                        <select id="cars" name="carlist" form="carform">
+                            <option value="volvo">Volvo</option>
+                            <option value="saab">Saab</option>
+                            <option value="opel">Opel</option>
+                            <option value="audi">Audi</option>
+                        </select> -->
+                        <div class="add-task-button-box">
+                            <input class="positive-button" type="submit" value="Add New Task">
+                        </div>
+                    </form>
+                    <button class="cancel-button" onclick="showLogInPage()">Cancel</button>
+                    <!-- add notice if successfully registered here -->
+                    <div class="border-line"></div>
+                </div>
+            </div>
+        </div>    
+    </div>
+
+
+    <!-- PAGE 5 | Edit a Task Page -->
+
+    <div class="editOneTask-page">
+        <div class="editOneTask-full-page">
+            <div class="editOneTask-box">
+                <div class="editOneTask-box-content">
+                    <h2>EDIT YOUR TASK HERE</h2><br>
+                    <form class="edit-task-form" onsubmit="editOneTask( event )">
+                        <label class="edit-form-text" for="editTask-title">Title:</label><br>
+                        <input id="editTask-title" type="text" placeholder="(Your task title here)"><br><br>
+                        <label class="edit-form-text" for="editTask-description">Description:</label><br>
+                        <input id="editTask-description" type="text" placeholder="(Your task description here)"><br><br>
+                        <label class="edit-form-text" for="editTask-due_date">Due date:</label><br>
+                        <input id="editTask-due_date" type="date"><br><br>
+
+                        <!-- <label class="add-form-text" for="ProjectId">Project:</label><br>
+                        <input id="ProjectId" type="text"><br><br>
+                        
+                        <label for="cars">Choose a car:</label>
+                        <select id="cars" name="carlist" form="carform">
+                            <option value="volvo">Volvo</option>
+                            <option value="saab">Saab</option>
+                            <option value="opel">Opel</option>
+                            <option value="audi">Audi</option>
+                        </select> -->
+                        <div class="edit-task-button-box">
+                            <input class="positive-button" type="submit" value="Edit Task">
+                            <button class="cancel-button" onclick="showLogInPage()">Cancel</button>
+                        </div>
+                    </form>
+                    <!-- add notice if successfully registered here -->
+                </div>
+            </div>
+        </div>    
+    </div>
+
+    <!-- PAGE 6 | API Productivity Tips Page -->
+
+    <div class="productivity-article-page">
+        <div class="productivity-article-full-page">
+            <div class="article-box">
+                <!-- <button class="positive-button" onclick="showLogInPage()">Tasks</button> -->
+                <div class="all-articles-list">
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="/__/firebase/7.14.2/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+        https://firebase.google.com/docs/web/setup#available-libraries -->
+
+    <!-- Initialize Firebase -->
+    <script src="/__/firebase/init.js"></script>
+
+
+    <script src="https://kit.fontawesome.com/61294d9e71.js" crossorigin="anonymous"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script
+        src="https://code.jquery.com/jquery-3.5.0.js"
+        integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc="
+        crossorigin="anonymous">
+    </script>
+    <script src="main.js"></script>
+</body>
+</html>
