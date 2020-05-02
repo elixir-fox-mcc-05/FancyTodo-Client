@@ -1,5 +1,5 @@
 $(document).ready(_=> {
-  // getSplash();
+  getSplash();
   if(localStorage.getItem('token')){
     ready()
     getNick()
