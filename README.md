@@ -6,7 +6,7 @@
 - Priambodo Kurniawan - Buddy Helper
 
 ## Client URL :
-https://fancytodo.000webhostapp.com (status : active)
+https://yudhaaw96.github.io/fancytodo/ (status : active)
 
 ## Server URL :
 https://server-fancytodo-yudhaaw96.herokuapp.com (status : active)
