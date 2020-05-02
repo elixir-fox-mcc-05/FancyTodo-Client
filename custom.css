@@ -1,0 +1,22 @@
+body{
+    /* background-image: url('bg.jpg'); */
+    background-repeat: repeat;
+    background-position: center; /* Center the image */
+    background-size: cover; /* Resize the background image to cover the entire container */
+}
+.todotitle {
+    background-color: white;
+    text-align: center;
+    margin-top: 10px;
+    border-radius: 3px;
+}
+.card {
+    margin-top: 10px;
+}
+table {
+	font-size: 1em;
+}
+
+.ui-draggable, .ui-droppable {
+	background-position: top;
+}
