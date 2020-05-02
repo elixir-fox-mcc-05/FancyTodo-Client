@@ -301,9 +301,13 @@ function remove(id) {
 }
 
 function showEditPage(id, title, description, due_date, status, UserId) {
-  due_date = new Date(due_date)
-  console.log(due_date)
+//  due_date = new Date(due_date)
+//  console.log(due_date)
   hideAll()
+    var now = new Date(due_date);
+    var day = ("0" + now.getDate()).slice(-2);
+    var month = ("0" + (now.getMonth() + 1)).slice(-2);
+    var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
   $('#edit').show()
   $('#edit').html(`<div class="box">
                     <h1 class="hero-body title">Edit ToDo</h1>
@@ -318,7 +322,7 @@ function showEditPage(id, title, description, due_date, status, UserId) {
                     <h1 class="column">Description</h1>
                     <input class="input is-medium" type="text" placeholder="description" id="editDescription" value="${description}"><br>
                     <h1 class="column">Due Date</h1>
-                    <input class="input is-medium" type="date" placeholder="due date" id="editdue_date" value="${due_date}"><br>
+                    <input class="input is-medium" type="date" placeholder="due date" id="editdue_date" value="${today}"><br>
                     <h1 class="column">Status</h1>
                     <div class="columns">
                     <div class="column"><input class="radio" type="radio" id="editStatus" name="status" value="false" ${!status ? "checked" : ""}><h2>not completed</h2></div>
