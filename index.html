@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-client_id"
+        content="410126942672-r4p5henmkev01a6foctufi0p1p1hfs32.apps.googleusercontent.com">
+    <title>ToDos</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="content">
+        <div class="inner">
+            <div id="landing-page">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <a class="navbar-brand" href="#">TODOS</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarText">
+                        <span class="navbar-text">
+                            <button class="btn btn-primary" id="login-page">
+                                <p class="render"><a href="#">Log in</a></p>
+                            </button>
+                            <button class="btn btn-primary" id="register">
+                                <p class="render"><a href="#">Register</a></p>
+                            </button>
+                            <button class="btn btn-primary" id="googlesignin">
+                                <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                            </button>
+                        </span>
+                    </div>
+                </nav>
+                <div class="login-page">
+                    <div class="form">
+                        <form class="register-form">
+                            <p class="errorRegister"></p>
+                            <label for="email">Email</label>
+                            <input class="email" type="text" placeholder="Email address" />
+                            <label for="password">Password</label>
+                            <input class="password" type="password" placeholder="Password" />
+                            <button>create</button>
+                            <!-- <p class="render">Already registered? <a href="#">Log In</a></p> -->
+                        </form>
+                        <form class="login-form">
+                            <p class="errorLogin"></p>
+                            <label for="email">Email</label>
+                            <input class="emailLogin" type="text" placeholder="email address" />
+                            <label for="password">Password</label>
+                            <input class="passwordLogin" type="password" placeholder="password" />
+                            <button>login</button><br>
+                            <div class="g-signin2" data-longtitle="true" data-theme="light" data-width="fit"
+                                data-onsuccess="onSignIn" style="margin: auto;">
+                            </div>
+                            <!-- <p class="render">Not registered? <a href="#">Register</a></p> -->
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div id="dashboard-page">
+                <button class="btn btn-danger" id="logout"><a href="#" onclick="signout">Log Out</a></button>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <h1 class="text-center">DashBoard</h1>
+                        <div class="container m-auto w-100">
+                            <form role="form" id="create" class="create">
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="title">Todo:</label>
+                                        <input type="text" name="text" class="form-control input-sm"
+                                            placeholder="What You Gonna Do" id="title" />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="description">Description:</label>
+                                        <input type="text" name="text" class="form-control input-sm"
+                                            placeholder="Description" id="description" />
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="status">Status:</label>
+                                        <select class="form-control input-sm" name="status" id="status">
+                                            <option value="true">Done</option>
+                                            <option value="false" selected>Not Done</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="due_date">Due Date:</label>
+                                        <input type="date" class="form-control input-sm" placeholder="Due Date"
+                                            id="due_date" />
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary w-100" type="submit">
+                                    <i class="fa fa-plus"> Add</i>
+                                </button>
+                                <p>
+                                    <ul class="error"></ul>
+                                </p>
+                            </form>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="container">
+                            <div class="quotes"></div>
+                        </div>
+                    </div>
+                    <table class="table table-striped table-hover table-dark table-bordered table-responsive">
+                        <thead class="list-todo">
+                            <tr>
+                                <th scope="col">Todo</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Due Date</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="listdata"></tbody>
+                    </table>
+                    <div id="modalEdit"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- GOOGLE SIGN IN API -->
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <!-- SCRIPT JQUERY -->
+    <script src="https://code.jquery.com/jquery-3.5.0.js"
+        integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
+    <!-- SCRIPT JS-->
+    <script src="index.js"></script>
+</body>
+
+</html>
