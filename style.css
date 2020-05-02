@@ -1,0 +1,507 @@
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Nunito", sans-serif;
+  background: #f9f9fa !important;
+}
+
+/* ========== sign in and sign up page ==========*/
+
+.userSignInInput {
+  border: none;
+  outline: none;
+  background: none;
+  font-family: "Nunito", sans-serif;
+}
+
+.cont {
+  overflow: hidden;
+  position: relative;
+  width: 900px;
+  height: 550px;
+  margin: 190px auto 100px;
+  background: #fff;
+  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+}
+
+.form {
+  position: relative;
+  width: 640px;
+  height: 100%;
+  -webkit-transition: -webkit-transform 1.2s ease-in-out;
+  transition: -webkit-transform 1.2s ease-in-out;
+  transition: transform 1.2s ease-in-out;
+  transition: transform 1.2s ease-in-out, -webkit-transform 1.2s ease-in-out;
+  padding: 30px 30px 0;
+}
+
+.form-signin {
+  margin-top: 90px;
+}
+
+.sub-cont {
+  overflow: hidden;
+  position: absolute;
+  left: 640px;
+  top: 0;
+  width: 900px;
+  height: 100%;
+  padding-left: 260px;
+  background: #fff;
+  -webkit-transition: -webkit-transform 1.2s ease-in-out;
+  transition: -webkit-transform 1.2s ease-in-out;
+  transition: transform 1.2s ease-in-out;
+  transition: transform 1.2s ease-in-out, -webkit-transform 1.2s ease-in-out;
+}
+.cont.s--signup .sub-cont {
+  -webkit-transform: translate3d(-640px, 0, 0);
+  transform: translate3d(-640px, 0, 0);
+}
+
+.img {
+  overflow: hidden;
+  z-index: 2;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 260px;
+  height: 100%;
+  padding-top: 360px;
+}
+.img:before {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 900px;
+  height: 100%;
+  background-image: url("./img/bg.jpg");
+  background-size: cover;
+  -webkit-transition: -webkit-transform 1.2s ease-in-out;
+  transition: -webkit-transform 1.2s ease-in-out;
+  transition: transform 1.2s ease-in-out;
+  transition: transform 1.2s ease-in-out, -webkit-transform 1.2s ease-in-out;
+}
+.img:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+}
+.cont.s--signup .img:before {
+  -webkit-transform: translate3d(640px, 0, 0);
+  transform: translate3d(640px, 0, 0);
+}
+.img__text {
+  z-index: 2;
+  position: absolute;
+  left: 0;
+  top: 50px;
+  width: 100%;
+  padding: 30px 20px 0;
+  text-align: center;
+  color: #fff;
+  -webkit-transition: -webkit-transform 1.2s ease-in-out;
+  transition: -webkit-transform 1.2s ease-in-out;
+  transition: transform 1.2s ease-in-out;
+  transition: transform 1.2s ease-in-out, -webkit-transform 1.2s ease-in-out;
+}
+.img__text h2 {
+  margin-bottom: 10px;
+  font-weight: normal;
+}
+.img__text p {
+  font-size: 14px;
+  line-height: 1.5;
+}
+.cont.s--signup .img__text.m--up {
+  -webkit-transform: translateX(520px);
+  transform: translateX(520px);
+}
+.img__text.m--in {
+  -webkit-transform: translateX(-520px);
+  transform: translateX(-520px);
+}
+.cont.s--signup .img__text.m--in {
+  -webkit-transform: translateX(0);
+  transform: translateX(0);
+}
+.img__btn {
+  overflow: hidden;
+  z-index: 2;
+  position: relative;
+  width: 100px;
+  height: 36px;
+  margin: 0 auto;
+  background: transparent;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 15px;
+  cursor: pointer;
+}
+.img__btn:after {
+  content: "";
+  z-index: 2;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  border: 2px solid #fff;
+  border-radius: 30px;
+}
+.img__btn span {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  -webkit-transition: -webkit-transform 1.2s;
+  transition: -webkit-transform 1.2s;
+  transition: transform 1.2s;
+  transition: transform 1.2s, -webkit-transform 1.2s;
+}
+.img__btn span.m--in {
+  -webkit-transform: translateY(-72px);
+  transform: translateY(-72px);
+}
+.cont.s--signup .img__btn span.m--in {
+  -webkit-transform: translateY(0);
+  transform: translateY(0);
+}
+.cont.s--signup .img__btn span.m--up {
+  -webkit-transform: translateY(72px);
+  transform: translateY(72px);
+}
+
+.form-title {
+  color: #6200a4;
+  width: 100%;
+  font-size: 26px;
+  text-align: center;
+}
+
+.labelSignIn {
+  display: block;
+  width: 260px;
+  margin: 25px auto 0;
+  text-align: center;
+}
+
+.spanUserInput {
+  font-size: 12px;
+  color: #737373;
+  text-transform: uppercase;
+}
+
+.signInInput {
+  display: block;
+  width: 100%;
+  margin-top: 5px;
+  padding-bottom: 5px;
+  font-size: 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  text-align: center;
+}
+
+.g-signin2 {
+  display: flex;
+  justify-content: center;
+}
+
+.submitForm {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  margin-left: 165px;
+  background: #6200a4;
+  text-transform: uppercase;
+  border-bottom: none;
+  height: 40px;
+  width: 250px;
+  font-size: 16px;
+  color: #fff;
+  text-align: center;
+  border-radius: 40px;
+  cursor: pointer;
+}
+
+.submitForm:hover {
+  background: #440071;
+}
+
+.fb-btn {
+  border: 2px solid #d3dae9;
+  color: #8fa1c7;
+}
+.fb-btn span {
+  font-weight: bold;
+  color: #455a81;
+}
+
+.sign-in {
+  -webkit-transition-timing-function: ease-out;
+  transition-timing-function: ease-out;
+}
+.cont.s--signup .sign-in {
+  -webkit-transition-timing-function: ease-in-out;
+  transition-timing-function: ease-in-out;
+  -webkit-transition-duration: 1.2s;
+  transition-duration: 1.2s;
+  -webkit-transform: translate3d(640px, 0, 0);
+  transform: translate3d(640px, 0, 0);
+}
+
+.sign-up {
+  -webkit-transform: translate3d(-900px, 0, 0);
+  transform: translate3d(-900px, 0, 0);
+}
+.cont.s--signup .sign-up {
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}
+
+.icon-link {
+  position: absolute;
+  left: 5px;
+  bottom: 5px;
+  width: 32px;
+}
+.icon-link img {
+  width: 100%;
+  vertical-align: top;
+}
+.icon-link--twitter {
+  left: auto;
+  right: 5px;
+}
+
+/* ========== sign in and sign up page end ==========*/
+
+/* ========== main page ==========*/
+
+#mainPage {
+  overflow-x: hidden;
+}
+
+/* navbar */
+
+.navbar {
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.068);
+}
+
+.navbar-brand {
+  color: #6200a4 !important;
+  font-size: 25px;
+  font-weight: 600;
+}
+
+.navbarLink {
+  color: red !important;
+  font-weight: bold;
+  margin-left: 20px;
+  cursor: pointer;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    /* box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7); */
+  }
+
+  70% {
+    transform: scale(1);
+    /* box-shadow: 0 0 0 10px rgba(0, 0, 0, 0); */
+  }
+
+  100% {
+    transform: scale(0.95);
+    /* box-shadow: 0 0 0 0 rgba(0, 0, 0, 0); */
+  }
+}
+
+.navbarLink:hover {
+  color: grey !important;
+}
+
+.navbar .btn {
+  color: #6200a4 !important;
+  border-color: #6200a4 !important;
+}
+
+.navbar .btn:hover {
+  background-color: #6200a4 !important;
+  color: white !important;
+}
+
+/* navbar end */
+
+/* Todo List */
+
+.cardContainer {
+  margin-top: 50px;
+  justify-content: center;
+  padding-left: 100px;
+  padding-right: 100px;
+  display: flex;
+  flex-direction: row;
+}
+
+.card {
+  width: 13rem;
+  margin-left: 30px;
+  margin-top: 20px;
+  border: none !important;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.082), 0 3px 5px rgba(0, 0, 0, 0.041);
+}
+
+.card .card-header {
+  background-color: #6200a4 !important;
+  color: #fff;
+  font-weight: 600;
+  font-size: 25px;
+  background-color: #fff;
+}
+
+.card .btnCard {
+  margin-top: 30px;
+  background-color: #6200a4 !important;
+  border: none;
+}
+
+.card .btnCard:hover {
+  background-color: #9400ff !important;
+}
+
+.card .btnDelete {
+  margin-top: 30px;
+  background-color: #fff !important;
+  color: #6200a4;
+  border: 1 solid;
+  border-color: #6200a4 !important;
+  margin-left: 10px;
+}
+
+.card .btnDelete:hover {
+  color: #6200a4;
+}
+
+/* Todo List end */
+
+/* add todo */
+#btnAddTodo {
+  position: fix;
+  bottom: 10px;
+  background-color: #6200a4;
+  margin-left: 91vw;
+  margin-top: 10vh;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+}
+
+#btnAddTodo:hover {
+  background: #9400ff;
+}
+
+#btnAddTodo img {
+  color: #fff !important;
+  height: 40px;
+  width: 40px;
+}
+/* add todo end */
+
+/* ========== main page end ==========*/
+
+/* add todo form */
+.addTodoContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 100px;
+}
+
+.submitAddTodoForm {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  background: #6200a4;
+  text-transform: uppercase;
+  border-bottom: none;
+  height: 40px;
+  width: 250px;
+  font-size: 16px;
+  color: #fff;
+  text-align: center;
+  border-radius: 40px;
+}
+
+.submitAddTodoForm:hover {
+  background: #9400ff;
+}
+
+.cancelButton {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  background: #fff;
+  text-transform: uppercase;
+  border: 2px solid #6200a4;
+  height: 40px;
+  width: 250px;
+  font-size: 16px;
+  color: #6200a4;
+  text-align: center;
+  border-radius: 40px;
+}
+
+/* add todo form end */
+
+/* covid page */
+.covidHeader{
+margin-top: 50px;
+display: flex;
+justify-content: center;
+color: #6200a4;
+}
+
+.covidText {
+  padding: 20px;
+  color: #6200a4;
+  margin: 0;
+  font-size: 22px;
+}
+
+.btnCovid{
+  margin-left: 40px;
+  bottom: 78vh;
+  position: fixed;
+  background-color: #6200a4 !important;
+  border: none !important;
+}
+
+.btnCovid:hover{
+  background-color: #9400ff !important;
+}
+/* covid page end */
