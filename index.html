@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-client_id" content="426267124528-j7crr7p18lj14058gojr2krggruaf185.apps.googleusercontent.com">
     <title>FancyToDo</title>
 </head>
 <body>
@@ -17,7 +18,9 @@
             <h3>Password :</h3>
             <input id="loginPassword" type="password" placeholder="Password">
             <br><br><button type="submit" class="button">Login</button>
-        </form> 
+        </form>
+        <p>Or</p>
+        <div class="g-signin2" data-onsuccess="onSignIn"></div>
         <!-- END LOGIN -->
 
         <p>Don't have account? Please register here</p>
@@ -34,6 +37,8 @@
             <input id="registerEmail" type="text" placeholder="E-Mail">
             <h3>Password :</h3>
             <input id="registerPassword" type="password" placeholder="Password">
+            <h3>Confirm Password :</h3>
+            <input id="registerConfirmPassword" type="password" placeholder="Password">
             <br><br><button type="submit" class="button">Register</button>
             <button type="button" onclick="cancelRegister()"class="button">Cancel</button>
         </form>
@@ -76,7 +81,31 @@
     </div>
     <!-- END MAIN PAGE -->
 
+    <!-- UPDATE PAGE -->
+    <div id="formUpdatePage">
+        <h4>Update ToDo</h4>
+        <p id="updateError" style="color: red;"></p>
+        <form id="formUpdatePage" onsubmit="inputUpdateTodo(event)">
+            <input id="updateId" type="hidden">
+            <label>Title &emsp;&emsp;&emsp;&nbsp;: </label>
+            <input id="updateTitle" type="text" placeholder="Title">
+            <br><label>Description: </label><br>
+            <textarea rows ="3" cols ="47" id ="updateDescription" placeholder="Description"></textarea>            
+            <br><label>Due Date &ensp;&nbsp;:</label>
+            <input id="update_due_date" type="date">
+            <br><label>Status &emsp;&emsp;&nbsp;: </label><br>
+            <input type="radio" class="updateStatus" name="status" value="true"> 
+            <label>Finished</label><br>
+            <input type="radio" class="updateStatus" name="status" value="false">
+            <label>Unfinished</label>
+            <br><br><button type="submit" class="button">Update</button>
+        </form>
+        <br><button type="button" onclick="backMainPage() " class="button">Home</button>
+    </div>
+    <!-- END UPDATE PAGE -->
+
     <!-- SCRIPT -->
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
     <script src="main.js"></script>
 </body>

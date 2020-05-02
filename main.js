@@ -18,12 +18,14 @@ $(document).ready(function(){
 function checkStorage(){
     if(localStorage.token){ //to main page
         $('#registerPage').hide()
+        $('#formUpdatePage').hide()
         $('#loginPage').hide()
         $('#mainPage').show()
         readTodo()
     }
     else{ //to login page
         $('#registerPage').hide()
+        $('#formUpdatePage').hide()
         $('#loginPage').show()
         $('#mainPage').hide()
     }
@@ -65,6 +67,9 @@ function showRegister() {
     $('#registerPage').show();
     $(`#registerError`).hide();
     $(`#loginPage`).hide();
+    $('#registerEmail').val('');
+    $('#registerPassword').val('');
+    $(`#registerConfirmPassword`).val('')
 }
 // input register
 function register(event){
@@ -73,26 +78,31 @@ function register(event){
         email: $(`#registerEmail`).val(),
         password: $(`#registerPassword`).val(),
     };
-    $.ajax({
-        method: "POST",
-        url: 'http://localhost:3000/users/register',
-        data: input
-    })
-    .done(_ => {
-        console.log(`masuk`)
-        $('#loginError').hide();
-        $('#loginPage').show();
-        $('#registerPage').hide()
-    })
-    .fail(err => {
-        console.log(err);
+    if ($(`#registerPassword`).val() !== $(`#registerConfirmPassword`).val()){
         $('#registerError').show();
-        $('#registerError').text(err.responseJSON.errors[0].msg);
-    })
-    .always(_ => {
-        $('#registerEmail').val('');
-        $('#registerPassword').val('');
-    })
+        $('#registerError').text(`Invalid password match`);
+    }
+    else {
+        $.ajax({
+            method: "POST",
+            url: 'http://localhost:3000/users/register',
+            data: input
+        })
+        .done(_ => {
+            $('#loginError').hide();
+            $('#loginPage').show();
+            $('#registerPage').hide()
+        })
+        .fail(err => {
+            console.log(err);
+            $('#registerError').show();
+            $('#registerError').text(err.responseJSON.errors[0].msg);
+        })
+        .always(_ => {
+            $('#registerEmail').val('');
+            $('#registerPassword').val('');
+        })
+    }
 }
 // cancel register
 function cancelRegister() {
@@ -104,14 +114,19 @@ function cancelRegister() {
 
  // logout
 function logout(){
-    localStorage.clear();
-    $('#loginPage').show();
-    $('#mainPage').hide();
+    const auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+        localStorage.clear();
+        $('#loginPage').show();
+        $('#mainPage').hide();
+    });
+
 }
 
  // get todo list
 function readTodo() {
     $(`#formAddTodo`).hide()
+    $(`#formUpdatePage`).hide()
     const token = localStorage.getItem('token')
     $.ajax({
         method: "GET",
@@ -136,7 +151,7 @@ function readTodo() {
                 <p>Description: ${todos[i].description}</p>
                 <p>Due Date &ensp;&nbsp;: ${todos[i].due_date}</p>
                 <p>Status  &emsp;&emsp;&nbsp;: ${check}</p>
-                <button>Edit</button>
+                <button onclick="showUpdateTodo(${todos[i].id})">Update</button>
                 <button onclick="deleteTodo(${todos[i].id})">Delete</button>
                 <br><br>
             `)
@@ -177,7 +192,7 @@ function inputAddTodo(event){
         $('#add_due_date').val(dateNow());
     })
     .fail(err => {
-        console.log(err);
+        console.log(err.responseJSON.errors);
         $('#addTodoError').show();
         $('#addTodoError').text(err.responseJSON.errors[0].msg);
     })
@@ -217,7 +232,6 @@ function deleteTodo(idDelete){
         }
     })
     .done(data => {
-        console.log(data)
         readTodo()
     })
     .fail(err => {
@@ -226,12 +240,100 @@ function deleteTodo(idDelete){
 }
 ////////////////////////////////
 
+/////////////update available todo/////////////
+// show update form
+function showUpdateTodo(idUpdate) {
+    $('#formUpdatePage').val('')
+    $('#updateError').hide()
+    $('#mainPage').hide()
+    $('#formUpdatePage').show()
+    const token = localStorage.getItem('token');
+    $.ajax({
+        method: "GET",
+        url: `http://localhost:3000/todos/${idUpdate}`,
+        headers: {token}
+    })
+    .done(data => {
+        $(`#updateTitle`).val(data.todo.title);
+        $(`#updateDescription`).val(data.todo.description);
+        $(`#update_due_date`).val(data.todo.due_date);
+        $(`#updateId`).val(data.todo.id);
+        if(data.todo.status === false){
+            $(`[value='false']`).prop('checked', true);
+        }
+        else {
+            $(`[value='true']`).prop('checked', true)
+        }
+    })
+    .fail(err => {
+        console.log(err);
+    })
+}
+// input update todo
+function inputUpdateTodo(event){
+    event.preventDefault();
+    const token = localStorage.getItem('token');
+    let idInput = $(`#updateId`).val();
+    let input = {
+        title: $(`#updateTitle`).val(),
+        description: $(`#updateDescription`).val(),
+        due_date: $(`#update_due_date`).val(),
+        status: $(`[name='status']:checked`).val()
+    };
+    $.ajax({
+        method: "PUT",
+        url: `http://localhost:3000/todos/${idInput}`,
+        headers: {token},
+        data: input
+    })
+    .done(data => {
+        $('#mainPage').show()
+        $('#formUpdatePage').hide()
+        readTodo()
+    })
+    .fail(err => {
+        console.log(err.responseJSON);
+        $('#updateError').show();
+        $('#updateError').text(err.responseJSON.errors[0].msg);
+    })
 
-
-/////////////edit available todo/////////////
-
+}
+// back to home
+function backMainPage() {
+    $('#mainPage').show()
+    $('#formUpdatePage').hide()
+}
 ///////////////
 
+// google sign-in
+function onSignIn(googleUser) {
+    const id_token = googleUser.getAuthResponse().id_token;
+    $.ajax({
+        method: 'POST',
+        url: 'http://localhost:3000/users/google-login',
+        headers: {
+            google_token: id_token
+        }
+    })
+    .done(data => {
+        localStorage.setItem('token', data.token);
+        $('#loginPage').hide(); // hide loginpage
+        $('#loginError').hide();
+        $(`#mainPage`).show(); // show mainpage
+        readTodo()
+    })
+    .fail(err => {
+        console.log(err);
+        $('#loginError').show();
+        $('#loginPassword').val('');
+        $('#loginError').text(err.responseJSON.errors[0].msg);
+    })
+    .always(_ => {
+        $('#loginEmail').val('');
+        $('#loginPassword').val('')
+    })
+}
+  
 
 
 
