@@ -1,6 +1,28 @@
 let baseUrl = 'http://localhost:3000'
 $( document ).ready(function() {
     auth(`It seems that you have signed out`)
+    signIn()
+    signUp()
+});
+
+
+function auth(message) {
+    if (localStorage.token) {
+        $('#signUpPage').hide()
+        $('#signInPage').hide()
+        $('#mainPage').show()
+        $('#createPage').hide()
+        $('#editPage').hide()
+        $('#buttonSignOut').show()
+        fetchData()
+    } else {
+        $("#message").empty()
+        $("#message").append(message)
+        showSignIn()
+    }
+}
+
+function signIn() {
     $('#signInForm').submit(event => {
         event.preventDefault()
         $.ajax({
@@ -23,7 +45,9 @@ $( document ).ready(function() {
             $('#password').val('')
         })
     })
+}
 
+function signUp() {
     $('#signUpForm').submit(event => {
         event.preventDefault()
         $.ajax({
@@ -46,23 +70,6 @@ $( document ).ready(function() {
             $('#password').val('')
         })
     })
-});
-
-
-function auth(message) {
-    if (localStorage.token) {
-        $('#signUpPage').hide()
-        $('#signInPage').hide()
-        $('#mainPage').show()
-        $('#createPage').hide()
-        $('#editPage').hide()
-        $('#buttonSignOut').show()
-        fetchData()
-    } else {
-        $("#message").empty()
-        $("#message").append(message)
-        showSignIn()
-    }
 }
 
 function fetchData() {
@@ -90,7 +97,7 @@ function fetchData() {
                         <td>${element.description}</td>
                         <td>${element.due_date.slice(0, 10)}</td>
                         <td> <button class="btn btn-sm" id="buttonEdit" onclick="showEditPage(${element.id}, '${element.title}', '${element.description}', '${element.due_date}')">Edit</button> | 
-                        <button class="btn btn-sm" id="buttonDelete" onclick="confirmDelete(${element.id})" >Delete</button> </td>
+                        <button class="btn btn-sm" id="buttonDelete" onclick="deleteTodo(${element.id})" data-toggle="popover" data-trigger="hover" title="Are you sure?" data-content="You want to delete this tasks? It cannot be undone.">Delete</button> </td>
                 </tr>`
             )
         })
@@ -132,9 +139,6 @@ function createTodo(event) {
     })
     .fail(error => {
         console.log(error, 'at creating');
-        // $('#createAlert').append(
-        //     `<small class="alert alert-warning">${error.responseText}</small>`
-        // )
     })
     .always(() => {
         $('#titleCreate').val('')
@@ -152,17 +156,17 @@ function showEditPage(id, title, description, due_date) {
     $('#editPage').show()
 
     due_date = new Date(due_date)
-
+    $('#insertEditForm').empty()
     $('#insertEditForm').append(
         `
         <form id="editForm" onsubmit="editTodo(event, ${id})"> <!-- set in main.js -->
             <label for="title">Title: </label>
-            <input type="text" name="title" id="titleEdit" class="form-control" placeholder="${title}"><br>
+            <input type="text" name="title" id="titleEdit" class="form-control" value="${title}"><br>
             <label for="description">Description: </label>
             <!-- remove empty space before </textarea> -->
-            <textarea  cols="40" rows="10" name="description" id="descriptionEdit" class="form-control" placeholder="${description}"></textarea><br> 
+            <textarea  cols="40" rows="10" name="description" id="descriptionEdit" class="form-control">${description}</textarea><br> 
             <label for="due_date">Due Date: </label><br>
-            <small>Previous due date: ${due_date.getMonth()}/${due_date.getDate()}/${due_date.getFullYear()}</small><br>
+            <p>Previous due date: ${due_date.getMonth()}/${due_date.getDate()}/${due_date.getFullYear()}</p><br>
             <small>Note: Due date must be later than today</small>
             <input type="date" name="due_date" id="due_dateEdit" class="form-control text-center due_date"><br>
             <!-- input date does not support placeholder -->
@@ -172,12 +176,6 @@ function showEditPage(id, title, description, due_date) {
         </form>
         `
     )
-
-    // document.getElementById("titleEdit").placeholder = title;
-    // document.getElementById("descriptionEdit").placeholder = description;
-    // $('#previousDue').append(
-    //     `Previous due date: ${due_date.getMonth()}/${due_date.getDate()}/${due_date.getFullYear()}`
-    // )
 }
 
 function editTodo(event, id) {
@@ -224,17 +222,16 @@ function deleteTodo(id) {
     .fail(err => {
         console.log(err)
     })
-    
 }
 
-function confirmDelete(id)
-{
-  let message = confirm("Are you sure you want to delete?");
-  if (message) {
-    deleteTodo(id)
-    return true;
-  } else return false;
-}
+// function confirmDelete(id) {
+//   let message = confirm("Are you sure you want to delete?");
+//     // no alert(), confirm(), prompt() for now
+//   if (message) {
+//     deleteTodo(id)
+//     return true;
+//   } else return false;
+// }
 
 function showSignUp() {
     $('#signUpPage').show()
