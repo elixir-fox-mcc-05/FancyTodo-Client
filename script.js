@@ -5,6 +5,9 @@ $('#editTask').hide()
 $('#respon').hide()
 $('#taskRes').hide()
 $('#taskResErr').hide()
+$('#settings').hide()
+$('#errorMsg').hide()
+$('#taskResDel').hide()
 
 // $('#newTask').hide()
 
@@ -109,6 +112,7 @@ function signup (email , password , confirm_password ) {
         }
     })
     .done(function(data){
+        $('#errorMsg').empty()
         $('#signup').hide()
         $('#signupDone').show()
         $('#emailSignup').val('')
@@ -116,7 +120,9 @@ function signup (email , password , confirm_password ) {
         $('#confirm_password').val('')
     })
     .fail(function(err){
-        $('#respon').append(`${err.responseJSON.error}`)
+        $('#errorMsg').empty()
+        $('#errorMsg').show()
+        $('#errorMsg').append(`${err.responseJSON.error}`)
     })
 }
 
@@ -142,8 +148,11 @@ function getTodo () {
                     <div class="col-3">
                         ${title}
                     </div>
-                    <div class="col-7">
+                    <div class="col-4">
                         ${description}
+                    </div>
+                    <div class="col-3">
+                        ${due_date}
                     </div>
                     <div class="col-2">
                         <button id="editTaskBtn" onclick="editTaskBtn('${id}','${title}','${description}','${due_date}')" class="btn btn-warning btn-sm" >edit</button>
@@ -193,6 +202,7 @@ function addTask (title,description,due_date) {
         getTodo()
     })
     .fail(err=>{
+        $('#taskResDel').hide()
         $('#taskResErr').append(`${err.responseJSON.error}`)
         $('#taskResErr').show()
         $('#taskRes').hide()
@@ -229,35 +239,41 @@ function editTask () {
         getTodo()
     })
     .fail(err=>{
+        $('#editRes').empty()
         $('#editRes').append(`${err.responseJSON.error}`)
-        console.log(err)
+        $('#editRes').show()
     })
 }
 
 function editTaskBtn(id,title,description,due_date) {
     $('#todoList').hide()
     $('#newTask').hide()
+    $('#editTask').empty()
     $('#editTask').show()
     $('#editRes').empty()
     
     $('#editTask').append(
-        `<div>
-            <form  id="formEdit" >
+        `
+        <h4>Edit Task</h4> <hr>
+        <div id="editRes" class="alert alert-danger" role="alert"></div>
+        <div>
+            <form  id="formEdit" class="input-group">
                 <input type="text" id="idEdit" value="${id}" hidden >
-                <label for="title">title</label> <br>
-                <input type="text" id="titleEdit" value="${title}"> <br>
-                <label for="description">description</label> <br>
-                <input type="text" id="descriptionEdit" value="${description}"> <br>
-                <label for="due_date" >due date</label> <br>
-                <input type="date" id="due_dateEdit" value="${due_date}"> <br> <br>
-                <button type="submit" onclick="editTask()">SUBMIT</button> <button id="cancelBtn">CANCEL</button> <br> <br>
+                <input type="text" id="titleEdit" value="${title}" aria-label="title" class="form-control">
+                <input type="text" id="descriptionEdit" value="${description}" aria-label="description" class="form-control">
+                <input type="date" id="due_dateEdit" value="${due_date}" aria-label="due_date" class="form-control" >
+                <div class="input-group-append">
+                    <button type="submit" onclick="editTask()" class="btn btn-success" >SUBMIT</button> <button id="cancelBtn" class="btn btn-danger" onclick="cancelEdit()" >CANCEL</button>
+                </div>
+                
             </form>
         </div>`
     )
+    $('#editRes').hide()
 }
 
 function deleteTask(event,id) {
-    $('#taskRes').empty()
+    $('#taskResDel').empty()
     event.preventDefault()
     $.ajax({
         method : 'DELETE',
@@ -267,11 +283,15 @@ function deleteTask(event,id) {
         }
     })
     .done(result=>{
-        $('#taskRes').append(`${result.msg}`)
+        $('#taskRes').hide()
+        $('#taskResErr').hide()
+        $('#taskResDel').empty()
+        $('#taskResDel').append(`${result.msg}`)
+        $('#taskResDel').show()
         getTodo()
     })
     .fail(err=>{
-        $('#taskRes').append(`${err.responseJSON.error}`)
+        $('#taskResErr').append(`${err.responseJSON.error}`)
         console.log(err)
     })
 }
@@ -298,3 +318,17 @@ function onSignIn(googleUser) {
         $('#respon').append(`${err.responseJSON.error}`)
     })
   }
+
+function cancelEdit () {
+    event.preventDefault()
+    
+    $('#todoList').show()
+    $('#newTask').show()
+    $('#editTask').hide()
+    $('#taskResErr').hide()
+    $('#taskResErr').empty()
+    $('#taskRes').hide()
+    $('#taskRes').empty()
+}
+
+

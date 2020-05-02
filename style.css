@@ -5,17 +5,18 @@ body {
 #landingPage {
     width: 100vw;
     height: 100vh;
+    background-image: url('/assets/img/bg.jpg');
+    background-size: cover;
 }
 
 #home {
     height: 100vh;
 }
 
-#login , #signup {
+#login , #signup , #signupDone {
     padding: 50px 50px;
-    background-color: whitesmoke;
+    background-color: rgb(245, 245, 245);
     border-radius: 20px;
-    box-shadow: 4px 6px 19px -1px rgba(214,214,214,1);
 }
 
 /* dashboard */
@@ -38,4 +39,18 @@ body {
 
 #sb-btn {
     margin-left: 20px;
+}
+
+#editTask , #settings {
+    margin-top: -70px;
+}
+
+.themeBtn {
+    width: 50px; 
+    height: 50px; 
+    border-radius: 100%;
+}
+
+hr {
+    border: 0.08px solid #5e5e5e ;
 }
