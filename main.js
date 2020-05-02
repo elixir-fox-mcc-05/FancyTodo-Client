@@ -56,13 +56,18 @@ function getAllTasks(){
             let title = result.tasks[i].title
             let description = result.tasks[i].description
             let imgSource =""
+            let completeButton =""
+            let uncompleteButton = ""
             if(result.tasks[i].status == true){
                 imgSource="./src/img/Recall-Logo-Task-Finished.png"
                 completedTasks += 1
+                uncompleteButton = `<button class="card-button-uncompleteTask" onclick="uncompleteTaskStatus(${id})"><i class="fas fa-spinner"></i></button>`
             } else {
                 imgSource="./src/img/Recall-Logo-Task-Ongoing.png"
                 uncompletedTasks +=1
+                completeButton = `<button class="card-button-completeTask" onclick="completeTaskStatus(${id})"><i class="fas fa-check"></i></button>`    
             }
+            
             let StringDate = new Date(result.tasks[i].due_date)
             let displayDate = StringDate.toISOString().substring(0, 10)
             // let due_date = displayDate 
@@ -84,8 +89,8 @@ function getAllTasks(){
                         </div>
                         <div class="task-card-action-buttons">
                             <div class="task-card-action-buttons-completion">
-                                <button class="card-button-completeTask" onclick="completeTaskStatus(${id})"><i class="fas fa-check"></i></button>    
-                                <button class="card-button-uncompleteTask" onclick="uncompleteTaskStatus(${id})"><i class="fas fa-spinner"></i></button>
+                                ${uncompleteButton}
+                                ${completeButton}
                             </div>
                             <button class="card-button-editTask" onclick="showEditPage(${id})"><i class="fas fa-edit"></i></button>
                             <button class="card-button-deleteTask" onclick="deleteTask(${id})"><i class="fas fa-trash-alt"></i></button>
@@ -93,22 +98,22 @@ function getAllTasks(){
                     </div>
                 </div>
             `)
-            $('.card-button-completeTask').toggle(result.tasks[i].status == false)
-            $('.card-button-uncompleteTask').toggle(result.tasks[i].status == true)
+            // $('.card-button-completeTask').toggle(result.tasks[i].status == false)
+            // $('.card-button-uncompleteTask').toggle(result.tasks[i].status == true)
             // $('.task-card-action-buttons-completion').empty()           
-            if(result.tasks[i].status == true){
-                $('.card-button-completeTask').hide()
-                $('.card-button-uncompleteTask').show()
-                // $('.task-card-action-buttons-completion').append(`
-                // <button class="card-button-uncompleteTask" onclick="uncompleteTaskStatus(${id})"><i class="fas fa-spinner"></i></button>
-                // `)
-            } else {
-                $('.card-button-completeTask').show()
-                $('.card-button-uncompleteTask').hide()
-                // $('.task-card-action-buttons-completion').append(`
-                // <button class="card-button-completeTask" onclick="completeTaskStatus(${id})"><i class="fas fa-check"></i></button>
-                // `)
-            }
+            // if(result.tasks[i].status == true){
+            //     $('.card-button-completeTask').hide()
+            //     $('.card-button-uncompleteTask').show()
+            //     // $('.task-card-action-buttons-completion').append(`
+            //     // <button class="card-button-uncompleteTask" onclick="uncompleteTaskStatus(${id})"><i class="fas fa-spinner"></i></button>
+            //     // `)
+            // } else {
+            //     $('.card-button-completeTask').show()
+            //     $('.card-button-uncompleteTask').hide()
+            //     // $('.task-card-action-buttons-completion').append(`
+            //     // <button class="card-button-completeTask" onclick="completeTaskStatus(${id})"><i class="fas fa-check"></i></button>
+            //     // `)
+            // }
         }
         
 
@@ -124,8 +129,6 @@ function getAllTasks(){
         $('.summary-box-uncompleted-tasks-box').append(`
             <p><b>${uncompletedTasks} in progress</b></p>
         `)
-
-        
         // $('.all-task-list').empty() //Untuk kosongkan ulang semua task sebelumnya, hindari penumpukan
     })
     .catch(error => {
@@ -141,7 +144,7 @@ function getAllArticles(){
       .done(result => {
           //jangan lupa setelah ajax, empty artikelnya supaya gak numpuk
         $('.all-articles-list').empty()
-        console.log(result.selectedArticles)
+        // console.log(result.selectedArticles)
         for (let i = 0; i < result.selectedArticles.length; i++) {
             let title = result.selectedArticles[i].title
             let description = result.selectedArticles[i].description
@@ -158,7 +161,7 @@ function getAllArticles(){
                             <img class="article-card-image" src="${imageUrl}">
                         </div>
                         <div class="article-card-details">
-                            <h1>${title}</h1><br>
+                            <h2>${title}</h2><br>
                             <p>${description}</p><br>
                             <div class="article-card-details-writer" >
                                 <p>${author} <b>·</b> ${publishDate} <b>·</b> ${source}</p><br>
@@ -195,10 +198,19 @@ function signIn( event ){
         .done(data => {
             // console.log(data)
             localStorage.setItem("access_token", data.access_token) // set token at data.access_token
+            $('#sign-in-email').val("")
+            $('#sign-in-password').val("")
             checkStorage()
         })
         .fail(error => {
-            console.log(error, "process gagal")
+            console.log(error)
+            let errorMessage = error.responseJSON.error
+            $('.error-message-display').append(`
+                <p id="sign-in-error-message">${errorMessage}</p>
+            `)
+            setTimeout(function(){
+                $('.error-message-display').empty()
+            }, 3000)
         })
 }
 
@@ -257,6 +269,16 @@ function register( event ){
         }
     }) 
         .done(data => {
+            console.log(data)
+            let successMessage = "You're registered. Please sign in!"
+            $('.success-registered-display').append(`
+                <p id="register-success-display">${successMessage}</p>
+            `)
+            setTimeout(function(){
+                $('.success-registered-display').empty()
+            }, 3000)
+            $('#register-email').val("")
+            $('#register-password').val("")
             checkStorage()
         })
         .fail(error => {
@@ -294,7 +316,10 @@ function addNewTask( event ){
         }
     })
     .done( result =>{
-        console.log(result)
+        // console.log(result)
+        $('#newTask-title').val("")
+        $('#newTask-description').val("")
+        $('#newTask-due_date').val("")
         checkStorage()
     })
     .fail( error => {

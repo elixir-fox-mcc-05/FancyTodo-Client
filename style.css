@@ -44,12 +44,20 @@
     font-family: 'Montserrat', sans-serif;
 }
 
+.nav-bar-links:hover{
+    font-weight: bolder;
+    color: #44C3F0;
+}
+
 .logout{
     font-family: 'Montserrat', sans-serif;
     margin: 0px 25px;
 }
 
-
+.logout:hover{
+    font-weight: bolder;
+    color: #e74c3c;
+}
 /* PAGE 1 | SIGN-IN-PAGE */
 
 
@@ -83,8 +91,27 @@
   padding:10px;
 }
 
+.error-message-display{
+    display: flex;
+    justify-content: center;
+}
+
+#sign-in-error-message{
+    color: #e74c3c
+}
+
 /* PAGE 2 | REGISTER PAGE */
 
+.success-registered-display{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+#register-success-display{
+    color:#2ecc71
+}
 
 /* PAGE 3 | DASHBOARD PAGE */
 
@@ -199,6 +226,19 @@
     width: 95%;
     height: 50px;
     background-color: #2ecc71;
+    box-shadow: 5px 10px 8px #888888;
+    border-radius: 10px;
+    border:0px;
+    margin:0px 0px 10px 0px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: large;
+}
+
+.add-new-task-button:hover{
+    width: 95%;
+    height: 50px;
+    background-color: #73cf99;
+    box-shadow: 5px 10px 8px #888888;
     border-radius: 10px;
     border:0px;
     margin:0px 0px 10px 0px;
@@ -526,7 +566,7 @@
 } */
 
 .cancel-button{
-    background-color:red; /* Green */
+    background-color:#e74c3c; /* Green */
     border: none;
     color: white;
     margin: 10px 5px;
@@ -536,7 +576,7 @@
     font-size: 16px;
     border-radius: 5px;
     font-family: 'Montserrat', sans-serif;
-    width:100%;
+    width:98%;
 }
 
 .positive-button{

@@ -26,12 +26,14 @@
             <div class="sign-in-box">
                 <div class="sign-in-box-content">
                     <img src="./src/img/Recall-Logo.png">
+                    <div class="error-message-display"></div>
+                    <div class="success-registered-display"></div>
                     <form onsubmit="signIn(event)">
                         <input type="text" id="sign-in-email" placeholder="Your email here"><br>
                         <input type="password" id="sign-in-password" placeholder="Your password here"><br>
                         <input class="positive-button" type="submit" value="Log in">
                         <div class="g-signin2" data-onsuccess="onSignIn"></div>
-                    </form><br><br>
+                    </form><br>
                     <div class="border-line"></div><br>
                     <div class="sign-in-box-register-info">
                         <p>Don't have an account yet? You can register <a href="#" onclick="showRegisterPage(event)"><b>here!</b></a></p>
@@ -55,7 +57,9 @@
                     </form>
                     <!-- add notice if successfully registered here -->
                     <div class="border-line"></div>
-                    <button onclick="showLogInPage()">Log in page</button>
+                    <div style="display: flex; align-items: center; justify-content: center; margin:10px">
+                        <button class="positive-button" onclick="showLogInPage()">Log in page</button>
+                    </div>
                 </div>
             </div>
         </div>    
@@ -153,9 +157,9 @@
                         </select> -->
                         <div class="add-task-button-box">
                             <input class="positive-button" type="submit" value="Add New Task">
-                            <button class="cancel-button" onclick="showLogInPage()">Cancel</button>
                         </div>
                     </form>
+                    <button class="cancel-button" onclick="showLogInPage()">Cancel</button>
                     <!-- add notice if successfully registered here -->
                     <div class="border-line"></div>
                 </div>
