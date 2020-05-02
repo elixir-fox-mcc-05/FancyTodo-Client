@@ -100,7 +100,11 @@ function login(email, password) {
 
     })
     .fail(err => {
-      console.log(err.responseJSON)
+//      console.log(err)
+//      let error = err.responseJSON.err.split(",")
+      $('#loginErrorHeader').show()
+      $('#loginError').text(err.responseJSON.error)
+//      console.log(err.responseJSON)
 
     })
 }
@@ -202,7 +206,9 @@ function register(userdata) {
 
     })
     .fail(function (err) {
-      console.log(err.responseJSON)
+//      let error = err.responseJSON.err.split(",")
+      $('#registerErrorHeader').show()
+      $('#registerError').text(err.responseJSON.error[0])
     })
 }
 
@@ -216,11 +222,13 @@ function logout() {
 
 function showLogin() {
   hideAll()
+    $('#loginErrorHeader').hide()
   $('#login').show()
 }
 
 function showRegister() {
   hideAll()
+    $('#registerErrorHeader').hide()
   $('#register').show()
 }
 
@@ -260,7 +268,7 @@ function addToDo() {
       showList()
     })
     .fail(err => {
-      let error = err.responseJSON.err.split(",")
+      let error = err.responseJSON.err
       $('#addErrorHeader').show()
       $('#addError').text(error[0])
     })
@@ -307,7 +315,7 @@ function showEditPage(id, title, description, due_date, status, UserId) {
     var now = new Date(due_date);
     var day = ("0" + now.getDate()).slice(-2);
     var month = ("0" + (now.getMonth() + 1)).slice(-2);
-    var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
+//    var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
   $('#edit').show()
   $('#edit').html(`<div class="box">
                     <h1 class="hero-body title">Edit ToDo</h1>
@@ -322,7 +330,7 @@ function showEditPage(id, title, description, due_date, status, UserId) {
                     <h1 class="column">Description</h1>
                     <input class="input is-medium" type="text" placeholder="description" id="editDescription" value="${description}"><br>
                     <h1 class="column">Due Date</h1>
-                    <input class="input is-medium" type="date" placeholder="due date" id="editdue_date" value="${today}"><br>
+                    <input class="input is-medium" type="date" placeholder="due date" id="editdue_date" value="${now.getFullYear()}-${month}-${day}"><br>
                     <h1 class="column">Status</h1>
                     <div class="columns">
                     <div class="column"><input class="radio" type="radio" id="editStatus" name="status" value="false" ${!status ? "checked" : ""}><h2>not completed</h2></div>
@@ -339,9 +347,9 @@ function update(id) {
 
   title = $('#editTitle').val()
   description = $('#editDescription').val()
-  due_date = $('#editdue_date').val()
+  due_date = new Date($('#editdue_date').val())
   status = $("#editStatus[name=status]:checked").val()
-//  console.log(status)
+  console.log(due_date)
   $.ajax({
     method: 'put',
     url: `http://localhost:3000/todos/${id}`,
@@ -363,12 +371,13 @@ function update(id) {
     })
 
     .fail(err => {
-      let error = err.responseJSON.err.split(",")
+      let error = err.responseJSON.err
+      console.log(error)
       $('#editErrorHeader').show()
-      $('#editError').text(error[0])
+      $('#editError').text(error[0])    
 //      $('#editError').html(err.responseJSON.err)
 //      console.log("eh gak")
-      console.log(err)
+//      console.log(err)
     })
 
 
