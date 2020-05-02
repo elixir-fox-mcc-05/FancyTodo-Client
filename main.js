@@ -22,8 +22,6 @@ $( document ).ready(function() {
             `);
         })
 
-    
-
     $('#register').on('click', function(event) {
         event.preventDefault();
         $('#edit-todo').empty();
@@ -62,6 +60,7 @@ $( document ).ready(function() {
                 localStorage.setItem('token', token);
                 $('#main-section').show();
                 $('#add-button').show();
+                $('#running-text').show();
                 auth();
             })
             .fail(err => {
@@ -208,9 +207,13 @@ function fetchTodo() {
                 const day = date.getDate();
                 const newDate = `${day}/${month}/${year}`;
                 const realDate = changeDate(date);
-                $('#main-section').append(`
+                if (todo.status === true) {
+                    $('#main-section').append(`
                     <div class="card text-white bg-${color[counter]} mb-3">
                         <div class="card-header d-flex flex-row justify-content-between">
+                            <div class="btn btn-${color[counter]}">
+                                <input type="checkbox" checked value="" onchange="updateStatus(${todo.id})" id="checkList">
+                            </div>
                             <div>Deadline: ${newDate}</div>
                             <div>
                                 <a href="javascript:;" onclick="updateTodo(${todo.id},'${todo.title}', '${todo.description}', '${realDate}')" class="edit-delete btn btn-${color[counter]}">Edit</a>
@@ -223,6 +226,27 @@ function fetchTodo() {
                         </div>
                     </div>
                 `)
+                $('#checkList').val('');
+                } else {
+                    $('#main-section').append(`
+                    <div class="card text-white bg-${color[counter]} mb-3">
+                        <div class="card-header d-flex flex-row justify-content-between">
+                            <div class="btn btn-${color[counter]}">
+                                <input type="checkbox" value="done" onchange="updateStatus(${todo.id})" id="checkList">
+                            </div>
+                            <div>Deadline: ${newDate}</div>
+                            <div>
+                                <a href="javascript:;" onclick="updateTodo(${todo.id},'${todo.title}', '${todo.description}', '${realDate}')" class="edit-delete btn btn-${color[counter]}">Edit</a>
+                                <a href="javascript:;" onclick="deleteTodo(${todo.id})" class="edit-delete btn btn-${color[counter]}">Delete</a>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title">${todo.title}</h4>
+                            <p class="card-text">${todo.description}</p>
+                        </div>
+                    </div>
+                `)
+                }
                 if (counter == 6) {
                     counter = 0;
                 } else {
@@ -395,4 +419,31 @@ $('#title').on('keyup', function() {
             })
     }
 })
+
+function updateStatus(id) {
+    let status = null;
+    if ($('#checkList').val() !== '') {
+        status = true;
+        $('#checkList').val('');
+    } else {
+        status = false;
+        $('#checkList').val('done');
+    }
+    $.ajax({
+        method: 'patch',
+        url: baseUrl + `/todos/updatestatus/${id}`,
+        headers: {
+            token: localStorage.token
+        },
+        data: {
+            status
+        }
+    })
+    .done(_=> {
+        console.log('berhasil');
+    })
+    .fail(err => {
+        console.log(err);
+    })
+}
 
