@@ -173,7 +173,7 @@ function fetchProjects() {
               <td>${formatDate(project.due_date)}</td>
               <td><a class="btn btn-info" onclick="viewProject(${project.id})"><i class="fa fa-file"></i> View</a></td>
               <td><a class="btn btn-primary" onclick="editProjectForm(${project.id})"><i class="fa fa-edit"></i> Edit</a></td>
-              <td><a class="btn btn-danger" onclick="confirmDelete(${project.id})"><i class="fa fa-trash"></i> Delete</a></td>
+              <td><a class="btn btn-danger" onclick="confirmDeleteProject(${project.id})"><i class="fa fa-trash"></i> Delete</a></td>
             </tr>
           `);
           counter++;
@@ -351,7 +351,7 @@ function addProject(e) {
             <td>${formatDate(project.due_date)}</td>
             <td><a class="btn btn-info" onclick="viewProject(${project.id})"><i class="fa fa-file"></i> View</a></td>
             <td><a class="btn btn-primary" onclick="editProjectForm(${project.id})"><i class="fa fa-edit"></i> Edit</a></td>
-            <td><a class="btn btn-danger" onclick="confirmDelete(${project.id})"><i class="fa fa-trash"></i> Delete</a></td>
+            <td><a class="btn btn-danger" onclick="confirmDeleteProject(${project.id})"><i class="fa fa-trash"></i> Delete</a></td>
           </tr>
           `);
     })
@@ -590,7 +590,7 @@ function confirmDelete(value) {
     }
   })
     .done(response => {
-      console.log(response);
+      // console.log(response);
       const Todo = response.Todo;
       $('#deleteTodoModal').modal('show');
       $('#idDelete').val(Todo.id);
@@ -603,7 +603,30 @@ function confirmDelete(value) {
     });
 }
 
+function confirmDeleteProject(value) {
+  const token = localStorage.getItem('token');
+  $.ajax({
+    method: 'GET',
+    url: `${baseUrl}/projects/${value}`,
+    headers: {
+      token
+    }
+  })
+    .done(response => {
+      const Project = response.Project;
+      $('#projectDeleteModal').modal("toggle");
+      $('#idDeleteProject').val(Project.id);
+      $('#deleteMessageProject').empty();
+      $('#deleteMessageProject').append(`Delete Project "${Project.name}" ?`);
+    })
+    .fail(err => {
+      console.log(err);
+      $('#errorDeleteProject').append(err.responseJSON.error);
+    });
+}
+
 function deleteTodo(event) {
+  event.preventDefault();
   const token = localStorage.getItem('token');
   const id = $('#idDelete').val();
   const projectid = $('#projectid_delete').val();
@@ -623,9 +646,34 @@ function deleteTodo(event) {
   })
     .done(response => {
       const Todo = response.Todo;
-      $('#deleteTodoModal').modal('show');
-      $('#todoId').val(Todo.id);
-      $('#deleteMessage').append(`"${Todo.title}" ?`);
+      $('#deleteTodoModal').modal('hide');
+      $('#todoId').val('');
+      $('#deleteMessage').empty();
+      fetchTodo();
+    })
+    .fail(err => {
+      $("#errorDelete").append(err.responseJSON.error);
+    });
+}
+
+function deleteProject(event) {
+  event.preventDefault();
+  const token = localStorage.getItem('token');
+  const projectid = $('#idDeleteProject').val();
+
+  $.ajax({
+    method: 'DELETE',
+    url: `${baseUrl}/projects/${projectid}`,
+    headers: {
+      token
+    }
+  })
+    .done(response => {
+      const Project = response.deletedData;
+      $('#projectDeleteModal').modal('hide');
+      $('#idDeleteProject').val('');
+      $('#deleteMessageProject').empty();
+      fetchProjects();
     })
     .fail(err => {
       console.log(err);
