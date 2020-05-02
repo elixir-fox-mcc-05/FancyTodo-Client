@@ -1,0 +1,17 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+}
+
+#login-page {
+    text-align: center;
+    align-items: center;
+}
+
+.table-bordered {
+    text-align: center;
+}
+
+.edit-todo {
+    text-align: center;
+}
