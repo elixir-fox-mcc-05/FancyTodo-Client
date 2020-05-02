@@ -212,7 +212,7 @@ function fetchTodo() {
                     <div class="card text-white bg-${color[counter]} mb-3">
                         <div class="card-header d-flex flex-row justify-content-between">
                             <div class="btn btn-${color[counter]}">
-                                <input type="checkbox" checked value="" onchange="updateStatus(${todo.id})" id="checkList">
+                                <input type="checkbox" checked value="" onchange="updateStatus(${todo.id})" id="checkList-${todo.id}">
                             </div>
                             <div>Deadline: ${newDate}</div>
                             <div>
@@ -226,13 +226,13 @@ function fetchTodo() {
                         </div>
                     </div>
                 `)
-                $('#checkList').val('');
+                $(`#checkList-${todo.id}`).val('');
                 } else {
                     $('#main-section').append(`
                     <div class="card text-white bg-${color[counter]} mb-3">
                         <div class="card-header d-flex flex-row justify-content-between">
                             <div class="btn btn-${color[counter]}">
-                                <input type="checkbox" value="done" onchange="updateStatus(${todo.id})" id="checkList">
+                                <input type="checkbox" value="done" onchange="updateStatus(${todo.id})" id="checkList-${todo.id}">
                             </div>
                             <div>Deadline: ${newDate}</div>
                             <div>
@@ -422,12 +422,12 @@ $('#title').on('keyup', function() {
 
 function updateStatus(id) {
     let status = null;
-    if ($('#checkList').val() !== '') {
+    if ($(`#checkList-${id}`).val() !== '') {
         status = true;
-        $('#checkList').val('');
+        $(`#checkList-${id}`).val('');
     } else {
         status = false;
-        $('#checkList').val('done');
+        $(`#checkList-${id}`).val('done');
     }
     $.ajax({
         method: 'patch',
