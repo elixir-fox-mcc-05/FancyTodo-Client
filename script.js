@@ -63,9 +63,31 @@ function backToMainPage(){
     auth()
 }
 
+function onSignIn(googleUser) {
+    var id_token = googleUser.getAuthResponse().id_token;
+
+    $.ajax({
+        url: `${baseUrl}/google-signin`,
+        method: 'POST',
+        headers: {
+            google_token: id_token
+        }
+    })
+        .done(data => {
+            localStorage.setItem('token', data.token);
+            auth();
+        })
+        .fail(err => {
+            console.log(err);
+        })
+}
+
 function signout(){
-    localStorage.clear()
-    auth()
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+        localStorage.clear()
+        auth()
+    });
 }
 
 function fetchData(){

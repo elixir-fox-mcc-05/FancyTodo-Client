@@ -3,6 +3,9 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=0.1">
+
+        <meta name="google-signin-client_id" content="511354784307-st2lcgnkpk629qhmi51ldgp20cb62d0h.apps.googleusercontent.com">
+
         <title>Fancy Todo</title>
     </head>
     <body>
@@ -23,6 +26,9 @@
                 </div>
                 <input type="submit" class="btn" value="signin">
             </form>
+
+            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+            
         </div>
         <div id="signup-page">
             <form onsubmit="signup(event)">
@@ -115,6 +121,10 @@
                 </div>
             </div>
         </div>
+
+        <!-- google signin api -->
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
+
         <script
             src="https://code.jquery.com/jquery-3.5.0.js"
             integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc="
