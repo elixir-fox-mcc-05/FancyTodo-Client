@@ -1,0 +1,56 @@
+body {
+    background-color: whitesmoke;
+}
+
+#landingPage {
+    width: 100vw;
+    height: 100vh;
+    background-image: url('/assets/img/bg.jpg');
+    background-size: cover;
+}
+
+#home {
+    height: 100vh;
+}
+
+#login , #signup , #signupDone {
+    padding: 50px 50px;
+    background-color: rgb(245, 245, 245);
+    border-radius: 20px;
+}
+
+/* dashboard */
+
+#dashboard {
+    padding: 0;
+    margin: 0;
+}
+
+#main {
+    width: 100%;
+    height: 100vh;
+    padding: 50px;
+    background-color: white;
+}
+
+#sidebar {
+    padding: 50px 0 0 50px;
+}
+
+#sb-btn {
+    margin-left: 20px;
+}
+
+#editTask , #settings {
+    margin-top: -70px;
+}
+
+.themeBtn {
+    width: 50px; 
+    height: 50px; 
+    border-radius: 100%;
+}
+
+hr {
+    border: 0.08px solid #5e5e5e ;
+}
