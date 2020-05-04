@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <meta name="google-signin-client_id" content="426267124528-j7crr7p18lj14058gojr2krggruaf185.apps.googleusercontent.com">
+    <link rel="stylesheet" href="styles.css">
+    <title>FancyToDo</title>
+</head>
+<body>
+    <!-- LOGIN PAGE -->
+    <div id="loginPage" class="col-xs-1 text-center">
+        <!-- LOGIN -->
+        <h1 class="titleLogin">Fancy ToDo Apps</h1>
+        <p id="loginError" style="color: red;"></p>
+        <form id="formLoginPage">
+            <h3>E-mail :</h3>
+            <input id="loginEmail" type="text" placeholder="E-Mail">
+            <h3>Password :</h3>
+            <input id="loginPassword" type="password" placeholder="Password">
+            <br><br><button type="submit" class="button">Login</button>
+        </form><br>
+        <p>Or</p>
+        <div class="g-signin2" data-onsuccess="onSignIn"></div><br>
+        <!-- END LOGIN -->
+
+        <p>Don't have account? Please register here</p>
+        <button onclick="showRegister()" class="button">Register</button>
+    </div>
+    <!-- END LOGIN PAGE -->
+
+    <!-- REGISTER PAGE -->
+    <div id="registerPage" class="col-xs-1 text-center">
+        <h3>Register Your E-mail</h3>
+        <p id="registerError" style="color: red;"></p>
+        <form id="formRegisterPage" onsubmit="register(event)">
+            <h3>E-mail :</h3>
+            <input id="registerEmail" type="text" placeholder="E-Mail">
+            <h3>Password :</h3>
+            <input id="registerPassword" type="password" placeholder="Password">
+            <h3>Confirm Password :</h3>
+            <input id="registerConfirmPassword" type="password" placeholder="Password">
+            <br><br><button type="submit" class="button">Register</button>
+            <button type="button" onclick="cancelRegister()"class="button">Cancel</button>
+        </form>
+    </div>
+    <!-- END REGISTER PAGE -->
+
+    <!-- MAIN PAGE -->
+    <div id="mainPage">
+        <!-- LOGOUT -->
+        <nav style="padding: 5px; margin-bottom: 3px;">
+            <button 
+                id="buttonLogout" 
+                style="float: right; background-color: skyblue;"
+                onclick="logout()">
+                Logout
+            </button>
+        </nav>
+        <!-- END LOGOUT -->
+
+        
+        <h1  class="mx-auto" style="width: 200px;">ToDo List</h1>
+        <!-- ADD NEW TODO -->
+        <button onclick="showAddTodo()" id="buttonAddTodo" >Add New ToDo</button><br><br>
+        <div>
+            <form id="formAddTodo" onsubmit="inputAddTodo(event)">
+                <p id="addTodoError" style="color: red;"></p>
+                <label>Title : </label>
+                <input id="addTitle" type="text" placeholder="Title">
+                <br><label>Description : </label><br>
+                <textarea rows ="3" cols ="47" id ="addDescription" placeholder="Description"></textarea>            
+                <br><label>Due Date :</label>
+                <input id="add_due_date" type="date">
+                <br><button type="submit" class="button">Submit</button>
+                <button type="button" onclick="cancelAddTodo()"class="button">Cancel</button>
+            </form>
+        </div>
+        <!-- END ADD NEW TODO -->
+
+        <!-- SHOW TODO -->
+        <ol style="margin-bottom: 8px;" id="todoList" class="card-deck "></ol> 
+        <!-- END SHOW TODO LIST -->
+    </div>
+    <!-- END MAIN PAGE -->
+
+    <!-- UPDATE PAGE -->
+    <div id="formUpdatePage" class="col-xs-1 text-center">
+        <h3 class="mx-auto" style="width: 200px;">Update ToDo</h3>
+        <p id="updateError" style="color: red;"></p>
+        <form id="formUpdatePage" onsubmit="inputUpdateTodo(event)">
+            <input id="updateId" type="hidden">
+            <label>Title: </label><br>
+            <input id="updateTitle" type="text" placeholder="Title">
+            <br><label>Description: </label><br>
+            <textarea rows ="3" cols ="47" id ="updateDescription" placeholder="Description"></textarea>            
+            <br><label>Due Date:</label>
+            <input id="update_due_date" type="date">
+            <br><label>Status: </label><br>
+            <input type="radio" class="updateStatus" name="status" value="true"> 
+            <label>Finished</label><br>
+            <input type="radio" class="updateStatus" name="status" value="false">
+            <label>Unfinished</label>
+            <br><br><button type="submit" class="button">Update</button>
+        </form>
+        <br><button type="button" onclick="backMainPage() " class="button">Home</button>
+    </div>
+    <!-- END UPDATE PAGE -->
+
+    <!-- SCRIPT -->
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
+    <script src="main.js"></script>
+</body>
+</html>
