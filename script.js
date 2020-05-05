@@ -3,6 +3,7 @@ const baseUrl = 'http://localhost:3000'
 $( document ).ready(function(){
     authorize()
     if(localStorage.getItem('token')){
+        empty()
         fetchTodo()
     }
     $("#login-form").submit(function(event) {
@@ -17,9 +18,14 @@ $( document ).ready(function(){
         })
             .done(data => {
                 localStorage.setItem('token', data.Token)
+                authorize()
+                $("#succes-create").empty()
+                errorEmpty()
+                empty()
+                fetchTodo()
             })
             .fail(err => {
-                console.log(err.responseJSON.Message);
+                errorResponse(err)
             })
     })
     $("#register-form").submit(function(event) {
@@ -34,10 +40,14 @@ $( document ).ready(function(){
             },
         })
             .done(data => {
-                localStorage.setItem("Message", "Succes Create Account")
+                $("#succes-create").append(`
+                    "Succes Create Account"
+                `)
+                errorEmpty()
+                $('#login-page').show()
             })
             .fail(err => {
-                console.log(err.responseJSON.Message);
+                errorResponse(err)
             })
     })
 })
@@ -52,16 +62,17 @@ function authorize(){
         $('.create-todo').hide()
         $('.edit-todo').hide()
     } else {
-        $('#login-page').hide()
+        $('#login-page').show()
         $('#navbar-user').hide()
         $('#navbar-page').show()
         $('#main-page').hide()
-        $('#register-page').show()
+        $('#register-page').hide()
         $('.edit-todo').hide()
         $('.create-todo').hide()
     }
 }
 function logout(){
+    errorEmpty()
     FB.getLoginStatus(function(response) {
         if (response.status === 'connected') {
             FB.logout(function(response) {
@@ -92,6 +103,7 @@ function register(){
     $('.edit-todo').hide()
 }
 function homeUser(){
+    errorEmpty()
     $('#main-page').show();
     $('.create-todo').hide()
     $('.edit-todo').hide()
@@ -129,8 +141,17 @@ function GetTodo(value){
             `)
         })
         .fail(err => {
-            console.log(err.responseJSON.Message)
+            errorResponse(err)
         })
+}
+function errorResponse(err) {
+    errorEmpty()
+    $("#error").append(`
+        <p style="color:red;">${err.responseJSON.Message}<p>
+    `)
+}
+function errorEmpty(){
+    $("#error").empty()
 }
 
 function edit(){
@@ -154,10 +175,12 @@ function edit(){
         }
     })
         .done(response => {
+            errorEmpty()
             $('#main-page').show();
+            fetchTodo()
         })
         .fail(err=>{
-            console.log(err.responseJSON.Message)
+            errorResponse(err)
         })
 }
 
@@ -183,7 +206,6 @@ function fetchTodo(){
                 `)
             })
             $(".main-container").append(`
-                <br>
                 <div id="weather">
                     <p>Location = Depok</p>
                     <p>Date = ${data.Weather.dataseries[0].date}</p>
@@ -193,9 +215,12 @@ function fetchTodo(){
             `)
         })
         .fail(err => {
-            console.log(err.responseJSON.Message)
+            errorResponse(err)
         })
 }
+function empty() { 
+    $(".main-container").empty()
+ }
 
 function deleteTodo(value){  
     const token = localStorage.token
@@ -208,11 +233,12 @@ function deleteTodo(value){
     })
         .done(response => {
             console.log("Succes Delete Data")
+            errorEmpty()
             fetchTodo()
         })
-        .fail(err => [
-            console.log(err.responseJSON.Message)
-        ])
+        .fail(err => {
+            errorResponse(err)
+        })
 }
 
 function createTodo(event) {
@@ -234,16 +260,17 @@ function createTodo(event) {
       }
     })
       .done(function (response) {
+          errorEmpty()
         const Todos = response.Todos
         $('#table-todo').append(`
           <td>${Todos.title}</td>
-          <td>${element.description}</td>
-          <td>${element.due_date}</td>
+          <td>${Todos.description}</td>
+          <td>${Todos.due_date}</td>
         `)
         fetchTodo()
       })
-      .fail(function (err) {
-        console.log(err.responseJSON.Message)
+      .fail(err =>{
+          errorResponse(err)
       })
   }
 
@@ -258,10 +285,11 @@ function onSignIn(googleUser) {
     })
         .done(data => {
             localStorage.setItem('token', data.Token)
+            errorEmpty()
             authorize()
         })
         .fail(err => {
-            console.log(err.responseJSON.Message)
+            errorResponse(err)
         })
 }
 
@@ -280,11 +308,12 @@ function checkLoginState() {
                 })
                     .done(data => {
                         localStorage.setItem('token', data.Token)
+                        errorEmpty()
                         authorize()
 
                     })
                     .fail(err => {
-                        console.log(err.responseJSON.Message)
+                        errorResponse(err)
                     })
               });
         }
