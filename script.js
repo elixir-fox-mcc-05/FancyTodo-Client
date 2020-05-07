@@ -1,6 +1,7 @@
 "use strict"
 
 let baseUrl = 'http://localhost:3000'
+let idTemporary = "";
 $( document ).ready(function(){
     auth()
     $('#signin-form').submit(function(event) {
@@ -29,16 +30,20 @@ $( document ).ready(function(){
 
 function auth(){
     if (localStorage.token){
+        $('#signup-page').hide()
         $('#signin-page').hide()
         $('#main-page').show()
         $('#add-page').hide()
         $('#find-page').hide()
+        $('#update-page').hide()
         fetchData()
     } else {
+        $('#signup-page').hide()
         $('#signin-page').show()
         $('#main-page').hide()
         $('#add-page').hide()
         $('#find-page').hide()
+        $('#update-page').hide()
     }
 }
 
@@ -58,16 +63,17 @@ function showSignUpPage(){
 }
 
 function backToMainPage(){
+    event.preventDefault()
     $('#find-page').hide()
+    $('#update-page').hide()
     $('#main-page').show()
-    auth()
 }
 
 function onSignIn(googleUser) {
     var id_token = googleUser.getAuthResponse().id_token;
 
     $.ajax({
-        url: `${baseUrl}/google-signin`,
+        url: `${baseUrl}/users/google-signin`,
         method: 'POST',
         headers: {
             google_token: id_token
@@ -83,9 +89,15 @@ function onSignIn(googleUser) {
 }
 
 function signout(){
-    var auth2 = gapi.auth2.getAuthInstance();
+    const auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
         localStorage.clear()
+        $('#signup-page').hide()
+        $('#signin-page').show()
+        $('#main-page').hide()
+        $('#add-page').hide()
+        $('#find-page').hide()
+        $('#update-page').hide()
         auth()
     });
 }
@@ -103,21 +115,23 @@ function fetchData(){
             data.todos.forEach(el => {
                 $( ".main-container" ).append( 
                     `<div class="todo">
-                    <div class="todo-id">
-                            <h4>${el.id}</h4>
+                        <div class="todo-id">
+                            <h4>Id: ${el.id}</h4>
                         </div>
                         <div class="todo-title">
-                            <h4>${el.title}</h4>
+                            <h4>Title: ${el.title}</h4>
                         </div>
                         <div class="todo-description">
-                            <h4>${el.description}</h4>
+                            <h4>Description: ${el.description}</h4>
                         </div>
                         <div class="todo-status">
-                            <h4>${el.status}</h4>
+                            <h4>Status: ${el.status}</h4>
                         </div>
                         <div class="todo-due_date">
-                            <h4>${el.due_date}</h4>
+                            <h4>Due Date: ${el.due_date.slice(0,10)}</h4>
                         </div>
+                        <button onclick="deleteTodo(${el.id})">Delete</button>
+                        <button onclick="updateTodoForm(${el.id})">Update</button>
                     </div>`
                  )
             })
@@ -210,7 +224,7 @@ function findTodo(event) {
                         <input type="text" class="input" value="${el.status}"><br>
                     </div>
                     <div class="todo-due_date">
-                        <input type="date" class="input" value="${el.due_date.toJSON().slice(0,10)}"><br>
+                        <input type="date" class="input" value="${el.due_date.slice(0,10)}"><br>
                     </div>
                 </div>`
             )
@@ -221,22 +235,15 @@ function findTodo(event) {
     })
 }
 
-function deleteTodo(event) {
-    event.preventDefault()
-    let data = {
-        id: $('#id').val()
-    }
+function deleteTodo(id) {
     $.ajax({
         method: 'delete',
-        url: baseUrl + '/todos/:id',
-        data,
+        url: baseUrl + `/todos/${id}`,
         headers: {
             token: localStorage.token
         }
     })
     .done(_ => {
-        $('#find-page').hide()
-        $('#main-page').show()
         auth()
     })
     .fail(err => {
@@ -244,25 +251,100 @@ function deleteTodo(event) {
     })
 }
 
-function updateTodo(event) {
+function updateTodoForm(id) {
+    event.preventDefault()
+    idTemporary = id;
+    $("#main-page").hide();
+    $("#update-page").show();
+    $.ajax({
+        method: 'get',
+        url: baseUrl + `/todos/${id}`,
+        headers: {
+            token: localStorage.token
+        }
+    })
+    .done(data => {
+        $("#update-page").empty();
+        $( "#update-page" ).append(
+            `<div class="todo">
+                <form onsubmit="updateTodo(event)">
+                    <div class="div">
+                        <h5>Title</h5>
+                        <input type="text" class="input" id="title-edit" value="${data.todo.title}">
+                    </div>
+                    <div class="div">
+                        <h5>Description</h5>
+                        <input type="text" class="input" id="description-edit" value="${data.todo.description}">
+                    </div>
+                    <div class="div">
+                        <h5>Status</h5>
+                        <input type="text" class="input" id="status-edit" value="${data.todo.status}">
+                    </div>
+                    <div class="div">
+                        <h5>Due Date</h5>
+                        <input type="date" class="input" id="due_date-edit" value="${data.todo.due_date.slice(0,10)}">
+                    </div>
+                <input type="submit" class="btn" value="submit">
+                <input onclick="backToMainPage()" type="button" value="Cancel" class="cancelButton"/>
+                </form>
+            </div>`
+        )
+    })
+    .fail(err => {
+        console.log(err.responseJSON.message,'-error')
+    })
+}
+function updateTodo(event){
     event.preventDefault()
     let data = {
-        id: $('#id').val()
+        title: $('#title-edit').val(),
+        description: $('#description-edit').val(),
+        status: $('#status-edit').val(),
+        due_date: $('#due_date-edit').val()
     }
+    console.log(data)
     $.ajax({
         method: 'put',
-        url: baseUrl + '/todos/:id',
+        url: baseUrl + `/todos/${idTemporary}`,
         data,
         headers: {
             token: localStorage.token
         }
     })
     .done(_ => {
-        $('#find-page').hide()
+        $('#update-page').hide()
         $('#main-page').show()
         auth()
     })
     .fail(err => {
-        console.log(err.responseJSON.message,'-error')
+        console.log(err,'-error')
+    })
+}
+
+const randomRESEP = () => {
+    $.ajax({
+        method : "get",
+        url: baseUrl + `/foodrecipe`,
+    })
+    .done(data => {
+        let randomResep = Math.floor(Math.random() * 9);
+        console.log(data)
+        let resep = data.recipes.results[randomResep]
+        $("#resep").empty()
+        $("#resep").append(`
+            <table border>
+                <tr>
+                    <th>JUDUL</th>
+                    <th>INGREDIENTS</th>
+                </tr>
+                <tr>
+                    <td>${resep.title}</td>
+                    <td>${resep.ingredients}</td>
+                </tr>
+            </table>
+        `)
+    })
+    .fail(err => {
+        console.log(err);
     })
 }

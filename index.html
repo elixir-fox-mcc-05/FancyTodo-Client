@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=0.1">
+        <link rel="stylesheet" href="style.css">
 
         <meta name="google-signin-client_id" content="511354784307-st2lcgnkpk629qhmi51ldgp20cb62d0h.apps.googleusercontent.com">
 
@@ -54,11 +55,13 @@
             <div class="add-btn">
                 <button onclick="showAddPage()">Add</button>
             </div>
-            <div class="find-btn">
-                <button onclick="showFindPage()">Find</button>
-            </div>
-            <div class="update-btn">
-                <button onclick="showUpdatePage()">Update</button>
+            <!--
+                <div class="find-btn">
+                    <button onclick="showFindPage()">Find</button>
+                </div>
+            -->
+            <button id="random-resep" type="button" onclick="randomRESEP()">RANDOM RESEP</button>
+            <div id="resep">
             </div>
         </div>
         <div id="add-page">
@@ -92,6 +95,8 @@
                 </div>
             </div>
         </div>
+        <div id="update-page">
+        </div>
         <div id="find-page">
             <navbar>
                 <h1>My Fancy Todos</h1>
@@ -100,20 +105,17 @@
             <div class="find-container">
                 <h1>Find Todo</h1>
                 <div class="signin-content">
-                    <form onsubmit="deleteTodo(event)">
-                        <form onsubmit="updateTodo(event)">
-                            <form onsubmit="findTodo(event)">
-                                <div class="div">
-                                    <h5>Id</h5>
-                                    <input type="number" class="input" id="id">
-                                </div>
-                                <input type="submit" class="btn" value="find">
-                            </form>
-                            <div class="find-result">
-                            </div>
-                            <input type="submit" class="btn" value="update">
-                        </form>
-                        <input type="submit" class="btn" value="delete">
+                    <form onsubmit="findTodo(event)">
+                        <div class="div">
+                            <h5>Id</h5>
+                            <input type="number" class="input" id="id">
+                        </div>
+                        <input type="submit" class="btn" value="find">
+                        <div class="find-result">
+                        </div>
+                    </form>
+                    <form onsubmit="updateTodo(event)">
+                        <input type="submit" class="btn" value="update">
                     </form>
                     <form onsubmit="backToMainPage()">
                         <input type="submit" class="btn" value="back">
