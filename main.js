@@ -161,17 +161,6 @@ function myProject(event) {
             })
 
         }
-        
-        // $.ajax({
-        //     method: 'GET',
-        //     url: baseUrl+'/user',
-        // })
-        // .done(user => {
-        //     for(let j in user.data) {
-        //         // console.log(user.data[j].id);
-        //         $('#member').append(`<option value="${user.data[j].id}">${user.data[j].email}</option>`)
-        //     }
-        // })
     })
     .fail(err => {
         console.log(err);
@@ -377,13 +366,11 @@ function getStatus () {
     .done(data => {
         localStorage.setItem('id_user', data.result.id)
         $('#navbar-li').empty();
-        // console.log(data.result);
         let button = 'RETIRE'
         if (!data.result.status) button = 'AVALIABLE'
         $('#navbar-li').append(`
             <a class="nav-link" data-content="${data.result.status}" id="btn-status-${data.result.id}">${button}<span class="sr-only" class="retire"></span></a>
         `)
-        // <button class="edit-button" id="btn-check-${data.Todo[i].id}">
         $(`#btn-status-${data.result.id}`).on('click', (event) => {
             changeStatus(event,data.result)
         })
