@@ -409,6 +409,37 @@ function showRemoveConfirm(id, name) {
     `)
 }
 
+function showRemoveProjectConfirm(id, name) {
+  $('#delete').show()
+  $('#delete').html(`<div class="box">
+                    <h1 class="title">Delete?</h1>
+                    <h3 style="margin-bottom:15px;">are you sure want to delete ${name} ?</h3>
+                    <button class="button is-block is-danger is-large is-fullwidth" onclick="removeProject(${id})">Delete</button>
+                    <section class="column is-small"></section>
+                    <button class="button is-block is-info is-yellow is-small is-half" onclick="$('#delete').hide()">Cancel</button>
+                    <div>
+    `)
+}
+
+
+function removeProject(id) {
+  $('#delete').hide()
+  const token = localStorage.getItem('token')
+  $.ajax({
+    method: 'delete',
+    url: `http://localhost:3000/projects/delete/${id}`,
+    params: { id },
+    headers: { token }
+  })
+    .done(response => {
+      fetchProject()
+      showList()
+    })
+    .fail(err => {
+      console.log(err.responseJSON)
+    })
+
+}
 
 function remove(id) {
   $('#delete').hide()
@@ -481,13 +512,47 @@ function showEditProjectPage(id, name) {
                                       <h2 id="editError" class=""></h2>
                                     </article>
                     <h1 class="column">title</h1>
-                    <input class="input is-medium" type="text" placeholder="title" id="editTitle" value="${name}"><br>
+                    <input class="input is-medium" type="text" placeholder="title" id="editProjectName" value="${name}"><br>
                     </div>
                     <button class="button is-block is-info is-large is-fullwidth" onclick="updateProject('${id}','${name}')">Edit project</button>
                     <div>
     `)
   $('#editErrorHeader').hide()
 }
+
+function updateProject(id) {
+  const token = localStorage.getItem('token')
+
+  name = $('#editProjectName').val()
+  // console.log(due_date)
+  $.ajax({
+    method: 'put',
+    url: `http://localhost:3000/projects/edit/${id}`,
+    headers: {
+      token
+    },
+    data: {
+      name
+    }
+  })
+
+    .done(response => {
+      //      console.log("eh masuk")
+      fetchProject()
+      showList()
+    })
+
+    .fail(err => {
+      let error = err.responseJSON.err
+      console.log(error)
+      $('#editErrorHeader').show()
+      $('#editError').text(error[0])
+      //      $('#editError').html(err.responseJSON.err)
+      //      console.log("eh gak")
+      //      console.log(err)
+    })
+  }
+
 
 function update(id) {
   const token = localStorage.getItem('token')
