@@ -226,12 +226,8 @@ function fetchProject() {
                     <td>Name</td>
                     <td>Actions</td>
                 </tr>`)
-      const toDo = response.data
-      // console.log(toDo)
-      // $('#listtitle').html(`welcome back ${toDo[0].User.first_name} ${toDo[0].User.last_name}, here's your toDo List`)
-      //      console.log(response)
-      toDo.forEach(temp => {
-        var date = new Date(temp.due_date)
+      const projects = response.data
+      projects.forEach(temp => {
         $('#projectTable').append(`
         <tr>
             <td><a href="javascript:selectProject(${temp.Project.id},'${temp.Project.name}')">${temp.Project.name}</a></td>
@@ -274,26 +270,11 @@ function addProject() {
 }
 
 function selectProject(id,name){
-  // const token = localStorage.getItem('token')
   localStorage.setItem('ProjectId', id)
   localStorage.setItem('ProjectName',name)
   hideAll()
   checkProjectSelect()
-  // showList()
-  // $('#list').show()
-  // $.ajax({
-  //   method: 'GET',
-  //   url: 'http://localhost:3000/pass/',
-  //   headers: {
-  //     token
-  //   }
-  // })
-  //   .done(function (response) {
-
-  //   })
-  //   .fail(function (err) {
-  //     console.log(err.responseJSON)
-  //   })
+  
 }
 
 function inviteProject(){
@@ -367,7 +348,7 @@ function showAddPage() {
 
 function showAddProjectPage() {
   hideAll()
-  $('#addErrorHeader').hide()
+  $('#addErrorProjectHeader').hide()
   $('#addProject').show()
 }
 
@@ -525,7 +506,7 @@ function showEditProjectPage(id, name) {
   $('#editErrorHeader').hide()
 }
 
-function showInviteProjectPage(id) {
+function showInviteProjectPage(id,name) {
   console.log(id)
   hideAll()
   $('#edit').show()
@@ -543,7 +524,7 @@ function showInviteProjectPage(id) {
                     <h1 class="column">Name</h1>
                     <input class="input is-medium" type="text" placeholder="title" id="invitename" value=""><br>
                     <hr class="login-hr">
-                    <button class="button is-block is-info is-large is-fullwidth" onclick="inviteProject('${id}')">Edit project</button>
+                    <button class="button is-block is-info is-large is-fullwidth" onclick="inviteProject('${id}')">Invite to ${name}</button>
                     </div>
     `)
   $('#editErrorHeader').hide()
@@ -554,6 +535,7 @@ function inviteProject(id) {
   console.log(id)
   name = $('#invitename').val()
   UserId = $('#inviteUserId').val()
+  ProjectId = id
   // console.log(due_date)
   $.ajax({
     method: 'post',
@@ -563,7 +545,7 @@ function inviteProject(id) {
     },
     data: {
       name,
-      UserId : id,
+      UserId,
       ProjectId
     }
   })
@@ -648,7 +630,7 @@ function update(id) {
     })
 
     .fail(err => {
-      let error = err.responseJSON.err
+      let error = err.responseJSON
       console.log(error)
       $('#editErrorHeader').show()
       $('#editError').text(error[0])
