@@ -489,6 +489,7 @@ function showEditPage(id, title, description, due_date, status, UserId) {
                     <div class="column"><input class="radio" type="radio" id="editStatus" name="status" value="false" ${!status ? "checked" : ""}><h2>not completed</h2></div>
                     <div class="column"><input class="radio" type="radio" id="editStatus" name="status" value="true" ${status ? "checked" : ""}><h2>completed</h2></div>
                     </div>
+                    <hr class="login-hr">
                     <button class="button is-block is-info is-large is-fullwidth" onclick="update('${id}','${title}','${description}','${due_date}','${status}','${UserId}')">Edit</button>
                     <div>
     `)
@@ -507,14 +508,74 @@ function showEditProjectPage(id, name) {
                                       </div>
                                       <h2 id="editError" class=""></h2>
                                     </article>
-                    <h1 class="column">title</h1>
+                    <h1 class="column">Project Name</h1>
                     <input class="input is-medium" type="text" placeholder="title" id="editProjectName" value="${name}"><br>
-                    </div>
+                    <hr class="login-hr">
                     <button class="button is-block is-info is-large is-fullwidth" onclick="updateProject('${id}','${name}')">Edit project</button>
-                    <div>
+                    </div>
     `)
   $('#editErrorHeader').hide()
 }
+
+function showInviteProjectPage(id) {
+  console.log(id)
+  hideAll()
+  $('#edit').show()
+  $('#edit').html(`<div class="box">
+                    <h1 class="hero-body title">Invite to Project</h1>
+                    <article id="editErrorHeader" class="is-offset-3 message is-danger">
+                                      <div class="message-header  is-half">
+                                        <p>Error</p>
+                                      </div>
+                                      <h2 id="editError" class=""></h2>
+                                    </article>
+                    <h1 class="column">UserId</h1>
+                    <input class="input is-medium" type="text" placeholder="title" id="inviteUserId" value=""><br>
+                    
+                    <h1 class="column">Name</h1>
+                    <input class="input is-medium" type="text" placeholder="title" id="invitename" value=""><br>
+                    <hr class="login-hr">
+                    <button class="button is-block is-info is-large is-fullwidth" onclick="inviteProject('${id}')">Edit project</button>
+                    </div>
+    `)
+  $('#editErrorHeader').hide()
+}
+
+function inviteProject(id) {
+  const token = localStorage.getItem('token')
+  console.log(id)
+  name = $('#invitename').val()
+  UserId = $('#inviteUserId').val()
+  // console.log(due_date)
+  $.ajax({
+    method: 'post',
+    url: `http://localhost:3000/pass/invite`,
+    headers: {
+      token
+    },
+    data: {
+      name,
+      UserId : id,
+      ProjectId
+    }
+  })
+
+    .done(response => {
+      //      console.log("eh masuk")
+      fetchProject()
+      showProjectList()
+    })
+
+    .fail(err => {
+      let error = err.responseJSON.err
+      console.log(error)
+      $('#editErrorHeader').show()
+      $('#editError').text(error[0])
+      //      $('#editError').html(err.responseJSON.err)
+      //      console.log("eh gak")
+      //      console.log(err)
+    })
+  }
 
 function updateProject(id) {
   const token = localStorage.getItem('token')
