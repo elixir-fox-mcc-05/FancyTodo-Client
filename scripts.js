@@ -161,6 +161,7 @@ function fetchToDo() {
   console.log('f1')
   const token = localStorage.getItem('token')
   const ProjectId = localStorage.getItem('ProjectId')
+  console.log('proejctid', ProjectId)
   $.ajax({
     method: 'POST',
     url: 'http://localhost:3000/todos',
@@ -376,18 +377,20 @@ function addToDo() {
   let title = $('#addTitle').val()
   let description = $('#addDescription').val()
   let due_date = $('#adddue_date').val()
+  let ProjectId = localStorage.getItem('ProjectId')
   //  $('#sumitLogin').addClass('is-loading')
   console.log(title, description, due_date)
   $.ajax({
     method: 'POST',
-    url: 'http://localhost:3000/todos',
+    url: 'http://localhost:3000/todos/add',
     headers: {
       token
     },
     data: {
       title,
       description,
-      due_date
+      due_date,
+      ProjectId
     }
   })
     .done(response => {
