@@ -230,9 +230,10 @@ function fetchProject() {
         var date = new Date(temp.due_date)
         $('#projectTable').append(`
         <tr>
-            <td>${temp.name}</td>
-            <td><button class="button is-small is-primary has-background-info" onclick="showEditProjectPage(${temp.id},'${temp.name}')">edit</button>
-            <button  class="button is-small is-primary has-background-danger" onclick="showRemoveProjectConfirm('${temp.id}','${temp.name}')">delete</button></td>
+            <td>${temp.Project.name}</td>
+            <td><button class="button is-small is-primary has-background-info" onclick="showEditProjectPage(${temp.Project.id},'${temp.Project.name}')">edit</button>
+            <button class="button is-small is-primary has-background-primary" onclick="showInviteProjectPage(${temp.Project.id},'${temp.Project.name}')">invite</button>
+            <button  class="button is-small is-primary has-background-danger" onclick="showRemoveProjectConfirm('${temp.Project.id}','${temp.Project.name}')">delete</button></td>
         </tr><br>
          `)
       })
@@ -412,7 +413,7 @@ function showRemoveConfirm(id, name) {
 function showRemoveProjectConfirm(id, name) {
   $('#delete').show()
   $('#delete').html(`<div class="box">
-                    <h1 class="title">Delete?</h1>
+                    <h1 class="title">Delete Project?</h1>
                     <h3 style="margin-bottom:15px;">are you sure want to delete ${name} ?</h3>
                     <button class="button is-block is-danger is-large is-fullwidth" onclick="removeProject(${id})">Delete</button>
                     <section class="column is-small"></section>
@@ -433,7 +434,7 @@ function removeProject(id) {
   })
     .done(response => {
       fetchProject()
-      showList()
+      showProjectList()
     })
     .fail(err => {
       console.log(err.responseJSON)
@@ -495,16 +496,11 @@ function showEditPage(id, title, description, due_date, status, UserId) {
 }
 
 function showEditProjectPage(id, name) {
-  //  due_date = new Date(due_date)
-  //  console.log(due_date)
+  console.log(id)
   hideAll()
-  // var now = new Date(due_date);
-  // var day = ("0" + now.getDate()).slice(-2);
-  // var month = ("0" + (now.getMonth() + 1)).slice(-2);
-  //    var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
   $('#edit').show()
   $('#edit').html(`<div class="box">
-                    <h1 class="hero-body title">Edit ToDo</h1>
+                    <h1 class="hero-body title">Edit Project</h1>
                     <article id="editErrorHeader" class="is-offset-3 message is-danger">
                                       <div class="message-header  is-half">
                                         <p>Error</p>
@@ -522,7 +518,7 @@ function showEditProjectPage(id, name) {
 
 function updateProject(id) {
   const token = localStorage.getItem('token')
-
+  console.log(id)
   name = $('#editProjectName').val()
   // console.log(due_date)
   $.ajax({
@@ -539,7 +535,7 @@ function updateProject(id) {
     .done(response => {
       //      console.log("eh masuk")
       fetchProject()
-      showList()
+      showProjectList()
     })
 
     .fail(err => {
