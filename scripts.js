@@ -171,6 +171,7 @@ function fetchToDo() {
 
   })
     .done(function (response) {
+      console.log('todos',response.todos)
       console.log('f')
       $('#toDoTable').empty()
       $('#toDoTable').append(`
@@ -230,7 +231,7 @@ function fetchProject() {
         var date = new Date(temp.due_date)
         $('#projectTable').append(`
         <tr>
-            <td>${temp.Project.name}</td>
+            <td><a href="javascript:selectProject(${temp.Project.id})">${temp.Project.name}</a></td>
             <td><button class="button is-small is-primary has-background-info" onclick="showEditProjectPage(${temp.Project.id},'${temp.Project.name}')">edit</button>
             <button class="button is-small is-primary has-background-primary" onclick="showInviteProjectPage(${temp.Project.id},'${temp.Project.name}')">invite</button>
             <button  class="button is-small is-primary has-background-danger" onclick="showRemoveProjectConfirm('${temp.Project.id}','${temp.Project.name}')">delete</button></td>
@@ -274,6 +275,7 @@ function selectProject(id){
   localStorage.setItem('ProjectId', id)
   hideAll()
   checkProjectSelect()
+  // showList()
   // $('#list').show()
   // $.ajax({
   //   method: 'GET',
