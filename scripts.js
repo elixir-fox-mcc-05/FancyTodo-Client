@@ -121,6 +121,7 @@ function checkStorage() {
     $('#projectlist').show()
     $('#todoOption').hide()
     fetchProject()
+    checkProjectSelect()
     // fetchToDo()
   } else {
     $('#landingPage').show()
@@ -133,6 +134,15 @@ function checkStorage() {
   }
 }
 
+function checkProjectSelect(){
+  if(localStorage.ProjectId){
+    hideAll()
+    $('#list').show()
+    $('#todoOption').show()
+    fetchToDo()
+  }
+}
+
 function hideAll() {
   $('#home').hide()
   $('#edit').hide()
@@ -142,6 +152,7 @@ function hideAll() {
   $('#register').hide()
   $('#delete').hide()
   $('#projectlist').hide()
+  $('#addProject').hide()
 }
 
 function fetchToDo() {
@@ -205,32 +216,26 @@ function fetchProject() {
     .done(function (response) {
       console.log(response.data)
       // console.log('f')
-      // $('#toDoTable').empty()
-      // $('#toDoTable').append(`
-      //           <tr>
-      //               <td>Title</td>
-      //               <td>Description</td>
-      //               <td>Status</td>
-      //               <td>Due Date</td>
-      //               <td>Actions</td>
-      //           </tr>`)
-      // const toDo = response.todos
-      // // console.log(toDo)
+      $('#projectTable').empty()
+      $('#projectTable').append(`
+                <tr>
+                    <td>Name</td>
+                    <td>Actions</td>
+                </tr>`)
+      const toDo = response.data
+      // console.log(toDo)
       // $('#listtitle').html(`welcome back ${toDo[0].User.first_name} ${toDo[0].User.last_name}, here's your toDo List`)
-      // //      console.log(response)
-      // toDo.forEach(temp => {
-      //   var date = new Date(temp.due_date)
-      //   $('#toDoTable').append(`
-      //   <tr>
-      //       <td>${temp.title}</td>
-      //       <td>${temp.description}</td>
-      //       <td>${temp.status ? 'completed' : 'incompleted'}</td>
-      //       <td>${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}</td>
-      //       <td><button class="button is-small is-primary has-background-info" onclick="showEditPage(${temp.id},'${temp.title}','${temp.description}','${temp.due_date}',${temp.status},${temp.UserId})">edit</button>
-      //       <button  class="button is-small is-primary has-background-danger" onclick="showRemoveConfirm('${temp.id}','${temp.title}')">delete</button></td>
-      //   </tr><br>
-      //    `)
-      // })
+      //      console.log(response)
+      toDo.forEach(temp => {
+        var date = new Date(temp.due_date)
+        $('#projectTable').append(`
+        <tr>
+            <td>${temp.name}</td>
+            <td><button class="button is-small is-primary has-background-info" onclick="showEditProjectPage(${temp.id},'${temp.name}')">edit</button>
+            <button  class="button is-small is-primary has-background-danger" onclick="showRemoveProjectConfirm('${temp.id}','${temp.name}')">delete</button></td>
+        </tr><br>
+         `)
+      })
     })
     .fail(function (err) {
       console.log(err.responseJSON)
@@ -238,14 +243,37 @@ function fetchProject() {
 }
 
 function addProject() {
+  const token = localStorage.getItem('token')
 
+  let name = $('#addProjectName').val()
+  console.log(name)
+  $.ajax({
+    method: 'POST',
+    url: 'http://localhost:3000/projects/add',
+    headers: {
+      token
+    },
+    data: {
+      name
+    }
+  })
+    .done(response => {
+      fetchProject()
+      showProjectList()
+    })
+    .fail(err => {
+      let error = err.responseJSON.err
+      $('#addErrorHeader').show()
+      $('#addError').text(error[0])
+    })
 }
 
 function selectProject(id){
   // const token = localStorage.getItem('token')
   localStorage.setItem('ProjectId', id)
   hideAll()
-  $('#list').show()
+  checkProjectSelect()
+  // $('#list').show()
   // $.ajax({
   //   method: 'GET',
   //   url: 'http://localhost:3000/pass/',
@@ -259,6 +287,10 @@ function selectProject(id){
   //   .fail(function (err) {
   //     console.log(err.responseJSON)
   //   })
+}
+
+function inviteProject(){
+
 }
 
 function register(userdata) {
@@ -329,7 +361,7 @@ function showAddPage() {
 function showAddProjectPage() {
   hideAll()
   $('#addErrorHeader').hide()
-  $('#add').show()
+  $('#addProject').show()
 }
 
 function addToDo() {
@@ -426,6 +458,32 @@ function showEditPage(id, title, description, due_date, status, UserId) {
                     <div class="column"><input class="radio" type="radio" id="editStatus" name="status" value="true" ${status ? "checked" : ""}><h2>completed</h2></div>
                     </div>
                     <button class="button is-block is-info is-large is-fullwidth" onclick="update('${id}','${title}','${description}','${due_date}','${status}','${UserId}')">Edit</button>
+                    <div>
+    `)
+  $('#editErrorHeader').hide()
+}
+
+function showEditProjectPage(id, name) {
+  //  due_date = new Date(due_date)
+  //  console.log(due_date)
+  hideAll()
+  // var now = new Date(due_date);
+  // var day = ("0" + now.getDate()).slice(-2);
+  // var month = ("0" + (now.getMonth() + 1)).slice(-2);
+  //    var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
+  $('#edit').show()
+  $('#edit').html(`<div class="box">
+                    <h1 class="hero-body title">Edit ToDo</h1>
+                    <article id="editErrorHeader" class="is-offset-3 message is-danger">
+                                      <div class="message-header  is-half">
+                                        <p>Error</p>
+                                      </div>
+                                      <h2 id="editError" class=""></h2>
+                                    </article>
+                    <h1 class="column">title</h1>
+                    <input class="input is-medium" type="text" placeholder="title" id="editTitle" value="${name}"><br>
+                    </div>
+                    <button class="button is-block is-info is-large is-fullwidth" onclick="updateProject('${id}','${name}')">Edit project</button>
                     <div>
     `)
   $('#editErrorHeader').hide()

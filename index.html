@@ -195,7 +195,7 @@
                 </section>
 
                 <div class="is-full">
-                    <table id="toDoTable" class="table is-info has-background-light is-fullwidth">
+                    <table id="projectTable" class="table is-info has-background-light is-fullwidth">
 
 
                         <tr>
@@ -239,6 +239,28 @@
                         </div>
                     </div>
                     <button class="button is-block is-info is-medium is-fullwidth" onclick="addToDo()">add</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="addProject" class="column is-half  is-offset-3 has-text-centered" style="bottom : 10%;">
+            <div class="box">
+                <h1 class="hero-body title">add new ToDo's</h1>
+                <article id="addErrorHeader" class="is-offset-3 message is-danger">
+                    <div style="position:static" class="message-header  is-half">
+                        <p>Error</p>
+                    </div>
+                    <h2 id="addError" class="column is-size-4"></h2>
+                </article>
+                <!--                <h2 id="addError" class=""></h2>-->
+                <div class="column is-6 is-offset-3">
+                    <h1 class="column">Name</h1>
+                    <div class="field">
+                        <div class="control">
+                            <input class="input is-medium" type="text" placeholder="title" id="addProjectName"><br>
+                        </div>
+                    </div>
+                    <button class="button is-block is-info is-medium is-fullwidth" onclick="addProject()">add</button>
                 </div>
             </div>
         </div>
