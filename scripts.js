@@ -93,9 +93,11 @@ function login(email, password) {
   })
     .done(response => {
       const token = response.token
+      // const loginName = `${response.first_name} ${response.last_name}`
       $('#loginEmail').val('')
       $('#loginPassword').val('')
       localStorage.setItem('token', token)
+      // localStorage.setItem('name', loginName)
       checkStorage()
 
 
@@ -184,7 +186,7 @@ function fetchToDo() {
                 </tr>`)
       const toDo = response.todos
       // console.log(toDo)
-      $('#listtitle').html(`welcome back ${toDo[0].User.first_name} ${toDo[0].User.last_name}, here's your toDo List`)
+      $('#listtitle').html(`here's your toDo List for ${localStorage.ProjectName}`)
       //      console.log(response)
       toDo.forEach(temp => {
         var date = new Date(temp.due_date)
@@ -231,7 +233,7 @@ function fetchProject() {
         var date = new Date(temp.due_date)
         $('#projectTable').append(`
         <tr>
-            <td><a href="javascript:selectProject(${temp.Project.id})">${temp.Project.name}</a></td>
+            <td><a href="javascript:selectProject(${temp.Project.id},'${temp.Project.name}')">${temp.Project.name}</a></td>
             <td><button class="button is-small is-primary has-background-info" onclick="showEditProjectPage(${temp.Project.id},'${temp.Project.name}')">edit</button>
             <button class="button is-small is-primary has-background-primary" onclick="showInviteProjectPage(${temp.Project.id},'${temp.Project.name}')">invite</button>
             <button  class="button is-small is-primary has-background-danger" onclick="showRemoveProjectConfirm('${temp.Project.id}','${temp.Project.name}')">delete</button></td>
@@ -270,9 +272,10 @@ function addProject() {
     })
 }
 
-function selectProject(id){
+function selectProject(id,name){
   // const token = localStorage.getItem('token')
   localStorage.setItem('ProjectId', id)
+  localStorage.setItem('ProjectName',name)
   hideAll()
   checkProjectSelect()
   // showList()
