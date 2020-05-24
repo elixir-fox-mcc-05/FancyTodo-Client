@@ -2,7 +2,7 @@ $(document).ready(function () {
   //    $('#edit').hide()
   //    $('#list').hide()
   //    $('#add').hide()
-  
+
   $('#login').on('submit', function (event) {
     event.preventDefault()
     const email = $('#loginEmail').val()
@@ -19,64 +19,65 @@ $(document).ready(function () {
     data.password = $('#regPassword').val()
     register(data)
   })
-//    $('#login').hide()
-//    $('#home').show()
-    
-    home() 
-    checkStorage()
+  $('#login').hide()
+  $('#home').show()
+
+  home()
+  checkStorage()
 })
 
-function home(){
-    $('#homeContent').empty()
-    hideAll()
-    $('#home').show()
-    $.ajax({
+function home() {
+  $('#homeContent').empty()
+  hideAll()
+  $('#home').show()
+  $.ajax({
     method: 'GET',
     url: 'http://localhost:3000/holidays'
-    })
-    
+  })
+
     .done(response => {
-        console.log(response)
-        let today = new Date()
-        let todaymonth = new Date().toLocaleString('default', { month: 'long' })
-        $('#homeContent').html(`
+      $('#holidayList').empty()
+      console.log(response)
+      let today = new Date()
+      let todaymonth = new Date().toLocaleString('default', { month: 'long' })
+      $('#homeContent').html(`
             <h1>${todaymonth}<h1>
             <div class="column"></div>
             
         `)
-        let temp = ``
-        for (let i = 0; i < (new Date(today.getFullYear(), today.getMonth(),0).getDate()); i++){
-            temp += `<div class="columns">`
-            for(let o = 0; o < 7 ; o++){
-//                console.log(response.data[0])
-                for(let x = 0; x < response.data.length; x++){
-//                    console.log(response.data[x])
-//                    console.log(i+1,response.data[x].date.datetime.day)
-                    if(today.getMonth()+1 == response.data[x].date.datetime.month){
-                        if(`${i+1}` == `${response.data[x].date.datetime.day}`){
-                             temp += `<div class="column has-text-centered" style="background-color:red;border-radius:50%;height:60px;">${i+1}</div>`
-                             $('#holidayList').append(`<p>${response.data[x].date.datetime.day} : ${response.data[x].name}</p>`)
-                        }else if (today.getDate() == i+1){
-                            temp += `<div class="column has-text-centered" style="background-color:powderblue;border-radius:50%;height:60px;">${i+1}</div>`
-                        }else {
-                             temp += `<div class="column has-text-centered" style="border-radius:50%;height:60px;">${i+1}</div>`
-                        }
-                        break;
-                    }
-                }   
-                i++
+      let temp = ``
+      for (let i = 0; i < (new Date(today.getFullYear(), today.getMonth(), 0).getDate()); i++) {
+        temp += `<div class="columns">`
+        for (let o = 0; o < 7; o++) {
+          //                console.log(response.data[0])
+          for (let x = 0; x < response.data.length; x++) {
+            //                    console.log(response.data[x])
+            //                    console.log(i+1,response.data[x].date.datetime.day)
+            if (today.getMonth() + 1 == response.data[x].date.datetime.month) {
+              if (`${i + 1}` == `${response.data[x].date.datetime.day}`) {
+                temp += `<div class="column has-text-centered" style="background-color:red;border-radius:50%;height:60px;">${i + 1}</div>`
+                $('#holidayList').append(`<p>${response.data[x].date.datetime.day} : ${response.data[x].name}</p>`)
+              } else if (today.getDate() == i + 1) {
+                temp += `<div class="column has-text-centered" style="background-color:powderblue;border-radius:50%;height:60px;">${i + 1}</div>`
+              } else {
+                temp += `<div class="column has-text-centered" style="border-radius:50%;height:60px;">${i + 1}</div>`
+              }
+              break;
             }
-            temp += `</div>`
-            $('#homeContent').append(temp)
-            temp = ``
+          }
+          i++
         }
+        temp += `</div>`
+        $('#homeContent').append(temp)
+        temp = ``
+      }
 
     })
-    
+
     .fail(err => {
       console.log(err.responseJSON)
     })
-    
+
 }
 
 function login(email, password) {
@@ -100,11 +101,11 @@ function login(email, password) {
 
     })
     .fail(err => {
-//      console.log(err)
-//      let error = err.responseJSON.err.split(",")
+      //      console.log(err)
+      //      let error = err.responseJSON.err.split(",")
       $('#loginErrorHeader').show()
       $('#loginError').text(err.responseJSON.error)
-//      console.log(err.responseJSON)
+      //      console.log(err.responseJSON)
 
     })
 }
@@ -116,8 +117,11 @@ function checkStorage() {
     $('#loggedin').show()
     $('#loggedout').hide()
     hideAll()
-    $('#list').show()
-    fetchToDo()
+    $('#list').hide()
+    $('#projectlist').show()
+    $('#todoOption').hide()
+    fetchProject()
+    // fetchToDo()
   } else {
     $('#landingPage').show()
     $('#dashboardPage').hide()
@@ -130,24 +134,30 @@ function checkStorage() {
 }
 
 function hideAll() {
-    $('#home').hide()
+  $('#home').hide()
   $('#edit').hide()
   $('#list').hide()
   $('#add').hide()
   $('#login').hide()
   $('#register').hide()
-    $('#delete').hide()
+  $('#delete').hide()
+  $('#projectlist').hide()
 }
 
 function fetchToDo() {
-    console.log('f1')
+  console.log('f1')
   const token = localStorage.getItem('token')
+  const ProjectId = localStorage.getItem('ProjectId')
   $.ajax({
-    method: 'GET',
+    method: 'POST',
     url: 'http://localhost:3000/todos',
     headers: {
       token
+    },
+    data: {
+      ProjectId
     }
+
   })
     .done(function (response) {
       console.log('f')
@@ -183,6 +193,74 @@ function fetchToDo() {
     })
 }
 
+function fetchProject() {
+  const token = localStorage.getItem('token')
+  $.ajax({
+    method: 'GET',
+    url: 'http://localhost:3000/pass/',
+    headers: {
+      token
+    }
+  })
+    .done(function (response) {
+      console.log(response.data)
+      // console.log('f')
+      // $('#toDoTable').empty()
+      // $('#toDoTable').append(`
+      //           <tr>
+      //               <td>Title</td>
+      //               <td>Description</td>
+      //               <td>Status</td>
+      //               <td>Due Date</td>
+      //               <td>Actions</td>
+      //           </tr>`)
+      // const toDo = response.todos
+      // // console.log(toDo)
+      // $('#listtitle').html(`welcome back ${toDo[0].User.first_name} ${toDo[0].User.last_name}, here's your toDo List`)
+      // //      console.log(response)
+      // toDo.forEach(temp => {
+      //   var date = new Date(temp.due_date)
+      //   $('#toDoTable').append(`
+      //   <tr>
+      //       <td>${temp.title}</td>
+      //       <td>${temp.description}</td>
+      //       <td>${temp.status ? 'completed' : 'incompleted'}</td>
+      //       <td>${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}</td>
+      //       <td><button class="button is-small is-primary has-background-info" onclick="showEditPage(${temp.id},'${temp.title}','${temp.description}','${temp.due_date}',${temp.status},${temp.UserId})">edit</button>
+      //       <button  class="button is-small is-primary has-background-danger" onclick="showRemoveConfirm('${temp.id}','${temp.title}')">delete</button></td>
+      //   </tr><br>
+      //    `)
+      // })
+    })
+    .fail(function (err) {
+      console.log(err.responseJSON)
+    })
+}
+
+function addProject() {
+
+}
+
+function selectProject(id){
+  // const token = localStorage.getItem('token')
+  localStorage.setItem('ProjectId', id)
+  hideAll()
+  $('#list').show()
+  // $.ajax({
+  //   method: 'GET',
+  //   url: 'http://localhost:3000/pass/',
+  //   headers: {
+  //     token
+  //   }
+  // })
+  //   .done(function (response) {
+
+  //   })
+  //   .fail(function (err) {
+  //     console.log(err.responseJSON)
+  //   })
+}
+
 function register(userdata) {
   console.log(userdata)
   $.ajax({
@@ -206,7 +284,7 @@ function register(userdata) {
 
     })
     .fail(function (err) {
-//      let error = err.responseJSON.err.split(",")
+      //      let error = err.responseJSON.err.split(",")
       $('#registerErrorHeader').show()
       $('#registerError').text(err.responseJSON.error[0])
     })
@@ -222,13 +300,13 @@ function logout() {
 
 function showLogin() {
   hideAll()
-    $('#loginErrorHeader').hide()
+  $('#loginErrorHeader').hide()
   $('#login').show()
 }
 
 function showRegister() {
   hideAll()
-    $('#registerErrorHeader').hide()
+  $('#registerErrorHeader').hide()
   $('#register').show()
 }
 
@@ -237,9 +315,20 @@ function showList() {
   $('#list').show()
 }
 
+function showProjectList() {
+  hideAll()
+  $('#projectlist').show()
+}
+
 function showAddPage() {
   hideAll()
-    $('#addErrorHeader').hide()
+  $('#addErrorHeader').hide()
+  $('#add').show()
+}
+
+function showAddProjectPage() {
+  hideAll()
+  $('#addErrorHeader').hide()
   $('#add').show()
 }
 
@@ -249,7 +338,7 @@ function addToDo() {
   let title = $('#addTitle').val()
   let description = $('#addDescription').val()
   let due_date = $('#adddue_date').val()
-//  $('#sumitLogin').addClass('is-loading')
+  //  $('#sumitLogin').addClass('is-loading')
   console.log(title, description, due_date)
   $.ajax({
     method: 'POST',
@@ -276,9 +365,9 @@ function addToDo() {
 
 
 
-function showRemoveConfirm(id,name){
-    $('#delete').show()
-     $('#delete').html(`<div class="box">
+function showRemoveConfirm(id, name) {
+  $('#delete').show()
+  $('#delete').html(`<div class="box">
                     <h1 class="title">Delete?</h1>
                     <h3 style="margin-bottom:15px;">are you sure want to delete ${name} ?</h3>
                     <button class="button is-block is-danger is-large is-fullwidth" onclick="remove(${id})">Delete</button>
@@ -290,7 +379,7 @@ function showRemoveConfirm(id,name){
 
 
 function remove(id) {
-    $('#delete').hide()
+  $('#delete').hide()
   const token = localStorage.getItem('token')
   $.ajax({
     method: 'delete',
@@ -309,13 +398,13 @@ function remove(id) {
 }
 
 function showEditPage(id, title, description, due_date, status, UserId) {
-//  due_date = new Date(due_date)
-//  console.log(due_date)
+  //  due_date = new Date(due_date)
+  //  console.log(due_date)
   hideAll()
-    var now = new Date(due_date);
-    var day = ("0" + now.getDate()).slice(-2);
-    var month = ("0" + (now.getMonth() + 1)).slice(-2);
-//    var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
+  var now = new Date(due_date);
+  var day = ("0" + now.getDate()).slice(-2);
+  var month = ("0" + (now.getMonth() + 1)).slice(-2);
+  //    var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
   $('#edit').show()
   $('#edit').html(`<div class="box">
                     <h1 class="hero-body title">Edit ToDo</h1>
@@ -339,7 +428,7 @@ function showEditPage(id, title, description, due_date, status, UserId) {
                     <button class="button is-block is-info is-large is-fullwidth" onclick="update('${id}','${title}','${description}','${due_date}','${status}','${UserId}')">Edit</button>
                     <div>
     `)
-    $('#editErrorHeader').hide()
+  $('#editErrorHeader').hide()
 }
 
 function update(id) {
@@ -365,7 +454,7 @@ function update(id) {
   })
 
     .done(response => {
-//      console.log("eh masuk")
+      //      console.log("eh masuk")
       fetchToDo()
       showList()
     })
@@ -374,24 +463,24 @@ function update(id) {
       let error = err.responseJSON.err
       console.log(error)
       $('#editErrorHeader').show()
-      $('#editError').text(error[0])    
-//      $('#editError').html(err.responseJSON.err)
-//      console.log("eh gak")
-//      console.log(err)
+      $('#editError').text(error[0])
+      //      $('#editError').html(err.responseJSON.err)
+      //      console.log("eh gak")
+      //      console.log(err)
     })
 
 
 }
 
 function logout() {
-   const auth2 = gapi.auth2.getAuthInstance();
-   auth2.signOut().then(function () {
-     localStorage.removeItem('access_token');
-     $('#main').empty();
-     $('#login-navbar-button').hide();
-     $('#not-login-navbar-button').show();
-     showFormLogin();
-   });
+  const auth2 = gapi.auth2.getAuthInstance();
+  auth2.signOut().then(function () {
+    localStorage.removeItem('access_token');
+    $('#main').empty();
+    $('#login-navbar-button').hide();
+    $('#not-login-navbar-button').show();
+    showFormLogin();
+  });
   localStorage.clear()
 
   checkStorage()
