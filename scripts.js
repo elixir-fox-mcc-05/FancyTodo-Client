@@ -141,6 +141,7 @@ function checkProjectSelect(){
     hideAll()
     $('#list').show()
     $('#todoOption').show()
+    $('#projectTodo').html(`${localStorage.getItem('ProjectName')} ToDo List`)
     fetchToDo()
   }
 }
@@ -270,6 +271,7 @@ function addProject() {
 }
 
 function selectProject(id,name){
+  $('#projectTodo').html(`${name} ToDo List`)
   localStorage.setItem('ProjectId', id)
   localStorage.setItem('ProjectName',name)
   hideAll()
@@ -277,9 +279,6 @@ function selectProject(id,name){
   
 }
 
-function inviteProject(){
-
-}
 
 function register(userdata) {
   console.log(userdata)
@@ -506,6 +505,23 @@ function showEditProjectPage(id, name) {
   $('#editErrorHeader').hide()
 }
 
+function fetchUser(){
+  $.ajax({
+    method: 'get',
+    url: 'http://localhost:3000/userlist'
+  })
+  .done(response => {
+    console.log('userlist',response)
+    let users =  response.results
+    for(let i=0 ; i< users.length; i++){
+      $('#userlist').append(`<option value="${users[i].id}">${users[i].name}</option>`)
+    }
+  })
+  .fail(err => {
+    console.log(err.responseJSON)
+  })
+}
+
 function showInviteProjectPage(id,name) {
   console.log(id)
   hideAll()
@@ -519,8 +535,10 @@ function showInviteProjectPage(id,name) {
                                       <h2 id="editError" class=""></h2>
                                     </article>
                     <h1 class="column">UserId</h1>
-                    <input class="input is-medium" type="text" placeholder="title" id="inviteUserId" value=""><br>
-                    
+                    <div class="select is-multiple">
+                      <select id="userlist" multiple size="8">
+                      </select>
+                    </div>
                     <h1 class="column">Name</h1>
                     <input class="input is-medium" type="text" placeholder="title" id="invitename" value=""><br>
                     <hr class="login-hr">
@@ -528,14 +546,18 @@ function showInviteProjectPage(id,name) {
                     </div>
     `)
   $('#editErrorHeader').hide()
+  fetchUser()
 }
 
 function inviteProject(id) {
   const token = localStorage.getItem('token')
-  console.log(id)
+  // console.log(id)
   name = $('#invitename').val()
-  UserId = $('#inviteUserId').val()
+  UserId = $('#userlist').val()[0]
+  console.log(UserId)
   ProjectId = id
+  if(UserId){
+   
   // console.log(due_date)
   $.ajax({
     method: 'post',
@@ -565,6 +587,11 @@ function inviteProject(id) {
       //      console.log("eh gak")
       //      console.log(err)
     })
+  }else{
+      $('#editErrorHeader').show()
+      $('#editError').text('UserId is must')
+  }
+  
   }
 
 function updateProject(id) {
