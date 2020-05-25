@@ -264,9 +264,10 @@ function addProject() {
       showProjectList()
     })
     .fail(err => {
+      console.log(err.responseJSON)
       let error = err.responseJSON.err
-      $('#addErrorHeader').show()
-      $('#addError').text(error[0])
+      $('#addErrorProjectHeader').show()
+      $('#addProjectError').text(error)
     })
 }
 
@@ -490,11 +491,11 @@ function showEditProjectPage(id, name) {
   $('#edit').show()
   $('#edit').html(`<div class="box">
                     <h1 class="hero-body title">Edit Project</h1>
-                    <article id="editErrorHeader" class="is-offset-3 message is-danger">
+                    <article id="editErrorProjectHeader" class="is-offset-3 message is-danger">
                                       <div class="message-header  is-half">
                                         <p>Error</p>
                                       </div>
-                                      <h2 id="editError" class=""></h2>
+                                      <h2 id="editProjectError" class=""></h2>
                                     </article>
                     <h1 class="column">Project Name</h1>
                     <input class="input is-medium" type="text" placeholder="title" id="editProjectName" value="${name}"><br>
@@ -502,7 +503,7 @@ function showEditProjectPage(id, name) {
                     <button class="button is-block is-info is-large is-fullwidth" onclick="updateProject('${id}','${name}')">Edit project</button>
                     </div>
     `)
-  $('#editErrorHeader').hide()
+  $('#editErrorProjectHeader').hide()
 }
 
 function fetchUser(){
@@ -528,11 +529,11 @@ function showInviteProjectPage(id,name) {
   $('#edit').show()
   $('#edit').html(`<div class="box">
                     <h1 class="hero-body title">Invite to Project</h1>
-                    <article id="editErrorHeader" class="is-offset-3 message is-danger">
+                    <article id="inviteErrorHeader" class="is-offset-3 message is-danger">
                                       <div class="message-header  is-half">
                                         <p>Error</p>
                                       </div>
-                                      <h2 id="editError" class=""></h2>
+                                      <h2 id="inviteError" class=""></h2>
                                     </article>
                     <h1 class="column">UserId</h1>
                     <div class="select is-multiple">
@@ -545,7 +546,7 @@ function showInviteProjectPage(id,name) {
                     <button class="button is-block is-info is-large is-fullwidth" onclick="inviteProject('${id}')">Invite to ${name}</button>
                     </div>
     `)
-  $('#editErrorHeader').hide()
+  $('#inviteErrorHeader').hide()
   fetchUser()
 }
 
@@ -556,7 +557,7 @@ function inviteProject(id) {
   UserId = $('#userlist').val()[0]
   console.log(UserId)
   ProjectId = id
-  if(UserId){
+  // if(UserId){
    
   // console.log(due_date)
   $.ajax({
@@ -580,18 +581,12 @@ function inviteProject(id) {
 
     .fail(err => {
       let error = err.responseJSON.err
-      console.log(error)
-      $('#editErrorHeader').show()
-      $('#editError').text(error[0])
-      //      $('#editError').html(err.responseJSON.err)
-      //      console.log("eh gak")
-      //      console.log(err)
+      console.log('error',error)
+      $('#inviteErrorHeader').show()
+      $('#inviteError').text('please select one of UserId Available')
+
     })
-  }else{
-      $('#editErrorHeader').show()
-      $('#editError').text('UserId is must')
-  }
-  
+
   }
 
 function updateProject(id) {
@@ -619,11 +614,9 @@ function updateProject(id) {
     .fail(err => {
       let error = err.responseJSON.err
       console.log(error)
-      $('#editErrorHeader').show()
-      $('#editError').text(error[0])
-      //      $('#editError').html(err.responseJSON.err)
-      //      console.log("eh gak")
-      //      console.log(err)
+      $('#editErrorProjectHeader').show()
+      $('#editProjectError').text(error[0])
+
     })
   }
 
