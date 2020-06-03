@@ -13,6 +13,7 @@ function checkToken() {
         $('#modal-body-edit').css('display', 'none');
         $('#default-select').nextAll().remove();
         $('#addTask').slideUp();
+        $('#editProject').slideUp();
         $('nav').removeClass('fixed-top');
         $('.bg-custom').css('background-color','rgba(80, 39, 28, 0.8)')
         showAllTask();
@@ -50,15 +51,7 @@ function register(name, email, password) {
             showLogin();
         })
         .fail(err => {
-            if (Array.isArray(err.responseJSON.error)) {
-                let textError = '';
-                err.responseJSON.error.forEach(msg => {
-                    textError += `${msg}, `
-                })
-                $('#register-error').text(textError.substring(0, textError.length-2));
-            } else {
-                $('#register-error').text(err.responseJSON.error);
-            }
+            $('#register-error').text(err.responseJSON.error);
             $('.alert').show();
         })
 }
@@ -87,15 +80,7 @@ function login(email, password) {
             checkToken();
         })
         .fail(err => {
-            if (Array.isArray(err.responseJSON.error)) {
-                let textError = '';
-                err.responseJSON.error.forEach(msg => {
-                    textError += `${msg}, `
-                })
-                $('#login-error').text(textError.substring(0, textError.length-2));
-            } else {
-                $('#login-error').text(err.responseJSON.error);
-            }
+            $('#login-error').text(err.responseJSON.error);
             $('.alert').show();
         })
 }
@@ -119,15 +104,7 @@ function showAllTask() {
             })
         })
         .fail(err => {
-            if (Array.isArray(err.responseJSON.error)) {
-                let textError = '';
-                err.responseJSON.error.forEach(msg => {
-                    textError += `${msg}, `
-                })
-                $('#global-error').text(textError.substring(0, textError.length-2));
-            } else {
-                $('#global-error').text(err.responseJSON.error);
-            }
+            $('#global-error').text(err.responseJSON.error);
             $('.alert-global').show();
         })
 }
@@ -157,15 +134,7 @@ function addNewTask(title, description, due_date) {
             $('#modal-covid').css('display', 'flex');
         })
         .fail(err => {
-            if (Array.isArray(err.responseJSON.error)) {
-                let textError = '';
-                err.responseJSON.error.forEach(msg => {
-                    textError += `${msg}, `
-                })
-                $('#add-error').text(textError.substring(0, textError.length-2));
-            } else {
-                $('#add-error').text(err.responseJSON.error);
-            }
+            $('#add-error').text(err.responseJSON.error);
             $('.alert').show();
         })
 }
@@ -287,15 +256,7 @@ function deleteTask(id, projectId) {
             checkToken();
         })
         .fail(err => {
-            if (Array.isArray(err.responseJSON.error)) {
-                let textError = '';
-                err.responseJSON.error.forEach(msg => {
-                    textError += `${msg}, `
-                })
-                $('#global-error').text(textError.substring(0, textError.length-2));
-            } else {
-                $('#global-error').text(err.responseJSON.error);
-            }
+            $('#global-error').text(err.responseJSON.error);
             $('.alert-global').show();
         })
 }
@@ -318,15 +279,7 @@ function readTaskById(id) {
             $('#editTask').data('projectId', res.Todo.ProjectId);
         })
         .fail(err => {
-            if (Array.isArray(err.responseJSON.error)) {
-                let textError = '';
-                err.responseJSON.error.forEach(msg => {
-                    textError += `${msg}, `
-                })
-                $('#edit-error').text(textError.substring(0, textError.length-2));
-            } else {
-                $('#edit-error').text(err.responseJSON.error);
-            }
+            $('#edit-error').text(err.responseJSON.error);
             $('.alert-edit').show();
         })
 }
@@ -355,15 +308,7 @@ function updateTask(id, title, description, due_date) {
             showAllTask();
         })
         .fail(err => {
-            if (Array.isArray(err.responseJSON.error)) {
-                let textError = '';
-                err.responseJSON.error.forEach(msg => {
-                    textError += `${msg}, `
-                })
-                $('#edit-error').text(textError.substring(0, textError.length-2));
-            } else {
-                $('#edit-error').text(err.responseJSON.error);
-            }
+            $('#edit-error').text(err.responseJSON.error);
             $('.alert-edit').show();
         })
 }
@@ -415,6 +360,16 @@ function showAllProject() {
         })
 }
 
+function clearProjectTab() {
+    $('.listproject').hide();
+    $('#project-title').text('');
+    $('#project-task').text('');
+    $('#member-list').text('');
+    $('#memberlist').children().remove();
+    $("#project-select").children().remove();
+    $('#project-select').append('<option value="" id="default-select" selected disabled>Choose Project</option>');
+}
+
 function createNewProject(name) {
     const { token } = localStorage;
     $.ajax({
@@ -429,7 +384,7 @@ function createNewProject(name) {
     })
         .done(res=> {
             $('#newProjectName').val('');
-            $('#project-select').empty();
+            $('#default-select').nextAll().remove();
             showAllProject();
         })
         .fail(err => {
@@ -474,7 +429,6 @@ function addNewProjectTask(ProjectId, title, description, due_date) {
             $('#newProjectTaskTitle').val('');
             $('#newProjectTaskDescription').val('');
             $('#newProjectTaskDue_Date').val('');
-            appendTodo(res.todo, $('#tasklist'));
             appendTodo(res.todo, $('#projectlist'));
             showCountry();
             showPopUp('Global');
@@ -547,6 +501,7 @@ function showAllMembers(id) {
         }
     })
         .done(res => {
+            console.log(res.members);
             $('#memberlist').empty();
             res.members.forEach(member => {
                 appendMember(member, id);
@@ -572,7 +527,12 @@ function addMember(id, email) {
         .done(res => {
             $('#newMemberEmail').val('');
             console.log(res);
-            // appendMember(res.newMember);
+            // appendMember(res.newMember.name, id);
+            let newMember = $(`<li class="list-group-item" style="overflow: hidden;">
+                               <h5>${res.name}</h5>
+                               </li>`)
+            newMember.data('id', res.newMember.UserId);
+            $('#memberlist').append(newMember);
         })
         .fail(err =>{
             console.log(err);
@@ -588,6 +548,45 @@ function appendMember(member, projectId) {
         $('#memberlist').data('projectId', projectId);
     }
     $('#memberlist').append(newMember);
+}
+
+function editProject(name, id) {
+  const { token } = localStorage;
+  $.ajax({
+    method: "PUT",
+    url: `${baseURl}/projects/${id}`,
+    headers: {
+        token
+    },
+    data: {
+      name
+    }
+  })
+    .done(() => {
+      clearProjectTab();
+      showAllProject();
+    })
+    .fail(err => {
+      console.log(err);
+    })
+}
+
+function deleteProject(id) {
+  const { token } = localStorage;
+  $.ajax({
+    method: "DELETE",
+    url: `${baseURl}/projects/${id}`,
+    headers: {
+        token
+    }
+  })
+    .done(() => {
+      clearProjectTab();
+      showAllProject();
+    })
+    .fail(err => {
+      console.log(err);
+    })
 }
 
 // google signin
@@ -692,7 +691,7 @@ $(document).ready(function() {
     //add new project task
     $('#addProjectTaskForm').on('submit', function(event) {
         event.preventDefault();
-        const ProjectId = $(this).parent().data('projectId');
+        const ProjectId = $(this).parent().prev().prev().find('option:selected').data('id');
         console.log(ProjectId);
         const title = $('#newProjectTaskTitle').val();
         const description = $('#newProjectTaskDescription').val();
@@ -807,6 +806,9 @@ $(document).ready(function() {
         $('#project-task').text(project);
         $('#member-list').text(project);
         const projectId = $('option:selected').data('id');
+        const name = $(this).find('option:selected').text();
+        $('#editedProjectName').val(name);
+        $('#projectlist').children().remove();
         showAllMembers(projectId)
         showAllProjectTodos(projectId);
     })
@@ -816,7 +818,35 @@ $(document).ready(function() {
         event.preventDefault();
         const email = $('#newMemberEmail').val();
         const id = $(this).parent().prev().data('projectId');
+        console.log(email);
         addMember(id, email);
+    })
+
+    //Show Edit Project Form
+    $('#edit-project').click(function(event) {
+      event.preventDefault();
+      const id = $(this).parent().prev().find('option:selected').data('id');
+      const name = $(this).parent().prev().find('option:selected').text();
+      $(this).parent().next().next().find('#editedProjectName').val(name)
+      $('#editProject').slideToggle();
+    })
+
+    //Edit Project
+
+    $('#editProjectForm').on('submit', function(event) {
+      event.preventDefault();
+      const name = $('#editedProjectName').val();
+      const id = $(this).parent().prev().prev().prev().find('option:selected').data('id');
+      $('#editProject').slideUp();
+      $('#editedProjectName').val('');
+      editProject(name, id);
+    })
+
+    //Delete Project
+    $('#delete-project').click(function(event) {
+      event.preventDefault();
+      const id = $(this).parent().prev().find('option:selected').data('id');
+      deleteProject(id);
     })
 
     //Logout
@@ -826,10 +856,10 @@ $(document).ready(function() {
         auth2.signOut().then(function () {
             localStorage.removeItem('token');
             console.log('User signed out.');
+            clearProjectTab();
             checkToken();
         });
-    })
-    
+    }) 
 })
 
 
