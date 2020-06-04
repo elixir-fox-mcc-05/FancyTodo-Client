@@ -14,6 +14,7 @@ function checkToken() {
         $('#default-select').nextAll().remove();
         $('#addTask').slideUp();
         $('#editProject').slideUp();
+        $('#addProject').slideUp();
         $('nav').removeClass('fixed-top');
         $('.bg-custom').css('background-color','rgba(80, 39, 28, 0.8)')
         showAllTask();
@@ -47,12 +48,21 @@ function register(name, email, password) {
             $('#usernameRegister').val('');
             $('#emailRegister').val('');
             $('#passwordRegister').val('');
-            $('.alert').hide();
+            $.toast({
+                heading: 'Success',
+                text: 'Registration Success',
+                showHideTransition: 'slide',
+                icon: 'success'
+            })
             showLogin();
         })
         .fail(err => {
-            $('#register-error').text(err.responseJSON.error);
-            $('.alert').show();
+            $.toast({
+                heading: 'Error',
+                text: err.responseJSON.error,
+                showHideTransition: 'slide',
+                icon: 'error'
+            })
         })
 }
 
@@ -76,12 +86,21 @@ function login(email, password) {
             $('#emailLogin').val('');
             $('#passwordLogin').val('');
             localStorage.setItem('token', res.accessToken);
-            $('.alert').hide();
+            $.toast({
+                heading: 'Success',
+                text: 'Login Success',
+                showHideTransition: 'slide',
+                icon: 'success'
+            })
             checkToken();
         })
         .fail(err => {
-            $('#login-error').text(err.responseJSON.error);
-            $('.alert').show();
+            $.toast({
+                heading: 'Error',
+                text: err.responseJSON.error,
+                showHideTransition: 'slide',
+                icon: 'error'
+            })
         })
 }
 
@@ -104,8 +123,12 @@ function showAllTask() {
             })
         })
         .fail(err => {
-            $('#global-error').text(err.responseJSON.error);
-            $('.alert-global').show();
+            $.toast({
+                heading: 'Error',
+                text: err.responseJSON.error,
+                showHideTransition: 'slide',
+                icon: 'error'
+            })
         })
 }
 
@@ -130,12 +153,15 @@ function addNewTask(title, description, due_date) {
             appendTodo(res.Todo, $('#tasklist'));
             showCountry();
             showPopUp('Global');
-            $('.alert').hide();
             $('#modal-covid').css('display', 'flex');
         })
         .fail(err => {
-            $('#add-error').text(err.responseJSON.error);
-            $('.alert').show();
+            $.toast({
+                heading: 'Error',
+                text: err.responseJSON.error,
+                showHideTransition: 'slide',
+                icon: 'error'
+            })
         })
 }
 
@@ -156,6 +182,12 @@ function showCountry() {
         })
         .fail(err => {
             console.log(err);
+            $.toast({
+                heading: 'Error',
+                text: err.responseJSON.error,
+                showHideTransition: 'slide',
+                icon: 'error'
+            })
         })
 }
 
@@ -207,6 +239,12 @@ function showPopUp(country) {
         })
         .fail(err => {
             console.log(err);
+            $.toast({
+                heading: 'Error',
+                text: err.responseJSON.error,
+                showHideTransition: 'slide',
+                icon: 'error'
+            })
         })
 }
 
@@ -253,11 +291,21 @@ function deleteTask(id, projectId) {
             if (projectId) {
                 showAllProjectTodos(projectId);
             }
+            $.toast({
+                heading: 'Success',
+                text: 'Success Delete Task',
+                showHideTransition: 'slide',
+                icon: 'success'
+            })
             checkToken();
         })
         .fail(err => {
-            $('#global-error').text(err.responseJSON.error);
-            $('.alert-global').show();
+            $.toast({
+                heading: 'Error',
+                text: err.responseJSON.error,
+                showHideTransition: 'slide',
+                icon: 'error'
+            })
         })
 }
 
@@ -279,8 +327,12 @@ function readTaskById(id) {
             $('#editTask').data('projectId', res.Todo.ProjectId);
         })
         .fail(err => {
-            $('#edit-error').text(err.responseJSON.error);
-            $('.alert-edit').show();
+            $.toast({
+                heading: 'Error',
+                text: err.responseJSON.error,
+                showHideTransition: 'slide',
+                icon: 'error'
+            })
         })
 }
 
@@ -304,12 +356,21 @@ function updateTask(id, title, description, due_date) {
             $('#editDue_Date').val('');
             $('#modal-body-home').css('display', 'none');
             $('#tasklist').empty();
-            $('.alert-edit').show();
+            $.toast({
+                heading: 'Success',
+                text: 'Success Update Task',
+                showHideTransition: 'slide',
+                icon: 'success'
+            })
             showAllTask();
         })
         .fail(err => {
-            $('#edit-error').text(err.responseJSON.error);
-            $('.alert-edit').show();
+            $.toast({
+                heading: 'Error',
+                text: err.responseJSON.error,
+                showHideTransition: 'slide',
+                icon: 'error'
+            })
         })
 }
 
@@ -334,7 +395,12 @@ function checkedTodo(todo) {
             todo.toggleClass('complete');
         })
         .fail(err => {
-            console.log(err);
+            $.toast({
+                heading: 'Error',
+                text: err.responseJSON.error,
+                showHideTransition: 'slide',
+                icon: 'error'
+            })
         })
 }
 
@@ -356,12 +422,19 @@ function showAllProject() {
             
         })
         .fail(err => {
-            console.log(err);
+            $.toast({
+                heading: 'Error',
+                text: err.responseJSON.error,
+                showHideTransition: 'slide',
+                icon: 'error'
+            })
         })
 }
 
 function clearProjectTab() {
     $('.listproject').hide();
+    $('.listmember').hide();
+    $('.title-project').hide();
     $('#project-title').text('');
     $('#project-task').text('');
     $('#member-list').text('');
@@ -385,10 +458,22 @@ function createNewProject(name) {
         .done(res=> {
             $('#newProjectName').val('');
             $('#default-select').nextAll().remove();
+            $('#addProject').slideUp();
+            $.toast({
+                heading: 'Success',
+                text: 'Success add New Project',
+                showHideTransition: 'slide',
+                icon: 'success'
+            })
             showAllProject();
         })
         .fail(err => {
-            console.log(err);
+            $.toast({
+                heading: 'Error',
+                text: err.responseJSON.error,
+                showHideTransition: 'slide',
+                icon: 'error'
+            })
         })
 }
 
@@ -407,7 +492,12 @@ function showAllProjectTodos(id) {
             })
         })
         .fail(err => {
-            console.log(err);
+            $.toast({
+                heading: 'Error',
+                text: err.responseJSON.error,
+                showHideTransition: 'slide',
+                icon: 'error'
+            })
         })
 }
 
@@ -432,11 +522,15 @@ function addNewProjectTask(ProjectId, title, description, due_date) {
             appendTodo(res.todo, $('#projectlist'));
             showCountry();
             showPopUp('Global');
-            $('.alert').hide();
             $('#modal-covid').css('display', 'flex');
         })
         .fail(err => {
-            console.log(err);
+            $.toast({
+                heading: 'Error',
+                text: err.responseJSON.error,
+                showHideTransition: 'slide',
+                icon: 'error'
+            })
         })
 }
 
@@ -462,11 +556,22 @@ function updateProjectTask(ProjectId, id, title, description, due_date) {
             $('#modal-body-home').css('display', 'none');
             $('#tasklist').empty();
             $('#projectlist').empty();
+            $.toast({
+                heading: 'Success',
+                text: 'Success Update Project Task',
+                showHideTransition: 'slide',
+                icon: 'success'
+            })
             showAllTask();
             showAllProjectTodos(ProjectId);
         })
         .fail(err => {
-            console.log(err);
+            $.toast({
+                heading: 'Error',
+                text: err.responseJSON.error,
+                showHideTransition: 'slide',
+                icon: 'error'
+            })
         })
 }
 
@@ -483,11 +588,22 @@ function deleteProjectTask(id, ProjectId) {
             $('#tasklist').empty();
             $('#projectlist').empty();
             $('#default-select').nextAll().remove();
+            $.toast({
+                heading: 'Success',
+                text: 'Success Delete Project Task',
+                showHideTransition: 'slide',
+                icon: 'success'
+            })
             checkToken();
             showAllProjectTodos('ProjectId');
         })
         .fail(err =>{
-            console.log(err);
+            $.toast({
+                heading: 'Error',
+                text: err.responseJSON.error,
+                showHideTransition: 'slide',
+                icon: 'error'
+            })
         })
 }
 
@@ -508,7 +624,12 @@ function showAllMembers(id) {
             })
         })
         .fail(err => {
-            console.log(err);
+            $.toast({
+                heading: 'Error',
+                text: err.responseJSON.error,
+                showHideTransition: 'slide',
+                icon: 'error'
+            })
         })
 }
 
@@ -532,10 +653,21 @@ function addMember(id, email) {
                                <h5>${res.name}</h5>
                                </li>`)
             newMember.data('id', res.newMember.UserId);
+            $.toast({
+                heading: 'Success',
+                text: `Success add ${res.name} to your project`,
+                showHideTransition: 'slide',
+                icon: 'success'
+            })
             $('#memberlist').append(newMember);
         })
         .fail(err =>{
-            console.log(err);
+            $.toast({
+                heading: 'Error',
+                text: err.responseJSON.error,
+                showHideTransition: 'slide',
+                icon: 'error'
+            })
         })
 }
 
@@ -563,11 +695,22 @@ function editProject(name, id) {
     }
   })
     .done(() => {
+        $.toast({
+            heading: 'Success',
+            text: 'Success Edit Project',
+            showHideTransition: 'slide',
+            icon: 'success'
+        })
       clearProjectTab();
       showAllProject();
     })
     .fail(err => {
-      console.log(err);
+        $.toast({
+            heading: 'Error',
+            text: err.responseJSON.error,
+            showHideTransition: 'slide',
+            icon: 'error'
+        })
     })
 }
 
@@ -581,11 +724,22 @@ function deleteProject(id) {
     }
   })
     .done(() => {
-      clearProjectTab();
-      showAllProject();
+        $.toast({
+            heading: 'Success',
+            text: 'Success Delete Project',
+            showHideTransition: 'slide',
+            icon: 'success'
+        })
+        clearProjectTab();
+        showAllProject();
     })
     .fail(err => {
-      console.log(err);
+        $.toast({
+            heading: 'Error',
+            text: err.responseJSON.error,
+            showHideTransition: 'slide',
+            icon: 'error'
+        })
     })
 }
 
@@ -603,9 +757,20 @@ function onSignIn(googleUser) {
         .done(res => {
             localStorage.setItem('token', res.accessToken);
             checkToken();
+            $.toast({
+                heading: 'Success',
+                text: 'Login Success',
+                showHideTransition: 'slide',
+                icon: 'success'
+            })
         })
         .fail(err => {
-            console.log(err);
+            $.toast({
+                heading: 'Error',
+                text: err.responseJSON.error,
+                showHideTransition: 'slide',
+                icon: 'error'
+            }) 
         })
 }
 
@@ -658,13 +823,6 @@ $(document).ready(function() {
     $('#alreadyRegister').click(function(event){
         event.preventDefault();
         showLogin();
-    })
-
-    //Add new project
-    $('#addProjectForm').on('submit', function(ecent) {
-        event.preventDefault();
-        const newProject = $('#newProjectName').val();
-        createNewProject(newProject);
     })
 
     //Toggle Add Task Form
@@ -802,6 +960,8 @@ $(document).ready(function() {
     $('#project-select').change(function() {
         let project = $(this).val();
         $('.listproject').show();
+        $('.listmember').show();
+        $('.title-project').show();
         $('#project-title').text(project);
         $('#project-task').text(project);
         $('#member-list').text(project);
@@ -818,25 +978,35 @@ $(document).ready(function() {
         event.preventDefault();
         const email = $('#newMemberEmail').val();
         const id = $(this).parent().prev().data('projectId');
-        console.log(email);
         addMember(id, email);
+    })
+
+    //Show Add Project Form
+    $('#add-project').click(function(event) {
+        event.preventDefault();
+        $('#addProject').slideToggle();
+    })
+
+    //Add new project
+    $('#addProjectForm').on('submit', function(event) {
+        event.preventDefault();
+        const newProject = $('#newProjectName').val();
+        createNewProject(newProject);
     })
 
     //Show Edit Project Form
     $('#edit-project').click(function(event) {
       event.preventDefault();
-      const id = $(this).parent().prev().find('option:selected').data('id');
-      const name = $(this).parent().prev().find('option:selected').text();
-      $(this).parent().next().next().find('#editedProjectName').val(name)
+      const name = $(this).parent().next().find('option:selected').text();
+      $(this).parent().next().next().next().find('#editedProjectName').val(name)
       $('#editProject').slideToggle();
     })
 
     //Edit Project
-
     $('#editProjectForm').on('submit', function(event) {
       event.preventDefault();
       const name = $('#editedProjectName').val();
-      const id = $(this).parent().prev().prev().prev().find('option:selected').data('id');
+      const id = $(this).parent().prev().prev().find('option:selected').data('id');
       $('#editProject').slideUp();
       $('#editedProjectName').val('');
       editProject(name, id);
@@ -845,7 +1015,7 @@ $(document).ready(function() {
     //Delete Project
     $('#delete-project').click(function(event) {
       event.preventDefault();
-      const id = $(this).parent().prev().find('option:selected').data('id');
+      const id = $(this).parent().next().find('option:selected').data('id');
       deleteProject(id);
     })
 
