@@ -7,7 +7,7 @@ $( document ).ready(function() {
 function logout(){
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function() {
-        swal('You have signed out.');
+        swal('You have logged out.'); 
     });
     localStorage.clear()
     auth()
@@ -400,8 +400,10 @@ function readWeather(){
     })
         .done(data => {            
             let mainWeather = data.cityWeather.weather
-            let formatDate = new Date (data.shalatSchedule.date_for) 
-            let date = formatDate.toDateString()
+
+            // API SHALAT SCHEDULE ERROR
+            // let formatDate = new Date (data.shalatSchedule.date_for) 
+            // let date = formatDate.toDateString()
 
             let mainTemp = data.cityWeather.temp
             let temp = `${(mainTemp.temp-273.15).toFixed(2)} &#8451`
@@ -414,7 +416,7 @@ function readWeather(){
             $('#weather').append(`
                 <div class="weatherTable">
                     <h3>Hello ${data.cityName.city}, ${data.cityName.country}</h3>
-                    <h4>${date}</h4>
+                    <h4></h4>
                     <div class="container row">
                         <div class="col-sm-4">
                             <img src="${data.weatherIcon}" alt="weather">
