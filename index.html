@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Lato|Spartan" rel="stylesheet">
+    <meta name="google-signin-client_id"
+        content="352204718470-r8jhv922iacikpn3rk1b5msm5eipfo9p.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <title>Fancy Todo - Hello WORLD!!</title>
+</head>
+
+<body>
+    <header>
+        <div id="loggedout" class="breadcrumb login-register box" aria-label="breadcrumbs"
+            style="position: fixed;text-align: center; left : 5%;top : 4%;z-index: 999">
+            <ul>
+                <li><span class="icon is-medium">
+                        <img src="img/PngItem_230510.png" class="is-medium"></span>
+                </li>
+                <li><a onclick="home()"><span class="icon is-medium">
+                            <img src="img/icons8-home-100.png" class="is-medium"></span>
+                        Home</a></li>
+                <li><a onclick="showLogin()"><span class="icon is-medium">
+                            <img src="img/icons8-login-64.png" class="is-medium">
+                        </span>Login</a></li>
+                <li><a onclick="showRegister()"><span class="icon is-medium">
+                            <img src="img/icons8-membership-card-80.png" class="is-medium">
+                        </span>Register</a></li>
+            </ul>
+        </div>
+        <nav id="loggedin" class="breadcrumb menu box" aria-label="breadcrumbs"
+            style="position: fixed;text-align: center; left : 5%;top : 4%;">
+            <ul>
+                <li></li>
+                <li><a onclick="showProjectList()"><span class="icon is-medium">
+                            <img src="img/icons8-list-52.png" class="is-medium">
+                        </span>Project List</a></li>
+                <li><a onclick="showAddProjectPage()"><span class="icon is-medium">
+                            <img src="img/icons8-add-100.png" class="is-medium">
+                        </span>Add Project</a></li>
+                <li><a onclick="logout()"><span class="icon is-medium">
+                            <img src="img/icons8-logout-rounded-left-100.png" class="is-medium">
+                        </span>Logout</a></li>
+            </ul>
+            <ul id="todoOption">
+                <li></li>
+                <li><a onclick="showList()"><span class="icon is-medium">
+                            <img src="img/icons8-list-52.png" class="is-medium">
+                        </span><p id="projectTodo">Todo List</p></a></li>
+                <li><a onclick="showAddPage()"><span class="icon is-medium">
+                            <img src="img/icons8-add-100.png" class="is-medium">
+                        </span>Add Todo</a></li>
+            </ul>
+        </nav>
+    </header>
+
+
+
+    <div class="hero-body" id="landingPage" style="padding-top: 100px">
+
+        <div id="home" class="container has-text-centered">
+
+            <div class="column is-7 is-offset-3">
+                <div class="box">
+                    <h2 class="title has-text-black">Home</h2>
+                    <hr class="login-hr">
+                    <div id="homeContent">
+                        <!--                       <div class="columns">-->
+                    </div>
+                </div>
+                <div class="box">
+                    <h2 class="title has-text-black">Holiday this month</h2>
+                    <hr class="login-hr">
+                    <div id="holidayList">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="login" style="bottom:50%;" class="container has-text-centered">
+            <div class="column is-4 is-offset-4">
+                <div class="box">
+                    <h2 class="title has-text-black">Login</h2>
+                    <hr class="login-hr">
+                    <article id="loginErrorHeader" class="is-offset-3 message is-danger">
+                        <div style="position:static" class="message-header  is-half">
+                            <p>Error</p>
+                        </div>
+                        <h2 id="loginError" class="column is-size-4"></h2>
+                    </article>
+                    <form id="login">
+                        <div class="field">
+                            <div class="control">
+                                <input class="input is-medium" id="loginEmail" type="text" placeholder="email"
+                                    name="email">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="control">
+                                <input class="input is-medium" id="loginPassword" type="password" placeholder="password"
+                                    name="password">
+                            </div>
+                        </div>
+
+                        <input id="summitLogin" class="button is-block is-info is-medium is-fullwidth" type="submit"
+                            value="login">
+                    </form>
+                    <hr class="login-hr">
+                    <div class="g-signin2" class="container has-text-centered" data-onsuccess="onSignIn"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="register" class="container has-text-centered">
+            <div class="column is-4 is-offset-4">
+                <div class="box">
+                    <h2 class="title has-text-black">Register</h2>
+                    <hr class="login-hr">
+                    <article id="registerErrorHeader" class="is-offset-3 message is-danger">
+                        <div style="position:static" class="message-header  is-half">
+                            <p>Error</p>
+                        </div>
+                        <h2 id="registerError" class="column is-size-4"></h2>
+                    </article>
+                    <form id="register">
+                        <div class="field">
+                            <div class="control">
+                                <input class="input is-medium" type="text" placeholder="first_name" id="regFirst_Name">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="control">
+                                <input class="input is-medium" type="text" placeholder="last name" id="regLast_Name">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="control">
+                                <input class="input is-medium" type="text" placeholder="email" id="regEmail">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="control">
+                                <input class="input is-medium" type="password" placeholder="password" id="regPassword">
+                            </div>
+                        </div>
+                        <input class="button is-block is-info is-medium is-fullwidth" type="submit" value="Register">
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="hero-body" id="dashboardPage" style="margin-top:10%">
+
+        <div id="list" class="column is-three-fifths is-offset-one-fifth" style="top:20%;bottom:10%;">
+            <div class="is-full" style="bottom:10%;">
+
+                <section class="hero is-info welcome is-small">
+                    <div class="hero-body" >
+                        <div class="container">
+                            <h2 class="hero-body title" id="listtitle"></h2>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="is-full">
+                    <table id="toDoTable" class="table is-info has-background-light is-fullwidth">
+
+
+                        <tr>
+                            <td>Title</td>
+                            <td>Description</td>
+                            <td>Status</td>
+                            <td>Due Date</td>
+                            <td>Actions</td>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="projectlist" class="column is-three-fifths is-offset-one-fifth" style="top:20%;bottom:10%;">
+            <div class="is-full" style="bottom:10%;">
+
+                <section class="hero is-info welcome is-small">
+                    <div class="hero-body">
+                        <div class="container">
+                            <h2 class="hero-body title" id="listtitle">Project List</h2>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="is-full">
+                    <table id="projectTable" class="table is-info has-background-light is-fullwidth">
+
+
+                        <tr>
+                            <td>Title</td>
+                            <td>Actions</td>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="add" class="column is-half  is-offset-3 has-text-centered" style="bottom : 10%;">
+            <div class="box">
+                <h1 class="hero-body title">add new ToDo's</h1>
+                <article id="addErrorHeader" class="is-offset-3 message is-danger">
+                    <div style="position:static" class="message-header  is-half">
+                        <p>Error</p>
+                    </div>
+                    <h2 id="addError" class="column is-size-4"></h2>
+                </article>
+                <!--                <h2 id="addError" class=""></h2>-->
+                <div class="column is-6 is-offset-3">
+                    <h1 class="column">Title</h1>
+                    <div class="field">
+                        <div class="control">
+                            <input class="input is-medium" type="text" placeholder="title" id="addTitle"><br>
+                        </div>
+                    </div>
+                    <h1 class="column">Description</h1>
+                    <div class="field">
+                        <div class="control">
+                            <input class="input is-medium" type="text" placeholder="description"
+                                id="addDescription"><br>
+                        </div>
+                    </div>
+                    <h1 class="column">Due Date</h1>
+                    <div class="field">
+                        <div class="control">
+                            <input class="input is-medium" type="date" placeholder="due date" id="adddue_date"><br>
+                        </div>
+                    </div>
+                    <button class="button is-block is-info is-medium is-fullwidth" onclick="addToDo()">add</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="addProject" class="column is-half  is-offset-3 has-text-centered" style="bottom : 10%;">
+            <div class="box">
+                <h1 class="hero-body title">add new Project</h1>
+                <article id="addErrorProjectHeader" class="is-offset-3 message is-danger">
+                    <div style="position:static" class="message-header  is-half">
+                        <p>Error</p>
+                    </div>
+                    <h2 id="addProjectError" class="column is-size-4"></h2>
+                </article>
+                <!--                <h2 id="addError" class=""></h2>-->
+                <div class="column is-6 is-offset-3">
+                    <h1 class="column">Name</h1>
+                    <div class="field">
+                        <div class="control">
+                            <input class="input is-medium" type="text" placeholder="title" id="addProjectName" required><br>
+                        </div>
+                    </div>
+                    <button class="button is-block is-info is-medium is-fullwidth" onclick="addProject()">add new Project</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="edit" class="column is-half  is-offset-3 has-text-centered" style="top:20%;bottom:10%;">
+
+        </div>
+
+        <div id="delete" class="column is-one-quarter" style="bottom:10%; position: fixed;">
+
+        </div>
+
+    </div>
+
+
+    <footer>
+
+    </footer>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="scripts.js"></script>
+
+</html>
