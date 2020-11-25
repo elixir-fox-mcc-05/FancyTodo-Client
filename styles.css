@@ -1,0 +1,99 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+a[data-content="false"] {
+    font-weight: bold;
+}
+
+
+a[data-content="true"] {
+    font-weight: bold;
+}
+
+td[data-content="false"] {
+    color: red;
+    background-color: grey;
+    border: black solid 4px;
+}
+
+td[data-content="true"] {
+    color: greenyellow;
+    background-color: grey;
+    border: black solid 4px;
+}
+
+td {
+    color: black;
+    background-color: grey;
+    border: black solid 4px;
+}
+
+body {
+    background: url('https://images.unsplash.com/photo-1503803548695-c2a7b4a5b875?ixlib=rb-1.2.1&w=1000&q=80');
+    background-size: cover;
+    background-repeat: no-repeat;
+    text-align: center;
+}
+
+
+table {
+    border-collapse: collapse;
+    margin: 25px 20px;
+    min-width: 400px;
+    justify-content: center;
+    align-items: center;
+    display: inline-block;
+}
+
+thead tr{
+    opacity: 0.8;
+    border: black solid 4px;
+    background-color: grey;
+    color: black;
+    text-align: center;
+    font-weight: bold;
+}
+
+.edit-button {
+    font-weight: bold;
+    opacity: 0.5;
+    color: black;
+    background-color: white;
+    width: 100%;
+    border: none;
+    text-align: center;
+}
+
+.form-ottoyd {
+    border: blueviolet 3px solid;
+    max-width: 600px;
+    margin: 40px;
+    background: black;
+    padding: 130px;
+    border-radius: 5px;
+    display: inline-block;
+    opacity: 0.7;
+    color: rgb(194, 159, 18);
+}
+
+.input-ottoyd {
+    display: flex;
+    flex-direction: column;
+    margin-right: 4%;
+}
+
+input{
+    margin: 10px;   
+    border: 0;
+    border-bottom: 2px solid white;
+    padding: 10px;
+    color: black;
+    width: 200px;
+}
+
+#API-weather-jumbo {
+    opacity: 0.4;
+}
