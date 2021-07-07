@@ -1,0 +1,23 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+}
+
+#landing-page {
+    padding: 100px;
+}
+
+#login-page, #register-page{
+    padding: 90px;
+}
+
+#main-page {
+    width: 800px;
+}

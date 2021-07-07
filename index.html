@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <meta name="google-signin-client_id" content="375853338470-fdmbbouk4e3g4ar6o3lsgrtpscrbk0db.apps.googleusercontent.com">
+        <title>Fancy ToDo</title>
+    </head>
+    <body>
+
+        <div class="container">
+            <!-- Landing Page -->
+            <div id="landing-page">
+                <div>
+                    <h3 class="card-header">FancyToDo</h3>
+                    <div class="card-body">
+                      <h5 class="card-title">Made with &#10084;</h5>
+                      <p class="card-text">Welcome to FancyToDo Single Page WebApp.</p>
+                      <div class="d-flex justify-content-center">
+                      <button id="register-button" class="btn btn-info" onclick="register()">Register Now</button>
+                      <button id="login-button" class="btn btn-success" onclick="login()">Login...</button>
+                    </div>
+                      <hr>
+                      <div class="g-signin2 d-flex justify-content-center" data-onsuccess="onSignIn"></div>
+                    </div>
+                </div>
+                <footer class="d-flex justify-content-center">
+                    <p>Copyright &copy; <script>document.write(new Date().getFullYear())</script> Yudha Arief Wijaya - All Rights Reserved.</p>
+                </footer>
+            </div>
+            <!-- End Landing Page -->
+
+            <!-- Register Page -->
+            <div id="register-page">
+                <hr>
+                <h2>Register</h2>
+                <form id="register-form">
+                    <label>Email :</label><br>
+                    <input id="register-email" class="form-control" type="email" placeholder="your@email.here" required autofocus><br>
+                    <label>Password :</label><br>
+                    <input id="register-password" class="form-control" type="password" placeholder="password" required><br>
+                    <input class="btn btn-primary" type="submit" value="register">
+                    <input class="btn btn-secondary" type="reset" value="reset">
+                    <input id="register-cancel" class="btn btn-outline-warning" type="button" value="cancel" onclick="cancel()"><br><br>
+                    <p id="register-status" class="alert alert-warning" role="alert"></p>
+                    <input id="register-to-login" class="btn btn-success" type="button" value="login" onclick="login()">
+                </form>
+                <hr>
+            </div>
+            <!-- End Register Page -->
+
+            <!-- Login Page -->
+            <div id="login-page">
+                <hr>
+                <h2>Login</h2>
+                <form id="login-form">
+                    <label>Email :</label><br>
+                    <input id="login-email" class="form-control" type="email" placeholder="your@email.here" required autofocus><br>
+                    <label>Password :</label><br>
+                    <input id="login-password" class="form-control" type="password" placeholder="password" required><br>
+                    <input class="btn btn-primary" type="submit" value="login">
+                    <input class="btn btn-secondary" type="reset" value="reset">
+                    <input id="login-cancel" class="btn btn-outline-warning" type="button" value="cancel" onclick="cancel()"><br><br>
+                    <p id="login-status" class="alert alert-warning" role="alert"></p>
+                </form>
+                <hr>
+            </div>
+            <!-- End Login Page -->
+
+            <!-- Main Page -->
+            <div id="main-page">
+                <nav class="navbar sticky-top navbar-dark bg-primary">
+                    <a class="navbar-brand">FancyToDo</a>
+                    <button id="create-button" class="btn btn-success" onclick="create()">Create a ToDo</button>
+                    <button id="logout-button" class="btn btn-danger" onclick="logout()">Logout</button>
+                </nav>
+
+                <button id="randomize-quote" type="button" class="btn btn-info btn-sm" onclick="randomizeQuote()">Randomize Quote</button><i id="quote-author"></i><p id="quote-text"></p>
+
+                <hr>
+                <form id="create-todo-form">
+                    <h2>Create a ToDo</h2>
+                    <label>Title :</label><br>
+                    <input id="create-todo-title" class="form-control" type="text" placeholder="todo title" autofocus><br>
+                    <label>Description :</label><br>
+                    <input id="create-todo-description" class="form-control" type="text" placeholder="description here"><br>
+                    <label>Due date :</label><br>
+                    <input id="create-todo-due-date" class="form-control" type="date" placeholder="date"><br>
+                    <p id="create-todo-status" class="alert alert-warning" role="alert"></p>                    
+                    <input class="btn btn-primary" type="submit" value="create">
+                    <input class="btn btn-secondary" type="reset" value="reset">
+                    <input id="create-todo-cancel" class="btn btn-outline-warning" type="button" value="cancel" onclick="cancel()"><br><br>
+                </form>
+                <hr>
+                <div class="edit-todo-form">
+                <div>
+                <div class="card">                    
+                </div>       
+            </div>
+            <!-- End Main Page -->
+
+            <footer class="d-flex justify-content-center">
+                <p>Copyright &copy; <script>document.write(new Date().getFullYear())</script> Yudha Arief Wijaya - All Rights Reserved |
+                <strong>Your IP Address</strong> : <i id="ip"></i></p>
+            </footer>
+        </div>
+
+        <!-- Begin jQuery -->
+        <script
+            src="https://code.jquery.com/jquery-3.5.0.js"
+            integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc="
+            crossorigin="anonymous"
+        ></script>
+        <!-- End jQuery -->
+
+        <!-- Begin another script -->
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
+        <script src="script.js"></script>
+        <!-- End another script -->
+    </body>
+</html>
